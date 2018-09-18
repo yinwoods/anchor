@@ -31,21 +31,23 @@
                                 <table class="table table-hover" id="table">
                                     <thead class="thead">
                                         <tr>
+                                            <th style="width: 2%">序号</th>
                                             <th scope="col">Pod 名</th>
                                             <th scope="col">主机IP</th>
                                             <th scope="col">PODIP</th>
                                             <th scope="col">创建时间</th>
-                                            <th scope="col">阶段</th>
+                                            <th style="width: 5%" scope="col">阶段</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{ range . }}
+                                        {{ range $index, $pod := . }}
                                         <tr>
-                                            <td><a href="/pods/{{ .Namespace }}/{{ .Name }}">{{ .Name }}</a></td>
-                                            <td>{{ .HostIP }}</td>
-                                            <td>{{ .PodIP }}</td>
-                                            <td>{{ .StartTime }}</td>
-                                            <td>{{ .Phase }}</td>
+                                            <td style="width: 2%">{{ $index }}</td>
+                                            <td><a href="/pods/{{ $pod.Namespace }}/{{ $pod.Name }}">{{ $pod.Name }}</a></td>
+                                            <td>{{ $pod.HostIP }}</td>
+                                            <td>{{ $pod.PodIP }}</td>
+                                            <td>{{ $pod.StartTime }}</td>
+                                            <td style="width: 5%" >{{ $pod.Phase }}</td>
                                         </tr>
                                         {{ end }}
                                     </tbody>
