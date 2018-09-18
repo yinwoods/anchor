@@ -9,10 +9,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"github.com/yinwoods/liman/anchor/cmd"
+	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
-func imagesHandler(c *gin.Context) {
+func imagesListHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
 		return

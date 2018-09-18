@@ -11,7 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"github.com/yinwoods/liman/anchor/util"
+	"github.com/yinwoods/anchor/anchor/util"
 )
 
 var (

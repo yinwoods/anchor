@@ -21,7 +21,7 @@ type NetworksListOutput struct {
 
 // NetworksList is parses and splits networks from output
 func NetworksList() ([]NetworksListOutput, error) {
-	networks, err := Client.NetworkList(context.Background(), types.NetworkListOptions{})
+	networks, err := DockerClient.NetworkList(context.Background(), types.NetworkListOptions{})
 
 	if err != nil {
 		return nil, fmt.Errorf("Docker daemon is not running")

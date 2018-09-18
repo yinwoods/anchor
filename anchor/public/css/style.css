@@ -7,6 +7,50 @@ body {
     font-family: 'Muli', sans-serif;
 }
 
+.navbar-brand {
+    margin-left: 10px;
+}
+
+span {
+    text-align: center;
+    display: block;
+}
+
+th, td.width20 {
+    width: 20%;
+}
+
+th, td.width10 {
+    width: 10%;
+}
+
+#inputUser {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#inputPassword {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+button.btn {
+    background-color:#22252b;
+    color: white;
+}
+
+a.btn {
+    float: right;
+}
+
+#key {
+    width: 80%;
+    border: 0;
+    margin-top: 5px;
+}
+
 .wrapper {
     align-items: stretch;
     display: flex;
@@ -104,10 +148,6 @@ nav, .navbar {
 .dropdown-menu { 
     right: 0px; 
     left: auto; 
-}
-
-.notification-drop-down {
-    min-width: auto !important;
 }
 
 a.bg-light:focus, a.bg-light:hover, button.bg-light:focus, button.bg-light:hover {

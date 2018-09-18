@@ -10,8 +10,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"github.com/yinwoods/liman/anchor/cmd"
-	"github.com/yinwoods/liman/anchor/util"
+	"github.com/yinwoods/anchor/anchor/cmd"
+	"github.com/yinwoods/anchor/anchor/util"
 )
 
 var (
@@ -28,6 +28,7 @@ func loginInitHandler(c *gin.Context) {
 		glog.Error("failed to login")
 	}
 	match := util.CheckPass(inputPassword, userPassword)
+
 	if inputUser == username && match {
 		cookie := &http.Cookie{
 			Name:    "session",
@@ -49,14 +50,11 @@ func indexHandler(c *gin.Context) {
 		return
 	}
 
-	d, err := cmd.DashboardList()
+	infos, err := cmd.DashboardList()
 	if err != nil {
 		glog.Error(c.Request.Method, c.Request.URL, err)
 		return
 	}
 
-	var data []interface{}
-	data = append(data, d)
-
-	c.HTML(http.StatusOK, "index.tmpl", data)
+	c.HTML(http.StatusOK, "index.tmpl", infos)
 }

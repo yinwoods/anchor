@@ -21,7 +21,7 @@ type ImagesListOutput struct {
 
 // ImagesList return images
 func ImagesList() ([]ImagesListOutput, error) {
-	images, err := Client.ImageList(context.Background(), types.ImageListOptions{})
+	images, err := DockerClient.ImageList(context.Background(), types.ImageListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("")
 	}

@@ -1,7 +1,7 @@
 {{ template "header" }}
 <div class="page">
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" style="margin-left: 10px;">
+        <a class="navbar-brand">
             <div>
                 <h5 id="title">
                     容器
@@ -31,21 +31,21 @@
                                 <table class="table table-hover" id="table">
                                     <thead class="thead">
                                         <tr>
-                                            <th scope="col" style="width: 20%">容器名</th>
-                                            <th scope="col" style="width: 10%">端口</th>
+                                            <th scope="col" class="width20">容器名</th>
+                                            <th scope="col" class="width20">端口</th>
                                             <th scope="col">创建时间</th>
-                                            <th scope="col" class="center">状态</th>
+                                            <th scope="col">状态</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{ range . }}
                                         <tr>
-                                            <td style="width: 20%">{{ .Name }}</td>
+                                            <td class="width20">{{ .Name }}</td>
                                             <td>{{ .Ports }}</td>
                                             <td>{{ .CreatedTime }}</td>
                                             <td>{{ if eq .State "running" }}
-                                                <span style="text-align: center; display: block;" class="fas fa-check text-success" aria-hidden="true"></span>{{ else }}
-                                                <span style="text-align: center; display: block;" class="fas fa-times text-danger" aria-hidden="true"></span>{{ end }}
+                                                <span class="fas fa-check text-success" aria-hidden="true"></span>{{ else }}
+                                                <span class="fas fa-times text-danger" aria-hidden="true"></span>{{ end }}
                                             </td>
                                         </tr>
                                         {{ end }}
@@ -59,16 +59,4 @@
         </div>
     </div>
 </div>
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-    crossorigin="anonymous"></script>
-</body>
-
-</html>
+{{ template "footer" }}

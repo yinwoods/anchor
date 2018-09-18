@@ -50,7 +50,7 @@ func TestCreatePod(*testing.T) {
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(json), nil, nil)
 	if err != nil {
-		glog.V(2).Infof("%#v", err)
+		glog.Errorf("%#v", err)
 	}
 
 	pod := obj.(*v1.Pod)

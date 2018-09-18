@@ -8,13 +8,13 @@ import (
 	"flag"
 
 	"github.com/golang/glog"
-	"github.com/yinwoods/liman/anchor/handlers"
+	"github.com/yinwoods/anchor/anchor/handlers"
 )
 
 func main() {
 	flag.Parse()
 	flag.Lookup("logtostderr").Value.Set("true")
-	flag.Lookup("v").Value.Set("10")
+	flag.Lookup("v").Value.Set("5")
 	glog.V(2).Info("Listening http://0.0.0.0:8090")
 
 	handlers.ServerRun()

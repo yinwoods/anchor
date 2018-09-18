@@ -5,6 +5,8 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,15 +14,21 @@ import (
 func ServerRun() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
-	r.Static("/public/", "public")
+	r.StaticFS("/public", http.Dir("public"))
 
 	r.GET("/", indexHandler)
 	r.POST("/", loginInitHandler)
-	r.GET("/containers", containersHandler)
-	r.GET("/images", imagesHandler)
-	r.GET("/networks", networksHandler)
-	r.GET("/refrigerations", refrigerationsHandler)
-	r.GET("/powersupplies", powersuppliesHandler)
+
+	r.GET("/containers", containersListHandler)
+	r.GET("/images", imagesListHandler)
+	r.GET("/networks", networksListHandler)
+	r.GET("/refrigerations", refrigerationsListHandler)
+	r.GET("/powersupplies", powersuppliesListHandler)
+
+	r.GET("/pods", podsListHandler)
+	r.GET("/pods/:podNamespace/:podname", podInfoHandler)
+	r.POST("/pods", podsUpdateHandler)
+
 	r.GET("/settings", settingsGetHandler)
 	r.POST("/settings", settingsUpdateHandler)
 

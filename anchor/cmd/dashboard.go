@@ -14,7 +14,7 @@ import (
 
 // DashboardList is parses and splits docker stat values from output
 func DashboardList() ([]interface{}, error) {
-	infos, err := Client.Info(context.Background())
+	infos, err := DockerClient.Info(context.Background())
 
 	if err != nil {
 		return nil, fmt.Errorf("Docker daemon is not running %s", err)
@@ -22,11 +22,11 @@ func DashboardList() ([]interface{}, error) {
 
 	var dashboard []interface{}
 
-	dashboard = append(dashboard, infos.Containers)
 	dashboard = append(dashboard, infos.Name)
 	dashboard = append(dashboard, infos.ServerVersion)
 	dashboard = append(dashboard, infos.NCPU)
 	dashboard = append(dashboard, infos.MemTotal)
+	dashboard = append(dashboard, infos.Containers)
 
 	images, err := ImagesList()
 	if err != nil {
@@ -52,13 +52,18 @@ func DashboardList() ([]interface{}, error) {
 		return nil, fmt.Errorf("List powerSupplies error")
 	}
 	dashboard = append(dashboard, len(powerSupplies))
+	pods, err := K8SClient.PodClient.PodsList()
+	if err != nil {
+		return nil, fmt.Errorf("List pods error")
+	}
+	dashboard = append(dashboard, len(pods))
 
 	intMemory := infos.MemTotal
 	floatMemory := float64(intMemory)
 	GibMemory := ((floatMemory / 1024) / 1024) / 1024
-	dashboard[4] = strconv.FormatFloat(GibMemory, 'f', 2, 64)
+	dashboard[3] = strconv.FormatFloat(GibMemory, 'f', 2, 64)
 
-	dashboard[1] = strings.Title(dashboard[1].(string))
+	dashboard[0] = strings.Title(dashboard[0].(string))
 
 	return dashboard, nil
 }

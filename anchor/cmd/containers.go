@@ -23,7 +23,7 @@ type ContainersListOutput struct {
 
 // ContainersList used to list containers
 func ContainersList() ([]ContainersListOutput, error) {
-	containers, err := Client.ContainerList(context.Background(), types.ContainerListOptions{})
+	containers, err := DockerClient.ContainerList(context.Background(), types.ContainerListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("Docker daemon is not running")
 	}
