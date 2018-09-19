@@ -1,9 +1,10 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/golang/glog"
 	"k8s.io/api/apps/v1"
-	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
 	"k8s.io/client-go/util/retry"
@@ -14,13 +15,20 @@ type DeploymentClient struct {
 	appsv1.DeploymentInterface
 }
 
-// CreateDeployment used to create deployment
-func (client DeploymentClient) CreateDeployment(namespace string, deployment *v1.Deployment) (*v1.Deployment, error) {
+// DeploymentsListOutput used to interact with template
+type DeploymentsListOutput struct {
+	Name              string `json:"Name"`
+	Namespace         string `json:"Namespace"`
+	CreationTimestamp string `json:"CreationTimestamp"`
+}
 
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-	glog.V(2).Infoln("Creating deployment...")
+// GetDeployment used to get deployment by deployment name
+func (client DeploymentClient) GetDeployment(namespace, name string) (*v1.Deployment, error) {
+	return GetDeploymentClient(namespace).Get(name, metav1.GetOptions{})
+}
+
+// CreateDeployment used to create deployment
+func (client DeploymentClient) CreateDeployment(deployment *v1.Deployment) (*v1.Deployment, error) {
 	result, err := client.Create(deployment)
 	if err != nil {
 		glog.Error(err)
@@ -31,27 +39,7 @@ func (client DeploymentClient) CreateDeployment(namespace string, deployment *v1
 }
 
 // UpdateDeployment used to update deployment
-func (client DeploymentClient) UpdateDeployment(deploymentName, namespace string) {
-
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-	glog.V(2).Infoln("Updating deployment...")
-
-	// Update Deployment
-	//    You have two options to Update() this Deployment:
-	//
-	//    1. Modify the "deployment" variable and call: Update(deployment).
-	//       This works like the "kubectl replace" command and it overwrites/loses changes
-	//       made by other clients between you Create() and Update() the object.
-	//    2. Modify the "result" returned by Get() and retry Update(result) until
-	//       you no longer get a conflict error. This way, you can preserve changes made
-	//       by other clients between Create() and Update(). This is implemented below
-	//			 using the retry utility package included with client-go. (RECOMMENDED)
-	//
-	// More Info:
-	// https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#concurrency-control-and-consistency
-
+func (client DeploymentClient) UpdateDeployment(deploymentName string) {
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		// Retrieve the latest version of Deployment before attempting update
 		// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
@@ -72,32 +60,25 @@ func (client DeploymentClient) UpdateDeployment(deploymentName, namespace string
 	glog.V(2).Infoln("Updated deployment...")
 }
 
-// ListDeployment used to list deployment
-func (client DeploymentClient) ListDeployment(namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-
-	glog.V(2).Infof("Listing deployments in namespace %q:\n", namespace)
-
-	// List Deployments
-	list, err := client.List(metav1.ListOptions{})
+// DeploymentsList used to list deployment
+func (client DeploymentClient) DeploymentsList() ([]DeploymentsListOutput, error) {
+	deploymentsListOutput := []DeploymentsListOutput{}
+	deployments, err := client.List(metav1.ListOptions{})
 	if err != nil {
-		glog.Error(err)
-		return
+		return nil, fmt.Errorf("List pods failed : %v", err)
 	}
-	for _, d := range list.Items {
-		glog.V(2).Infof(" * %s (%d replicas)\n", d.Name, *d.Spec.Replicas)
+	for _, deployment := range deployments.Items {
+		deploymentsListOutput = append(deploymentsListOutput, DeploymentsListOutput{
+			Name:              deployment.Name,
+			Namespace:         deployment.Namespace,
+			CreationTimestamp: deployment.CreationTimestamp.Format("2006-01-02 15:04"),
+		})
 	}
+	return deploymentsListOutput, nil
 }
 
 // DeleteDeployment used to delete deployment
-func (client DeploymentClient) DeleteDeployment(deploymentName, namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-	glog.V(2).Infoln("Deleting deployment...")
-
+func (client DeploymentClient) DeleteDeployment(deploymentName string) {
 	// Delete Deployment
 	deletePolicy := metav1.DeletePropagationForeground
 	if err := client.Delete(deploymentName, &metav1.DeleteOptions{

@@ -14,11 +14,10 @@ import (
 
 // ContainersListOutput used to interact with template
 type ContainersListOutput struct {
-	ID          string       `json:"Id"`
-	Name        string       `json:"Name"`
-	Ports       []types.Port `json:"Ports"`
-	CreatedTime string       `json:"CreatedTime"`
-	State       string       `json:"State"`
+	ID          string `json:"Id"`
+	Name        string `json:"Name"`
+	CreatedTime string `json:"CreatedTime"`
+	State       string `json:"State"`
 }
 
 // ContainersList used to list containers
@@ -32,7 +31,6 @@ func ContainersList() ([]ContainersListOutput, error) {
 		containersListOutput = append(containersListOutput, ContainersListOutput{
 			ID:          container.ID,
 			Name:        container.Names[0],
-			Ports:       container.Ports,
 			CreatedTime: time.Unix(container.Created, 0).Format("2006-01-02 15:04"),
 			State:       container.State,
 		})

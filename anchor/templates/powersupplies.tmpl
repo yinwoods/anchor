@@ -25,6 +25,7 @@
                                 <table class="table table-hover" id="table">
                                     <thead class="thead">
                                         <tr>
+                                            <th scope="col">序号</th>
                                             <th scope="col">系统型号</th>
                                             <th scope="col">额定功率</th>
                                             <th scope="col">供电方式</th>
@@ -39,19 +40,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{ range . }}
+                                        {{ range $index, $item := . }}
                                         <tr>
-                                            <td>{{ .SystemType }}</td>
-                                            <td>{{ .PowerRating }}</td>
-                                            <td>{{ .PowerSupplyMethod }}</td>
-                                            <td>{{ .RunningState }}</td>
-                                            <td>{{ .SystemGrant }}</td>
-                                            <td>{{ .WorkMode }}</td>
-                                            <td>{{ .In.PowerFactor }}</td>
-                                            <td>{{ .In.Frequency }}</td>
-                                            <td>{{ .Out.Voltage }}</td>
-                                            <td>{{ .Out.Current }}</td>
-                                            <td>{{ .Out.Crequerycy }}</td>
+                                            <td>{{ $index | inc }}</td>
+                                            <td>{{ $item.SystemType }}</td>
+                                            <td>{{ $item.PowerRating }}</td>
+                                            <td>{{ $item.PowerSupplyMethod }}</td>
+                                            <td>{{ $item.RunningState }}</td>
+                                            <td>{{ $item.SystemGrant }}</td>
+                                            <td>{{ $item.WorkMode }}</td>
+                                            <td>{{ $item.In.PowerFactor }}</td>
+                                            <td>{{ $item.In.Frequency }}</td>
+                                            <td>{{ $item.Out.Voltage }}</td>
+                                            <td>{{ $item.Out.Current }}</td>
+                                            <td>{{ $item.Out.Crequerycy }}</td>
                                         </tr>
                                         {{ end }}
                                     </tbody>

@@ -11,7 +11,7 @@ body {
     margin-left: 10px;
 }
 
-span {
+span.center {
     text-align: center;
     display: block;
 }
@@ -180,3 +180,10 @@ a.bg-light:focus, a.bg-light:hover, button.bg-light:focus, button.bg-light:hover
  .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
      border-color: transparent;
  }
+
+ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: orange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }

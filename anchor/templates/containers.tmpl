@@ -31,21 +31,21 @@
                                 <table class="table table-hover" id="table">
                                     <thead class="thead">
                                         <tr>
+                                            <th scope="col">序号</th>
                                             <th scope="col" class="width20">容器名</th>
-                                            <th scope="col" class="width20">端口</th>
                                             <th scope="col">创建时间</th>
                                             <th scope="col">状态</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{ range . }}
+                                        {{ range $index, $container := . }}
                                         <tr>
+                                            <td>{{ $index | inc }}</td>
                                             <td class="width20">{{ .Name }}</td>
-                                            <td>{{ .Ports }}</td>
                                             <td>{{ .CreatedTime }}</td>
                                             <td>{{ if eq .State "running" }}
-                                                <span class="fas fa-check text-success" aria-hidden="true"></span>{{ else }}
-                                                <span class="fas fa-times text-danger" aria-hidden="true"></span>{{ end }}
+                                                <span class="fas fa-check text-success center" aria-hidden="true"></span>{{ else }}
+                                                <span class="fas fa-times text-danger center" aria-hidden="true"></span>{{ end }}
                                             </td>
                                         </tr>
                                         {{ end }}

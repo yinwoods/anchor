@@ -1,0 +1,59 @@
+{{ template "header" }}
+<div class="page">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">
+            <div>
+                <h5 id="title">
+                    服务
+                </h5>
+            </div>
+            <div>
+                <h6>
+                    <i class="fas fa-server"></i>
+                    <small>/ 服务</small>
+                </h6>
+            </div>
+        </a>
+        <div class="nav-right">
+            <div class="inner-addon right-addon">
+                <i class="fas fa-search"></i>
+                <input type="text" class="form-control" placeholder="搜索" id="search" onkeyup="Search()" />
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12" style="padding: 0;">
+                    <div class="card fcard">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="table">
+                                    <thead class="thead">
+                                        <tr>
+                                            <th style="width: 2%">序号</th>
+                                            <th scope="col">服务名</th>
+                                            <th scope="col">命名空间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ range $index, $service := . }}
+                                        <tr>
+                                            <td>{{ $index | inc }}</td>
+                                            <td><a href="/services/{{ $service.Namespace }}/{{ $service.Name }}">{{ $service.Name }}</a></td>
+                                            <td>{{ $service.Namespace }}</td>
+                                        </tr>
+                                        {{ end }}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ template "footer" }}
+
+

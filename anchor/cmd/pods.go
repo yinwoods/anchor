@@ -59,9 +59,8 @@ func (client PodClient) PodUpdate(pod *v1.Pod) *v1.Pod {
 }
 
 // GetPod used to get pod by pod name
-func (client PodClient) GetPod(podNamespace, podName string) (*v1.Pod, error) {
-	glog.V(2).Infoln("namespace: ", podNamespace)
-	return GetPodClient(podNamespace).Get(podName, metav1.GetOptions{})
+func (client PodClient) GetPod(namespace, name string) (*v1.Pod, error) {
+	return GetPodClient(namespace).Get(name, metav1.GetOptions{})
 }
 
 // PodsList used to list pod

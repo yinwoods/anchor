@@ -6,7 +6,6 @@ package handlers
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,12 +16,6 @@ import (
 var (
 	cookieValue  = util.GeneratePassword(140)
 	userPassword = util.ReadPassword()
-	funcMap      = template.FuncMap{
-		"div": func(a, b int64) float64 {
-			return float64(a) / float64(b)
-		},
-	}
-	tpl = template.Must(template.ParseGlob("templates/*.tmpl"))
 )
 
 func parseSessionCookie(c *gin.Context) error {

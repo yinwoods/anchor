@@ -42,7 +42,7 @@
                                     <tbody>
                                         {{ range $index, $pod := . }}
                                         <tr>
-                                            <td style="width: 2%">{{ $index }}</td>
+                                            <td style="width: 2%">{{ $index | inc }}</td>
                                             <td><a href="/pods/{{ $pod.Namespace }}/{{ $pod.Name }}">{{ $pod.Name }}</a></td>
                                             <td>{{ $pod.HostIP }}</td>
                                             <td>{{ $pod.PodIP }}</td>

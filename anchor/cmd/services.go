@@ -1,9 +1,10 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/golang/glog"
 	"k8s.io/api/core/v1"
-	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/util/retry"
@@ -14,12 +15,14 @@ type ServiceClient struct {
 	corev1.ServiceInterface
 }
 
+// ServicesListOutput used to interact with template
+type ServicesListOutput struct {
+	Name      string `json:"Name"`
+	Namespace string `json:"Namespace"`
+}
+
 // CreateService used to create service
-func (client ServiceClient) CreateService(namespace string, service *v1.Service) (*v1.Service, error) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-	glog.V(2).Infoln("Creating service...")
+func (client ServiceClient) CreateService(service *v1.Service) (*v1.Service, error) {
 	result, err := client.Create(service)
 	if err != nil {
 		glog.Error(err)
@@ -30,11 +33,7 @@ func (client ServiceClient) CreateService(namespace string, service *v1.Service)
 }
 
 // UpdateService used to update service
-func (client ServiceClient) UpdateService(serviceName, namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-	glog.V(2).Infoln("Updating service...")
+func (client ServiceClient) UpdateService(serviceName string) {
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		result, getErr := client.Get(serviceName, metav1.GetOptions{})
 		if getErr != nil {
@@ -53,34 +52,28 @@ func (client ServiceClient) UpdateService(serviceName, namespace string) {
 }
 
 // GetService used to get service by service name
-func (client ServiceClient) GetService(serviceName string) (*v1.Service, error) {
-	return client.Get(serviceName, metav1.GetOptions{})
+func (client ServiceClient) GetService(namespace, serviceName string) (*v1.Service, error) {
+	return GetServiceClient(namespace).Get(serviceName, metav1.GetOptions{})
 }
 
-// ListService list services
-func (client ServiceClient) ListService(namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-
-	glog.V(2).Infof("Listing services in namespace %q:\n", namespace)
-
-	list, err := client.List(metav1.ListOptions{})
+// ServicesList list services
+func (client ServiceClient) ServicesList() ([]ServicesListOutput, error) {
+	servicesListOutput := []ServicesListOutput{}
+	services, err := client.List(metav1.ListOptions{})
 	if err != nil {
-		glog.Errorf("List service failed: %v", err)
+		return nil, fmt.Errorf("List services failed : %v", err)
 	}
-	for _, s := range list.Items {
-		glog.V(2).Infof(" * %s\n", s.Name)
+	for _, service := range services.Items {
+		servicesListOutput = append(servicesListOutput, ServicesListOutput{
+			Name:      service.Name,
+			Namespace: service.Namespace,
+		})
 	}
+	return servicesListOutput, nil
 }
 
 // DeleteService used to delete service
-func (client ServiceClient) DeleteService(serviceName, namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-	glog.V(2).Infoln("Deleting service...")
-
+func (client ServiceClient) DeleteService(serviceName string) {
 	// Delete Service
 	deletePolicy := metav1.DeletePropagationForeground
 	if err := client.Delete(serviceName, &metav1.DeleteOptions{

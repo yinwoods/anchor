@@ -34,17 +34,17 @@ func podInfoHandler(c *gin.Context) {
 		return
 	}
 
-	podNamespace := c.Param("podNamespace")
-	podName := c.Param("podname")
-	pod, err := cmd.K8SClient.GetPod(podNamespace, podName)
+	namespace := c.Param("namespace")
+	name := c.Param("name")
+	pod, err := cmd.K8SClient.GetPod(namespace, name)
 	if err != nil {
-		glog.Error("get pod by name error: ", err)
-		c.HTML(http.StatusBadRequest, "pod_info.tmpl", v1.Pod{})
+		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		return
 	}
 	podJSON, err := json.Marshal(&pod)
 	if err != nil {
-		glog.Error("get pod by name error: ", err)
-		c.HTML(http.StatusBadRequest, "pod_info.tmpl", v1.Pod{})
+		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		return
 	}
 
 	var data []interface{}
@@ -61,15 +61,15 @@ func podsUpdateHandler(c *gin.Context) {
 
 	body, ok := c.Params.Get("body")
 	if !ok {
-		glog.Error("get pods update body error")
-		c.HTML(http.StatusBadRequest, "pods.tmpl", cmd.ContainersListOutput{})
+		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		return
 	}
 
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(body), nil, nil)
 	if err != nil {
-		glog.Errorf("decode pods update body error: %#v", err)
-		c.HTML(http.StatusBadRequest, "pods.tmpl", cmd.ContainersListOutput{})
+		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		return
 	}
 	pod := obj.(*v1.Pod)
 	cmd.K8SClient.PodClient.PodUpdate(pod)
