@@ -53,25 +53,25 @@ func DashboardList() ([]interface{}, error) {
 	}
 	dashboard = append(dashboard, len(powerSupplies))
 
-	pods, err := K8SClient.PodClient.PodsList()
+	pods, err := PodsList("")
 	if err != nil {
 		return nil, fmt.Errorf("List pods error")
 	}
 	dashboard = append(dashboard, len(pods))
 
-	nodes, err := K8SClient.NodeClient.NodesList()
+	nodes, err := NodesList()
 	if err != nil {
 		return nil, fmt.Errorf("List nodes error")
 	}
 	dashboard = append(dashboard, len(nodes))
 
-	services, err := K8SClient.ServiceClient.ServicesList()
+	services, err := ServicesList("")
 	if err != nil {
 		return nil, fmt.Errorf("List services error")
 	}
 	dashboard = append(dashboard, len(services))
 
-	deployments, err := K8SClient.DeploymentClient.DeploymentsList()
+	deployments, err := DeploymentsList("")
 	if err != nil {
 		return nil, fmt.Errorf("List deployments error")
 	}

@@ -10,6 +10,8 @@ import (
 	"github.com/golang/glog"
 	"github.com/kubernetes/client-go/util/homedir"
 	"k8s.io/client-go/kubernetes"
+	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
+	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
@@ -41,10 +43,6 @@ func randString(str ...string) string {
 type KubernetesClient struct {
 	Namespace string
 	Clientset *kubernetes.Clientset
-	NodeClient
-	DeploymentClient
-	ServiceClient
-	PodClient
 }
 
 // GetK8SClient used to get client
@@ -68,38 +66,30 @@ func GetK8SClient() KubernetesClient {
 		glog.Error(err)
 		panic(err)
 	}
-	K8SClient.DeploymentClient = GetDeploymentClient(K8SClient.Namespace)
-	K8SClient.NodeClient = GetNodeClient()
-	K8SClient.PodClient = GetPodClient(K8SClient.Namespace)
-	K8SClient.ServiceClient = GetServiceClient(K8SClient.Namespace)
 	return K8SClient
 }
 
 // SetNamespace used to set k8s cliet namespace
 func (client *KubernetesClient) SetNamespace(namespace string) {
 	client.Namespace = namespace
-	client.DeploymentClient = GetDeploymentClient(namespace)
-	client.NodeClient = GetNodeClient()
-	client.PodClient = GetPodClient(namespace)
-	client.ServiceClient = GetServiceClient(namespace)
 }
 
 // GetDeploymentClient used to get Deployment Client by namespace
-func GetDeploymentClient(namespace string) DeploymentClient {
-	return DeploymentClient{K8SClient.Clientset.Apps().Deployments(namespace)}
+func GetDeploymentClient(namespace string) appsv1.DeploymentInterface {
+	return K8SClient.Clientset.Apps().Deployments(namespace)
 }
 
 // GetNodeClient used to get nodes client
-func GetNodeClient() NodeClient {
-	return NodeClient{K8SClient.Clientset.CoreV1().Nodes()}
+func GetNodeClient() corev1.NodeInterface {
+	return K8SClient.Clientset.CoreV1().Nodes()
 }
 
 // GetServiceClient used to get service client
-func GetServiceClient(namespace string) ServiceClient {
-	return ServiceClient{K8SClient.Clientset.CoreV1().Services(namespace)}
+func GetServiceClient(namespace string) corev1.ServiceInterface {
+	return K8SClient.Clientset.CoreV1().Services(namespace)
 }
 
 // GetPodClient used to get pod client
-func GetPodClient(namespace string) PodClient {
-	return PodClient{K8SClient.Clientset.CoreV1().Pods(namespace)}
+func GetPodClient(namespace string) corev1.PodInterface {
+	return K8SClient.Clientset.CoreV1().Pods(namespace)
 }

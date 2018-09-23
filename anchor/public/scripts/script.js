@@ -85,3 +85,59 @@ function syntaxHighlight(json) {
         return '<span class="' + cls + '">' + match + '</span>';
     });
 }
+
+function deleteService(btn) {
+  row = btn.parentNode.parentElement.parentElement.children
+btn.parents
+  name = row[1].innerText
+  namespace = row[2].innerText
+  $.ajax({
+      type: "DELETE",
+      url: "/services",
+      contentType:"application/json",
+      data: JSON.stringify({namespace: namespace, name: name}),//参数列表
+      dataType:"json",
+      success: function(result){
+				$("#result").text("成功删除服务")
+        $('#success-result').modal()
+      },
+      error: function(result){
+				$("#result").text("删除服务失败")
+        $('#danger-result').modal()
+      }
+  });
+  $('#success-result').on('hidden.bs.modal', function () {
+     location.reload();
+  })
+  $('#danger-result').on('hidden.bs.modal', function () {
+     location.reload();
+  })
+}
+
+function deleteDeployment(btn) {
+  row = btn.parentNode.parentElement.parentElement.children
+btn.parents
+  name = row[1].innerText
+  namespace = row[2].innerText
+  $.ajax({
+      type: "DELETE",
+      url: "/deployments",
+      contentType:"application/json",
+      data: JSON.stringify({namespace: namespace, name: name}),//参数列表
+      dataType:"json",
+      success: function(result){
+				$("#result").text("成功删除部署")
+        $('#success-result').modal()
+      },
+      error: function(result){
+				$("#result").text("删除部署失败")
+        $('#danger-result').modal()
+      }
+  });
+  $('#success-result').on('hidden.bs.modal', function () {
+     location.reload();
+  })
+  $('#danger-result').on('hidden.bs.modal', function () {
+     location.reload();
+  })
+}

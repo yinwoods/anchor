@@ -36,5 +36,9 @@
         </div>
     </div>
 </div>
+<script>
+body = JSON.parse(document.getElementById("json").innerHTML)
+document.getElementById("json").innerHTML = syntaxHighlight(JSON.stringify(body, undefined, 2));
+</script>
 {{ template "footer" }}
 

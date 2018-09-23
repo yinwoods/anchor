@@ -25,8 +25,12 @@ type PodsListOutput struct {
 	Phase     string `json:"Phase"`
 }
 
-// CreatePod used to create pod
-func (client PodClient) CreatePod(pod *v1.Pod) (*v1.Pod, error) {
+// PodCreate used to create pod
+func PodCreate(namespace string, pod *v1.Pod) (*v1.Pod, error) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+	client := GetPodClient(namespace)
 	glog.V(2).Infoln("Creating pod...")
 	result, err := client.Create(pod)
 	if err != nil {
@@ -38,7 +42,11 @@ func (client PodClient) CreatePod(pod *v1.Pod) (*v1.Pod, error) {
 }
 
 // PodUpdate used to update pod
-func (client PodClient) PodUpdate(pod *v1.Pod) *v1.Pod {
+func PodUpdate(namespace string, pod *v1.Pod) *v1.Pod {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+	client := GetPodClient(namespace)
 	glog.V(2).Infoln("Updating pod...")
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		result, getErr := client.Get(pod.Name, metav1.GetOptions{})
@@ -58,14 +66,21 @@ func (client PodClient) PodUpdate(pod *v1.Pod) *v1.Pod {
 	return pod
 }
 
-// GetPod used to get pod by pod name
-func (client PodClient) GetPod(namespace, name string) (*v1.Pod, error) {
+// PodGet used to get pod by pod name
+func PodGet(namespace, name string) (*v1.Pod, error) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
 	return GetPodClient(namespace).Get(name, metav1.GetOptions{})
 }
 
 // PodsList used to list pod
-func (client PodClient) PodsList() ([]PodsListOutput, error) {
+func PodsList(namespace string) ([]PodsListOutput, error) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
 
+	client := GetPodClient(namespace)
 	podsListOutput := []PodsListOutput{}
 	pods, err := client.List(metav1.ListOptions{})
 	if err != nil {
@@ -85,12 +100,13 @@ func (client PodClient) PodsList() ([]PodsListOutput, error) {
 }
 
 // DeletePod used to delete pod by podName
-func (client PodClient) DeletePod(podName string) {
-	glog.V(2).Infoln("Deleting pod...")
-
-	// Delete Pod
+func DeletePod(namespace, name string) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+	client := GetPodClient(namespace)
 	deletePolicy := metav1.DeletePropagationForeground
-	if err := client.Delete(podName, &metav1.DeleteOptions{
+	if err := client.Delete(name, &metav1.DeleteOptions{
 		PropagationPolicy: &deletePolicy,
 	}); err != nil {
 		panic(err)

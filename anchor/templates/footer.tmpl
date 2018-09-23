@@ -1,13 +1,8 @@
 {{ define "footer" }}
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="/public/scripts/jquery-3.3.1.slim.min.js"></script>
 <script src="/public/scripts/popper.min.js" ></script>
 <script src="/public/scripts/bootstrap.min.js"></script>
-<script>
-body = JSON.parse(document.getElementById("json").innerHTML)
-document.getElementById("json").innerHTML = syntaxHighlight(JSON.stringify(body, undefined, 2));
-</script>
 </body>
 
 </html>

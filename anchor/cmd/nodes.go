@@ -5,13 +5,7 @@ import (
 
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 )
-
-// NodeClient wraps client to operate node apis
-type NodeClient struct {
-	corev1.NodeInterface
-}
 
 // NodesListOutput used to interact with template
 type NodesListOutput struct {
@@ -21,12 +15,14 @@ type NodesListOutput struct {
 }
 
 // GetNode used to get node by node name
-func (client NodeClient) GetNode(nodename string) (*v1.Node, error) {
+func GetNode(nodename string) (*v1.Node, error) {
+	client := GetNodeClient()
 	return client.Get(nodename, metav1.GetOptions{})
 }
 
 // NodesList used to list node
-func (client NodeClient) NodesList() ([]NodesListOutput, error) {
+func NodesList() ([]NodesListOutput, error) {
+	client := GetNodeClient()
 	nodesListOutput := []NodesListOutput{}
 	nodes, err := client.List(metav1.ListOptions{})
 	if err != nil {

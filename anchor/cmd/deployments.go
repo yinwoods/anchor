@@ -4,16 +4,11 @@ import (
 	"fmt"
 
 	"github.com/golang/glog"
-	"k8s.io/api/apps/v1"
+	appsv1 "k8s.io/api/apps/v1"
+	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	appsv1 "k8s.io/client-go/kubernetes/typed/apps/v1"
 	"k8s.io/client-go/util/retry"
 )
-
-// DeploymentClient wraps client to operate deployment apis
-type DeploymentClient struct {
-	appsv1.DeploymentInterface
-}
 
 // DeploymentsListOutput used to interact with template
 type DeploymentsListOutput struct {
@@ -23,12 +18,16 @@ type DeploymentsListOutput struct {
 }
 
 // GetDeployment used to get deployment by deployment name
-func (client DeploymentClient) GetDeployment(namespace, name string) (*v1.Deployment, error) {
+func GetDeployment(namespace, name string) (*appsv1.Deployment, error) {
 	return GetDeploymentClient(namespace).Get(name, metav1.GetOptions{})
 }
 
-// CreateDeployment used to create deployment
-func (client DeploymentClient) CreateDeployment(deployment *v1.Deployment) (*v1.Deployment, error) {
+// DeploymentCreate used to create deployment
+func DeploymentCreate(namespace string, deployment *appsv1.Deployment) (*appsv1.Deployment, error) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+	client := GetDeploymentClient(namespace)
 	result, err := client.Create(deployment)
 	if err != nil {
 		glog.Error(err)
@@ -39,11 +38,15 @@ func (client DeploymentClient) CreateDeployment(deployment *v1.Deployment) (*v1.
 }
 
 // UpdateDeployment used to update deployment
-func (client DeploymentClient) UpdateDeployment(deploymentName string) {
+func UpdateDeployment(namespace, name string) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+	client := GetDeploymentClient(namespace)
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		// Retrieve the latest version of Deployment before attempting update
 		// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
-		result, getErr := client.Get(deploymentName, metav1.GetOptions{})
+		result, getErr := client.Get(name, metav1.GetOptions{})
 		if getErr != nil {
 			glog.Errorf("Failed to get latest version of Deployment: %v", getErr)
 			return getErr
@@ -61,11 +64,15 @@ func (client DeploymentClient) UpdateDeployment(deploymentName string) {
 }
 
 // DeploymentsList used to list deployment
-func (client DeploymentClient) DeploymentsList() ([]DeploymentsListOutput, error) {
+func DeploymentsList(namespace string) ([]DeploymentsListOutput, error) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+	client := GetDeploymentClient(namespace)
 	deploymentsListOutput := []DeploymentsListOutput{}
 	deployments, err := client.List(metav1.ListOptions{})
 	if err != nil {
-		return nil, fmt.Errorf("List pods failed : %v", err)
+		return nil, fmt.Errorf("List deployments failed : %v", err)
 	}
 	for _, deployment := range deployments.Items {
 		deploymentsListOutput = append(deploymentsListOutput, DeploymentsListOutput{
@@ -77,16 +84,16 @@ func (client DeploymentClient) DeploymentsList() ([]DeploymentsListOutput, error
 	return deploymentsListOutput, nil
 }
 
-// DeleteDeployment used to delete deployment
-func (client DeploymentClient) DeleteDeployment(deploymentName string) {
-	// Delete Deployment
-	deletePolicy := metav1.DeletePropagationForeground
-	if err := client.Delete(deploymentName, &metav1.DeleteOptions{
-		PropagationPolicy: &deletePolicy,
-	}); err != nil {
-		panic(err)
+// DeploymentDelete used to delete deployment
+func DeploymentDelete(namespace, name string) error {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
 	}
-	glog.V(2).Infoln("Deleted deployment.")
+	client := GetDeploymentClient(namespace)
+	deletePolicy := metav1.DeletePropagationForeground
+	return client.Delete(name, &metav1.DeleteOptions{
+		PropagationPolicy: &deletePolicy,
+	})
 }
 
 func int32Ptr(i int32) *int32 { return &i }

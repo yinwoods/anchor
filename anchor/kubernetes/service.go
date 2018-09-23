@@ -3,7 +3,6 @@ package kubernetes
 import (
 	"github.com/golang/glog"
 	"k8s.io/api/core/v1"
-	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/util/retry"
@@ -16,10 +15,6 @@ type ServiceClient struct {
 
 // CreateService used to create service
 func (client ServiceClient) CreateService(namespace string, service *v1.Service) (*v1.Service, error) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-	glog.V(2).Infoln("Creating service...")
 	result, err := client.Create(service)
 	if err != nil {
 		glog.Error(err)
@@ -30,10 +25,7 @@ func (client ServiceClient) CreateService(namespace string, service *v1.Service)
 }
 
 // UpdateService used to update service
-func (client ServiceClient) UpdateService(serviceName, namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
+func (client ServiceClient) UpdateService(serviceName string) {
 	glog.V(2).Infoln("Updating service...")
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		result, getErr := client.Get(serviceName, metav1.GetOptions{})
@@ -58,12 +50,7 @@ func (client ServiceClient) GetService(serviceName string) (*v1.Service, error) 
 }
 
 // ListService list services
-func (client ServiceClient) ListService(namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
-
-	glog.V(2).Infof("Listing services in namespace %q:\n", namespace)
+func (client ServiceClient) ListService() {
 
 	list, err := client.List(metav1.ListOptions{})
 	if err != nil {
@@ -75,10 +62,7 @@ func (client ServiceClient) ListService(namespace string) {
 }
 
 // DeleteService used to delete service
-func (client ServiceClient) DeleteService(serviceName, namespace string) {
-	if namespace == "" {
-		namespace = apiv1.NamespaceDefault
-	}
+func (client ServiceClient) DeleteService(serviceName string) {
 	glog.V(2).Infoln("Deleting service...")
 
 	// Delete Service

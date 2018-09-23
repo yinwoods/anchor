@@ -10,7 +10,6 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
-	"strings"
 	"time"
 
 	"github.com/golang/glog"
@@ -58,24 +57,6 @@ func Version() (string, error) {
 	}
 
 	return version, nil
-}
-
-//ShortPorts Parsing containers ports and shoring them
-func ShortPorts(p string) string {
-	if len(p) < 9 {
-		return p
-	}
-
-	ports := strings.Split(p, ", ")
-	for i := range ports {
-		if len(ports[i]) > 9 {
-			ports[i] = ports[i][8:]
-		}
-	}
-
-	p = strings.Join(ports, ", ")
-
-	return p
 }
 
 //HashPasswordAndSave Hashing root password and storing them.

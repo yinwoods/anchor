@@ -19,7 +19,8 @@ func TestCreateService(*testing.T) {
         "labels": {
             "name": "nginxservice"
         },
-        "name": "demo-service"
+        "name": "demo-service",
+		"namespace": "default"
     },
     "spec": {
         "ports": [
@@ -46,11 +47,11 @@ func TestCreateService(*testing.T) {
 }
 
 func TestListService(*testing.T) {
-	serviceClient.ListService(namespace)
+	serviceClient.ListService()
 }
 
 func TestUpdateService(*testing.T) {
-	serviceClient.UpdateService(serviceName, namespace)
+	serviceClient.ServiceUpdate(serviceName, namespace)
 }
 
 func TestDeleteService(*testing.T) {

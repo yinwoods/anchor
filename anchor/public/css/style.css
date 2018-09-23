@@ -1,189 +1,260 @@
 html, body {
-    height: 100%;
+	height: 100%;
 }
 
 body {
-    background-color: #F0F4F3;
-    font-family: 'Muli', sans-serif;
+	background-color: #F0F4F3;
+	font-family: 'Muli', sans-serif;
 }
 
 .navbar-brand {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 span.center {
-    text-align: center;
-    display: block;
+	text-align: center;
+	display: block;
 }
 
 th, td.width20 {
-    width: 20%;
+	width: 20%;
 }
 
 th, td.width10 {
-    width: 10%;
+	width: 10%;
 }
 
 #inputUser {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 #inputPassword {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
 
-button.btn {
-    background-color:#22252b;
-    color: white;
+button.right {
+	text-align: right;
 }
 
 a.btn {
-    float: right;
+	float: right;
 }
 
 #key {
-    width: 80%;
-    border: 0;
-    margin-top: 5px;
+	width: 80%;
+	border: 0;
+	margin-top: 5px;
 }
 
 .wrapper {
-    align-items: stretch;
-    display: flex;
-    width: 100%;
+	align-items: stretch;
+	display: flex;
+	width: 100%;
 }
 
 .sidebar {
-    background-color:#22252b;
-    min-width: 42px;
-    max-width: 42px;
-    overflow: hidden; 
-    margin-bottom: -5000px;
-    padding-bottom: 5000px; 
-    position:fixed;
-    color: #afafaf;
+	background-color:#22252b;
+	min-width: 42px;
+	max-width: 42px;
+	overflow: hidden; 
+	margin-bottom: -5000px;
+	padding-bottom: 5000px; 
+	position:fixed;
+	color: #afafaf;
 }
 
 .content, ul {
-    text-align: center;
-    list-style-type:none; 
-    margin: 0;
-    padding: 0;
-    margin-top: 10px;
+	text-align: center;
+	list-style-type:none; 
+	margin: 0;
+	padding: 0;
+	margin-top: 10px;
 }
 
 ul,li {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 .content a,
 .content a:hover,
 .content a:visited {
-    text-decoration: none;
-    color: #afafaf;
+	text-decoration: none;
+	color: #afafaf;
 }
 
 .page {
-    margin-left: 42px;
-    width: 100%;
+	margin-left: 42px;
+	width: 100%;
 }
 
 nav, .navbar {
-    width: 100%;
+	width: 100%;
 }
 
 .inner-addon { 
-    position: relative; 
+	position: relative; 
 }
 
 .inner-addon .fa-search {
-  position: absolute;
-  padding: 10px;
-  pointer-events: none;
+	position: absolute;
+	padding: 10px;
+	pointer-events: none;
 }
 
 .right-addon .fa-search { right: 0px;}
 .right-addon input { padding-right: 30px; }
 
 .nav-right {
-    display: flex;
+	display: flex;
 }
 
 .container {
-    margin-top: 30px;
+	margin-top: 30px;
 }
 
 .db {
-    margin: 0 -5px 0 -5px;
+	margin: 0 -5px 0 -5px;
 }
 
 .db-icon {
-    font-size: 350%;
-    color: #22252b;
+	font-size: 350%;
+	color: #22252b;
 }
 
 .m-l-10 {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .fcard {
-    margin: 0 10px 0 10px;
+	margin: 0 10px 0 10px;
 }
 
 .table-hover > thead > tr > th {
-    border-top: none !important;
-    border-bottom: 1px solid #22252b;
-    color: #22252b;
-    font-size: 15px;
+	border-top: none !important;
+	border-bottom: 1px solid #22252b;
+	color: #22252b;
+	font-size: 15px;
 }
 
 .table-hover > tbody > tr > td {
-    font-size: 15px;
+	font-size: 15px;
 }
 
 .dropdown-menu { 
-    right: 0px; 
-    left: auto; 
+	right: 0px; 
+	left: auto; 
 }
 
 a.bg-light:focus, a.bg-light:hover, button.bg-light:focus, button.bg-light:hover {
-    background-color: #f8f9fa !important;
+	background-color: #f8f9fa !important;
 }
 
 .btn.focus, .btn:focus {
-    box-shadow: none !important;
+	box-shadow: none !important;
 }
 
 .c-btn {
-    background-color: white;
-     border: none;
+	background-color: white;
+	border: none;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    border-style: solid;
-    border-width: 0px 0px 0.5px 0px;
-    border-color: #22252b;
-    text-decoration: none;
+	border-style: solid;
+	border-width: 0px 0px 0.5px 0px;
+	border-color: #22252b;
+	text-decoration: none;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
-    border-style: solid;
-    border-width: 0px 0px 0.5px 0px;
-    border-color: #22252b;
-    text-decoration: none;
+	border-style: solid;
+	border-width: 0px 0px 0.5px 0px;
+	border-color: #22252b;
+	text-decoration: none;
 }
 
- .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
-     border-color: transparent;
- }
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+	border-color: transparent;
+}
 
- pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
 .string { color: green; }
 .number { color: orange; }
 .boolean { color: blue; }
 .null { color: magenta; }
 .key { color: red; }
+
+.modal-confirm {		
+	color: #434e65;
+	width: 525px;
+}
+.modal-confirm .modal-content {
+	padding: 20px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: none;
+}
+.modal-confirm .modal-header {
+	background: #47c9a2;
+	border-bottom: none;   
+	position: relative;
+	text-align: center;
+	margin: -20px -20px 0;
+	border-radius: 5px 5px 0 0;
+	padding: 35px;
+}
+.modal-confirm h4 {
+	text-align: center;
+	font-size: 36px;
+	margin: 10px 0;
+}
+.modal-confirm .form-control, .modal-confirm .btn {
+	min-height: 40px;
+	border-radius: 3px; 
+}
+.modal-confirm .close {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	color: #fff;
+	text-shadow: none;
+	opacity: 0.5;
+}
+.modal-confirm .close:hover {
+	opacity: 0.8;
+}
+.modal-confirm.modal-dialog {
+	margin-top: 80px;
+}
+.modal-confirm .btn {
+	color: #fff;
+	border-radius: 4px;
+	background: #eeb711;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	border-radius: 30px;
+	margin-top: 10px;
+	padding: 6px 20px;
+	border: none;
+}
+.modal-confirm .btn:hover, .modal-confirm .btn:focus {
+	background: #eda645;
+	outline: none;
+}
+.modal-confirm .btn span {
+	margin: 1px 3px 0;
+	float: left;
+}
+.modal-confirm .btn i {
+	margin-left: 1px;
+	font-size: 20px;
+	float: right;
+}
+.trigger-btn {
+	display: inline-block;
+	margin: 100px auto;
+}

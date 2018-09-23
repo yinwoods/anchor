@@ -15,7 +15,7 @@ func nodesListHandler(c *gin.Context) {
 		return
 	}
 
-	nodes, err := cmd.K8SClient.NodeClient.NodesList()
+	nodes, err := cmd.NodesList()
 	if err != nil {
 		glog.Error(c.Request.Method, c.Request.URL.Path, err)
 		return
@@ -30,7 +30,7 @@ func nodeInfoHandler(c *gin.Context) {
 	}
 
 	nodeName := c.Param("name")
-	node, err := cmd.K8SClient.GetNode(nodeName)
+	node, err := cmd.GetNode(nodeName)
 	if err != nil {
 		glog.Error(c.Request.Method, c.Request.URL.Path, err)
 		return

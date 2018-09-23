@@ -27,6 +27,64 @@
                 <div class="col-sm-12" style="padding: 0;">
                     <div class="card fcard">
                         <div class="card-body">
+
+                            <div align="right">
+                                <button type="button" class="badge badge-dark" data-toggle="modal" data-target="#createService">创建新pod</button>
+                            </div>
+
+                            <div class="modal fade" id="createService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form action="/services" method="POST">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel">创建新pod</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">输入pod配置</label>
+                                                    <textarea class="form-control" name="body" rows="8"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                                <button type="submit" class="btn btn-primary">确认提交</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal HTML -->
+                            <div id="success-result" class="modal fade">
+                                <div class="modal-dialog modal-confirm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <h4>成功!</h4> 
+                                            <p id="result"></p>
+                                            <button class="btn btn-success" data-dismiss="modal"><span>确定</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="danger-result" class="modal fade">
+                                <div class="modal-dialog modal-confirm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <h4>失败!</h4> 
+                                            <p id="result"></p>
+                                            <button class="btn btn-danger" data-dismiss="modal"><span>确定</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="table-responsive">
                                 <table class="table table-hover" id="table">
                                     <thead class="thead">
@@ -34,21 +92,21 @@
                                             <th style="width: 2%">序号</th>
                                             <th scope="col">Pod 名</th>
                                             <th scope="col">主机IP</th>
-                                            <th scope="col">PODIP</th>
+                                            <th scope="col">POD IP</th>
                                             <th scope="col">创建时间</th>
                                             <th style="width: 5%" scope="col">阶段</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{ range $index, $pod := . }}
-                                        <tr>
-                                            <td style="width: 2%">{{ $index | inc }}</td>
-                                            <td><a href="/pods/{{ $pod.Namespace }}/{{ $pod.Name }}">{{ $pod.Name }}</a></td>
-                                            <td>{{ $pod.HostIP }}</td>
-                                            <td>{{ $pod.PodIP }}</td>
-                                            <td>{{ $pod.StartTime }}</td>
-                                            <td style="width: 5%" >{{ $pod.Phase }}</td>
-                                        </tr>
+                                            <tr>
+                                                <td style="width: 2%">{{ $index | inc }}</td>
+                                                <td><a href="/pods/{{ $pod.Namespace }}/{{ $pod.Name }}">{{ $pod.Name }}</a></td>
+                                                <td>{{ $pod.HostIP }}</td>
+                                                <td>{{ $pod.PodIP }}</td>
+                                                <td>{{ $pod.StartTime }}</td>
+                                                <td style="width: 5%" >{{ $pod.Phase }}</td>
+                                            </tr>
                                         {{ end }}
                                     </tbody>
                                 </table>

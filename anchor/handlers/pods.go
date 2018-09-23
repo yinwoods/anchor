@@ -19,7 +19,7 @@ func podsListHandler(c *gin.Context) {
 
 	namespace := c.Request.URL.Query().Get("namespace")
 	cmd.K8SClient.SetNamespace(namespace)
-	pods, err := cmd.K8SClient.PodClient.PodsList()
+	pods, err := cmd.PodsList(namespace)
 	if err != nil {
 		glog.Error(c.Request.Method, c.Request.URL.Path, err)
 		return
@@ -36,7 +36,7 @@ func podInfoHandler(c *gin.Context) {
 
 	namespace := c.Param("namespace")
 	name := c.Param("name")
-	pod, err := cmd.K8SClient.GetPod(namespace, name)
+	pod, err := cmd.PodGet(namespace, name)
 	if err != nil {
 		glog.Error(c.Request.Method, c.Request.URL.Path, err)
 		return
@@ -72,7 +72,7 @@ func podsUpdateHandler(c *gin.Context) {
 		return
 	}
 	pod := obj.(*v1.Pod)
-	cmd.K8SClient.PodClient.PodUpdate(pod)
+	cmd.PodUpdate(pod.Namespace, pod)
 
 	// TODO 改为查看pod详情页面
 	pods, err := cmd.ContainersList()

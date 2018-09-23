@@ -45,9 +45,13 @@ func ServerRun() {
 	r.GET("/nodes/:name", nodeInfoHandler)
 
 	r.GET("/services", servicesListHandler)
+	r.POST("/services", serviceCreateHandler)
+	r.DELETE("/services", serviceDeleteHandler)
 	r.GET("/services/:namespace/:name", serviceInfoHandler)
 
 	r.GET("/deployments", deploymentsListHandler)
+	r.POST("/deployments", deploymentCreateHandler)
+	r.DELETE("/deployments", deploymentsDeleteHandler)
 	r.GET("/deployments/:namespace/:name", deploymentInfoHandler)
 
 	r.GET("/settings", settingsGetHandler)
