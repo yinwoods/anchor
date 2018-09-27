@@ -1,10 +1,9 @@
-// Copyright 2018 The Liman Authors. All rights reserved.
-// Use of this source code is governed by a MIT-style
-// license that can be found in the LICENSE file.
-
 package handlers
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,41 +16,12 @@ var (
 	apiKey = util.GeneratePassword(32)
 )
 
-func apiAuth(c *gin.Context) error {
-	if c.Request.Method != "GET" {
-		c.Header("Content-Type", "application/json")
-		c.JSON(http.StatusMethodNotAllowed, gin.H{
-			"ok":     "false",
-			"result": "METHOD_NOT_ALLOWED",
-		})
-	}
-
-	params := c.Params
-	key, ok := params.Get("key")
-
-	if !ok || len(key) < 1 {
-		c.Header("Content-Type", "application/json")
-		c.JSON(http.StatusNotFound, gin.H{
-			"ok":     "false",
-			"result": "api_KEY_NOT_FOUND",
-		})
-	}
-
-	if string(key[0]) != apiKey {
-		c.Header("Content-Type", "application/json")
-		c.JSON(http.StatusNotFound, gin.H{
-			"ok":     "false",
-			"result": "api_KEY_INVALID",
-		})
-	}
-
-	return nil
-}
-
 func apiContainer(c *gin.Context) {
-	err := apiAuth(c)
+	err := parseSessionCookie(c)
 	if err != nil {
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -69,12 +39,13 @@ func apiContainer(c *gin.Context) {
 }
 
 func apiImages(c *gin.Context) {
-	err := apiAuth(c)
+	err := parseSessionCookie(c)
 	if err != nil {
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
-
 	images, err := cmd.ImagesList()
 	if err != nil {
 		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
@@ -90,12 +61,13 @@ func apiImages(c *gin.Context) {
 }
 
 func apiNetworks(c *gin.Context) {
-	err := apiAuth(c)
+	err := parseSessionCookie(c)
 	if err != nil {
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
-
 	networks, err := cmd.NetworksList()
 	if err != nil {
 		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
@@ -111,9 +83,11 @@ func apiNetworks(c *gin.Context) {
 }
 
 func apiRefgerations(c *gin.Context) {
-	err := apiAuth(c)
+	err := parseSessionCookie(c)
 	if err != nil {
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	refrigerations, err := cmd.RefrigerationsList()
@@ -131,9 +105,11 @@ func apiRefgerations(c *gin.Context) {
 }
 
 func apiPowerSupplies(c *gin.Context) {
-	err := apiAuth(c)
+	err := parseSessionCookie(c)
 	if err != nil {
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	powerSupplies, err := cmd.PowerSuppliesList()
@@ -147,5 +123,34 @@ func apiPowerSupplies(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"ok":     "true",
 		"result": powerSupplies,
+	})
+}
+
+func apiPodInfo(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	namespace := c.Param("namespace")
+	name := c.Param("name")
+
+	url := apiURLPrefix + fmt.Sprintf("%s/pods/%s", namespace, name)
+	podJSON, err := httpGet(url)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var out bytes.Buffer
+	json.Indent(&out, []byte(podJSON), "", "  ")
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": out.String(),
 	})
 }

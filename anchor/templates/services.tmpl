@@ -90,10 +90,10 @@
                                 <table class="table table-hover" id="table">
                                     <thead class="thead">
                                         <tr>
-                                            <th style="width: 2%">序号</th>
+                                            <th style="width: 8%">序号</th>
                                             <th scope="col">服务名</th>
                                             <th scope="col">命名空间</th>
-                                            <th style="width: 5%" scope="col">操作</th>
+                                            <th style="width: 15%" scope="col">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -102,9 +102,9 @@
                                                 <td>{{ $index | inc }}</td>
                                                 <td><a href="/services/{{ $service.Namespace }}/{{ $service.Name }}">{{ $service.Name }}</a></td>
                                                 <td>{{ $service.Namespace }}</td>
-                                                <td style="width: 5%" >
+                                                <td>
                                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                                        <button type="button" id="change" class="btn btn-secondary">修改</button>
+                                                        <button type="button" onclick="showServiceConfigModal(this)" class="btn btn-secondary">修改</button>
                                                         <button type="button" onclick="deleteService(this)" class="btn btn-warning">删除</button>
                                                     </div>
                                                 </td>

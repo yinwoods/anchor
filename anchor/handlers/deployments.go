@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
 	"github.com/kubernetes/client-go/kubernetes/scheme"
 	"github.com/yinwoods/anchor/anchor/cmd"
 	appsv1 "k8s.io/api/apps/v1"
@@ -14,14 +13,18 @@ import (
 func deploymentsListHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
 	namespace := c.Request.URL.Query().Get("namespace")
 	deployments, err := cmd.DeploymentsList(namespace)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -36,8 +39,6 @@ func deploymentsDeleteHandler(c *gin.Context) {
 
 	var input Input
 	c.BindJSON(&input)
-	glog.V(3).Infoln("namespace: ", input.Namespace)
-	glog.V(3).Infoln("name: ", input.Name)
 	err := cmd.DeploymentDelete(input.Namespace, input.Name)
 	if err != nil {
 		c.JSON(http.StatusGatewayTimeout, gin.H{
@@ -53,7 +54,9 @@ func deploymentCreateHandler(c *gin.Context) {
 	// TODO 创建成功信息返回
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -61,14 +64,18 @@ func deploymentCreateHandler(c *gin.Context) {
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(body), nil, nil)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
 	deployment := obj.(*appsv1.Deployment)
 	_, err = cmd.DeploymentCreate(deployment.Namespace, deployment)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	c.Redirect(http.StatusFound, "/deployments")
@@ -77,7 +84,9 @@ func deploymentCreateHandler(c *gin.Context) {
 func deploymentInfoHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -85,12 +94,16 @@ func deploymentInfoHandler(c *gin.Context) {
 	name := c.Param("name")
 	pod, err := cmd.GetDeployment(namespace, name)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	podJSON, err := json.Marshal(&pod)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 

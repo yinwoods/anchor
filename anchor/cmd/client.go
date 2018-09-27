@@ -93,3 +93,8 @@ func GetServiceClient(namespace string) corev1.ServiceInterface {
 func GetPodClient(namespace string) corev1.PodInterface {
 	return K8SClient.Clientset.CoreV1().Pods(namespace)
 }
+
+// GetPodTemplateClient used to get pod template client
+func GetPodTemplateClient(namespace string) corev1.PodTemplateInterface {
+	return K8SClient.Clientset.CoreV1().PodTemplates(namespace)
+}

@@ -96,7 +96,9 @@ func installHandler(c *gin.Context) {
 			inputPassword := c.Request.FormValue("inputPassword")
 			hash, err := util.HashPasswordAndSave(inputPassword)
 			if err != nil {
-				glog.V(2).Infoln(err)
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"error": err.Error(),
+				})
 				return
 			}
 			userPassword = hash

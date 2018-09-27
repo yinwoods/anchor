@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
 	"github.com/kubernetes/client-go/kubernetes/scheme"
 	"github.com/yinwoods/anchor/anchor/cmd"
 	"k8s.io/api/core/v1"
@@ -14,14 +13,18 @@ import (
 func servicesListHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
 	services, err := cmd.ServicesList("")
 
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -31,7 +34,9 @@ func servicesListHandler(c *gin.Context) {
 func serviceInfoHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -39,12 +44,16 @@ func serviceInfoHandler(c *gin.Context) {
 	name := c.Param("name")
 	service, err := cmd.ServiceGet(namespace, name)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	serviceJSON, err := json.Marshal(&service)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -55,27 +64,33 @@ func serviceInfoHandler(c *gin.Context) {
 }
 
 func serviceCreateHandler(c *gin.Context) {
-	// TODO 创建成功信息返回
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	body := c.PostForm("body")
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(body), nil, nil)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
 	service := obj.(*v1.Service)
 	_, err = cmd.ServiceCreate(service.Namespace, service)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
-		return
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": "fail",
+		})
 	}
-	c.Redirect(http.StatusFound, "/services")
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+	})
 }
 
 func serviceDeleteHandler(c *gin.Context) {
@@ -87,7 +102,7 @@ func serviceDeleteHandler(c *gin.Context) {
 	c.BindJSON(&input)
 	err := cmd.ServiceDelete(input.Namespace, input.Name)
 	if err != nil {
-		c.JSON(http.StatusGatewayTimeout, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "fail",
 		})
 	}
@@ -99,20 +114,29 @@ func serviceDeleteHandler(c *gin.Context) {
 func servicesUpdateHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
 	body, ok := c.Params.Get("body")
 	if !ok {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(body), nil, nil)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	pod := obj.(*v1.Pod)
@@ -121,7 +145,9 @@ func servicesUpdateHandler(c *gin.Context) {
 	// TODO 改为查看pod详情页面
 	pods, err := cmd.ContainersList()
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 

@@ -21,11 +21,17 @@ var (
 func loginInitHandler(c *gin.Context) {
 	inputUser, ok := c.GetPostForm("inputUser")
 	if !ok {
-		glog.Error("failed to login")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to login",
+		})
+		return
 	}
 	inputPassword, ok := c.GetPostForm("inputPassword")
 	if !ok {
-		glog.Error("failed to login")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to login",
+		})
+		return
 	}
 	match := util.CheckPass(inputPassword, userPassword)
 
@@ -46,13 +52,13 @@ func indexHandler(c *gin.Context) {
 
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL, err)
+		glog.Error(c.Request.URL.Path, c.Request.Method, err)
 		return
 	}
 
 	infos, err := cmd.DashboardList()
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL, err)
+		glog.Error(c.Request.URL.Path, c.Request.Method, err)
 		return
 	}
 

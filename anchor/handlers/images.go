@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
@@ -20,7 +19,9 @@ func imagesListHandler(c *gin.Context) {
 
 	images, err := cmd.ImagesList()
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 

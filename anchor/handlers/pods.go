@@ -21,7 +21,9 @@ func podsListHandler(c *gin.Context) {
 	cmd.K8SClient.SetNamespace(namespace)
 	pods, err := cmd.PodsList(namespace)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -38,12 +40,16 @@ func podInfoHandler(c *gin.Context) {
 	name := c.Param("name")
 	pod, err := cmd.PodGet(namespace, name)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	podJSON, err := json.Marshal(&pod)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
@@ -59,27 +65,76 @@ func podsUpdateHandler(c *gin.Context) {
 		return
 	}
 
-	body, ok := c.Params.Get("body")
-	if !ok {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
-		return
+	type Input struct {
+		Body string `json:"body"`
 	}
+	var input Input
+	c.BindJSON(&input)
+	glog.V(3).Infof("%+v", input)
 
 	decode := scheme.Codecs.UniversalDeserializer().Decode
-	obj, _, err := decode([]byte(body), nil, nil)
+	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	pod := obj.(*v1.Pod)
-	cmd.PodUpdate(pod.Namespace, pod)
+
+	pod = cmd.PodUpdate(pod.Namespace, pod)
+	glog.V(3).Infof("%+v", pod)
 
 	// TODO 改为查看pod详情页面
-	pods, err := cmd.ContainersList()
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+	})
+}
+
+func podCreateHandler(c *gin.Context) {
+	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	body := c.PostForm("body")
+	decode := scheme.Codecs.UniversalDeserializer().Decode
+	obj, _, err := decode([]byte(body), nil, nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
-	c.HTML(http.StatusOK, "pods.tmpl", pods)
+	pod := obj.(*v1.Pod)
+	_, err = cmd.PodCreate(pod.Namespace, pod)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusFound, "/pods")
+}
+
+func podDeleteHandler(c *gin.Context) {
+	type Input struct {
+		Namespace string `json:"namespace"`
+		Name      string `json:"name"`
+	}
+	var input Input
+	c.BindJSON(&input)
+	err := cmd.PodDelete(input.Namespace, input.Name)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": "fail",
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+	})
 }

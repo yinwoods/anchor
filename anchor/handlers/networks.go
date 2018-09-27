@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
@@ -21,7 +20,9 @@ func networksListHandler(c *gin.Context) {
 	networks, err := cmd.NetworksList()
 
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 

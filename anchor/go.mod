@@ -1,4 +1,4 @@
-module github.com/yinwoods/anchor
+module github.com/yinwoods/anchor/anchor
 
 require (
 	github.com/docker/distribution v2.6.2+incompatible // indirect
@@ -28,7 +28,7 @@ require (
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.2.1 // indirect
-	k8s.io/api v0.0.0-20180913155108-f456898a08e4
+	k8s.io/api v0.0.0-20180924175932-7619dea5b21b
 	k8s.io/apimachinery v0.0.0-20180912233634-99c5fa21f872
 	k8s.io/client-go v8.0.0+incompatible
 )

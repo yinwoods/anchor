@@ -9,8 +9,17 @@ import (
 	"time"
 
 	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/network"
 	"golang.org/x/net/context"
 )
+
+// ContainerCreateConfig wraps container config 、host config and networking config
+type ContainerCreateConfig struct {
+	ContainerConfig  container.Config
+	HostConfig       container.HostConfig
+	NetworkingConfig network.NetworkingConfig
+}
 
 // ContainersListOutput used to interact with template
 type ContainersListOutput struct {
@@ -22,7 +31,7 @@ type ContainersListOutput struct {
 
 // ContainersList used to list containers
 func ContainersList() ([]ContainersListOutput, error) {
-	containers, err := DockerClient.ContainerList(context.Background(), types.ContainerListOptions{})
+	containers, err := DockerClient.ContainerList(context.Background(), types.ContainerListOptions{All: true})
 	if err != nil {
 		return nil, fmt.Errorf("Docker daemon is not running")
 	}
@@ -36,4 +45,19 @@ func ContainersList() ([]ContainersListOutput, error) {
 		})
 	}
 	return containersListOutput, nil
+}
+
+// ContainerGet returns docker inspect information
+func ContainerGet(cid string) (types.ContainerJSON, error) {
+	return DockerClient.ContainerInspect(context.Background(), cid)
+}
+
+// ContainerCreate create a container
+func ContainerCreate(config ContainerCreateConfig) (container.ContainerCreateCreatedBody, error) {
+	return DockerClient.ContainerCreate(context.Background(), &config.ContainerConfig, &config.HostConfig, &config.NetworkingConfig, "")
+}
+
+// ContainerDelete delete a container
+func ContainerDelete(cid string) error {
+	return DockerClient.ContainerRemove(context.Background(), cid, types.ContainerRemoveOptions{})
 }

@@ -5,12 +5,29 @@
 package handlers
 
 import (
+	"io/ioutil"
 	"net/http"
 
 	"html/template"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 )
+
+const (
+	apiURLPrefix = "http://localhost:8001/api/v1/namespaces/"
+)
+
+func httpGet(url string) ([]byte, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		glog.Errorf("get url: %s error: %s", url, err.Error())
+		return []byte{}, err
+	}
+
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
+}
 
 func inc(x int) int {
 	return x + 1
@@ -30,16 +47,20 @@ func ServerRun() {
 	r.POST("/", loginInitHandler)
 
 	r.GET("/containers", containersListHandler)
+	r.POST("/containers", containerCreateHandler)
+	r.DELETE("/containers", containerDeleteHandler)
+	r.GET("/containers/:cid", containerInfoHandler)
+
 	r.GET("/images", imagesListHandler)
 	r.GET("/networks", networksListHandler)
 	r.GET("/refrigerations", refrigerationsListHandler)
 	r.GET("/powersupplies", powersuppliesListHandler)
 
 	r.GET("/pods", podsListHandler)
+	r.POST("/pods", podCreateHandler)
+	r.DELETE("/pods", podDeleteHandler)
 	r.GET("/pods/:namespace/:name", podInfoHandler)
-
-	// TODO
-	r.POST("/pods", podsUpdateHandler)
+	r.PUT("/pods", podsUpdateHandler)
 
 	r.GET("/nodes", nodesListHandler)
 	r.GET("/nodes/:name", nodeInfoHandler)
@@ -62,6 +83,7 @@ func ServerRun() {
 	r.GET("/install", installHandler)
 
 	r.GET("/api/containers", apiContainer)
+	r.GET("/api/pods/:namespace/:name", apiPodInfo)
 	r.GET("/api/images", apiImages)
 	r.GET("/api/networks", apiNetworks)
 	r.GET("/api/refrigerations", apiRefgerations)

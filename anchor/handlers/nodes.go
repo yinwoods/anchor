@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
@@ -17,7 +16,9 @@ func nodesListHandler(c *gin.Context) {
 
 	nodes, err := cmd.NodesList()
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	c.HTML(http.StatusOK, "nodes.tmpl", nodes)
@@ -32,12 +33,16 @@ func nodeInfoHandler(c *gin.Context) {
 	nodeName := c.Param("name")
 	node, err := cmd.GetNode(nodeName)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 	nodeJSON, err := json.Marshal(&node)
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 

@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
@@ -15,7 +14,9 @@ func refrigerationsListHandler(c *gin.Context) {
 	}
 	refrigerations, err := cmd.RefrigerationsList()
 	if err != nil {
-		glog.Error(c.Request.Method, c.Request.URL.Path, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
