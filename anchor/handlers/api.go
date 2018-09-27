@@ -183,3 +183,32 @@ func apiServiceInfo(c *gin.Context) {
 		"result": out.String(),
 	})
 }
+
+func apiDeploymentInfo(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	namespace := c.Param("namespace")
+	name := c.Param("name")
+
+	url := apiV1Prefix + fmt.Sprintf("%s/deployments/%s", namespace, name)
+	podJSON, err := httpGet(url)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var out bytes.Buffer
+	json.Indent(&out, []byte(podJSON), "", "  ")
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": out.String(),
+	})
+}

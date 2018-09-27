@@ -96,4 +96,20 @@ func DeploymentDelete(namespace, name string) error {
 	})
 }
 
+// DeploymentUpdate used to update pod
+func DeploymentUpdate(namespace string, deployment *appsv1.Deployment) *appsv1.Deployment {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+
+	client := GetDeploymentClient(namespace)
+
+	// result.Spec.Ports[0].Port = 3030
+	deployment, err := client.Update(deployment)
+	if err != nil {
+		glog.Errorf("Update pod failed: %v", err)
+	}
+	return deployment
+}
+
 func int32Ptr(i int32) *int32 { return &i }

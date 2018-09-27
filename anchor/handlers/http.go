@@ -16,6 +16,7 @@ import (
 
 const (
 	apiURLPrefix = "http://localhost:8001/api/v1/namespaces/"
+	apiV1Prefix  = "http://localhost:8001/apis/apps/v1/namespaces/"
 )
 
 func httpGet(url string) ([]byte, error) {
@@ -61,7 +62,7 @@ func ServerRun() {
 	r.GET("/pods", podsListHandler)
 	r.POST("/pods", podCreateHandler)
 	r.DELETE("/pods", podDeleteHandler)
-	r.PUT("/pods", podsUpdateHandler)
+	r.PUT("/pods", podUpdateHandler)
 	r.GET("/pods/:namespace/:name", podInfoHandler)
 
 	r.GET("/nodes", nodesListHandler)
@@ -70,12 +71,13 @@ func ServerRun() {
 	r.GET("/services", servicesListHandler)
 	r.POST("/services", serviceCreateHandler)
 	r.DELETE("/services", serviceDeleteHandler)
-	r.PUT("/services", servicesUpdateHandler)
+	r.PUT("/services", serviceUpdateHandler)
 	r.GET("/services/:namespace/:name", serviceInfoHandler)
 
 	r.GET("/deployments", deploymentsListHandler)
 	r.POST("/deployments", deploymentCreateHandler)
-	r.DELETE("/deployments", deploymentsDeleteHandler)
+	r.DELETE("/deployments", deploymentDeleteHandler)
+	r.PUT("/deployments", deploymentUpdateHandler)
 	r.GET("/deployments/:namespace/:name", deploymentInfoHandler)
 
 	r.GET("/settings", settingsGetHandler)
@@ -85,13 +87,9 @@ func ServerRun() {
 	r.GET("/logout", logoutHandler)
 	r.GET("/install", installHandler)
 
-	r.GET("/api/containers", apiContainer)
 	r.GET("/api/pods/:namespace/:name", apiPodInfo)
 	r.GET("/api/services/:namespace/:name", apiServiceInfo)
-	r.GET("/api/images", apiImages)
-	r.GET("/api/networks", apiNetworks)
-	r.GET("/api/refrigerations", apiRefgerations)
-	r.GET("/api/powersupplies", apiPowerSupplies)
+	r.GET("/api/deployments/:namespace/:name", apiDeploymentInfo)
 
 	r.Run(":8090")
 }

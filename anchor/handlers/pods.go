@@ -59,7 +59,7 @@ func podInfoHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "pod_info.tmpl", data)
 }
 
-func podsUpdateHandler(c *gin.Context) {
+func podUpdateHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
 		return

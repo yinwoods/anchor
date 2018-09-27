@@ -112,7 +112,7 @@ func serviceDeleteHandler(c *gin.Context) {
 	})
 }
 
-func servicesUpdateHandler(c *gin.Context) {
+func serviceUpdateHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

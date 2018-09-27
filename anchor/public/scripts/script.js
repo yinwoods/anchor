@@ -290,3 +290,51 @@ function deleteDeployment(btn) {
     location.reload();
   })
 }
+
+function updateDeployment(btn) {
+  content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
+  $.ajax({
+    type: "PUT",
+    url: "/deployments",
+    contentType:"application/json",
+    data: JSON.stringify({body: content}),//参数列表
+    dataType:"json",
+    success: function(result){
+      $("#update").modal("hide")
+      $("#success-result").text("更新部署成功")
+      $("#modal-success").modal()
+    },
+    error: function(result){
+      $("#update").modal("hide")
+      $("#danger-result").text("更新部署失败")
+      $("#modal-danger").modal()
+    }
+  });
+  $("#modal-success").on('hidden.bs.modal', function () {
+    location.replace("/deployments/" + namespace + "/" + name)
+  })
+  $("#modal-danger").on('hidden.bs.modal', function () {
+    location.reload();
+  })
+}
+
+function showDeploymentConfigModal(btn) {
+  row = btn.parentNode.parentElement.parentElement.children
+  btn.parents
+  namespace = row[2].innerText
+  name = row[1].innerText
+  $.ajax({
+    type: "GET",
+    url: "/api/deployments/" + namespace + "/" + name,
+    contentType:"application/json",
+    dataType:"json",
+    success: function(result){
+      $("#update").modal("show")
+      $("#updateTextArea").val(result["result"])
+    },
+    error: function(result){
+      $("#danger-result").text("获取部署信息失败")
+      $("#modal-danger").modal()
+    }
+  });
+}
