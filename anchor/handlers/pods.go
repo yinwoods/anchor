@@ -70,7 +70,6 @@ func podsUpdateHandler(c *gin.Context) {
 	}
 	var input Input
 	c.BindJSON(&input)
-	glog.V(3).Infof("%+v", input)
 
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(input.Body), nil, nil)
@@ -129,8 +128,9 @@ func podDeleteHandler(c *gin.Context) {
 	err := cmd.PodDelete(input.Namespace, input.Name)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": "fail",
+			"error": err.Error(),
 		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",

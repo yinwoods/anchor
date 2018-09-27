@@ -61,8 +61,8 @@ func ServerRun() {
 	r.GET("/pods", podsListHandler)
 	r.POST("/pods", podCreateHandler)
 	r.DELETE("/pods", podDeleteHandler)
-	r.GET("/pods/:namespace/:name", podInfoHandler)
 	r.PUT("/pods", podsUpdateHandler)
+	r.GET("/pods/:namespace/:name", podInfoHandler)
 
 	r.GET("/nodes", nodesListHandler)
 	r.GET("/nodes/:name", nodeInfoHandler)
@@ -70,6 +70,7 @@ func ServerRun() {
 	r.GET("/services", servicesListHandler)
 	r.POST("/services", serviceCreateHandler)
 	r.DELETE("/services", serviceDeleteHandler)
+	r.PUT("/services", servicesUpdateHandler)
 	r.GET("/services/:namespace/:name", serviceInfoHandler)
 
 	r.GET("/deployments", deploymentsListHandler)
@@ -86,6 +87,7 @@ func ServerRun() {
 
 	r.GET("/api/containers", apiContainer)
 	r.GET("/api/pods/:namespace/:name", apiPodInfo)
+	r.GET("/api/services/:namespace/:name", apiServiceInfo)
 	r.GET("/api/images", apiImages)
 	r.GET("/api/networks", apiNetworks)
 	r.GET("/api/refrigerations", apiRefgerations)

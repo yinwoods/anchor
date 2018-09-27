@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 	"github.com/kubernetes/client-go/kubernetes/scheme"
 	"github.com/yinwoods/anchor/anchor/cmd"
 	"k8s.io/api/core/v1"
@@ -85,12 +86,11 @@ func serviceCreateHandler(c *gin.Context) {
 	_, err = cmd.ServiceCreate(service.Namespace, service)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": "fail",
+			"error": err.Error(),
 		})
+		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-	})
+	c.Redirect(http.StatusFound, "/services")
 }
 
 func serviceDeleteHandler(c *gin.Context) {
@@ -103,8 +103,9 @@ func serviceDeleteHandler(c *gin.Context) {
 	err := cmd.ServiceDelete(input.Namespace, input.Name)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": "fail",
+			"error": err.Error(),
 		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
@@ -117,39 +118,28 @@ func servicesUpdateHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
 		return
 	}
 
-	body, ok := c.Params.Get("body")
-	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
+	type Input struct {
+		Body string `json:"body"`
 	}
+	var input Input
+	c.BindJSON(&input)
 
 	decode := scheme.Codecs.UniversalDeserializer().Decode
-	obj, _, err := decode([]byte(body), nil, nil)
+	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
+		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	pod := obj.(*v1.Pod)
-	cmd.PodUpdate(pod.Namespace, pod)
+	service := obj.(*v1.Service)
+	cmd.ServiceUpdate(service.Namespace, service)
 
-	// TODO 改为查看pod详情页面
-	pods, err := cmd.ContainersList()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	c.HTML(http.StatusOK, "pods.tmpl", pods)
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+	})
 }

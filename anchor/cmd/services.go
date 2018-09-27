@@ -6,7 +6,6 @@ import (
 	"github.com/golang/glog"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/util/retry"
 )
 
 // ServicesListOutput used to interact with template
@@ -31,26 +30,18 @@ func ServiceCreate(namespace string, service *v1.Service) (*v1.Service, error) {
 }
 
 // ServiceUpdate used to update service
-func ServiceUpdate(namespace, serviceName string) {
+func ServiceUpdate(namespace string, service *v1.Service) *v1.Service {
 	if namespace == "" {
 		namespace = v1.NamespaceAll
 	}
-	client := GetServiceClient(namespace)
-	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		result, getErr := client.Get(serviceName, metav1.GetOptions{})
-		if getErr != nil {
-			glog.Errorf("Failed to get latest version of service: %v", getErr)
-			return getErr
-		}
 
-		result.Spec.Ports[0].Port = 3030
-		_, updateErr := client.Update(result)
-		return updateErr
-	})
-	if retryErr != nil {
-		glog.Errorf("Update service failed: %v", retryErr)
+	client := GetServiceClient(namespace)
+
+	service, err := client.Update(service)
+	if err != nil {
+		glog.Errorf("Update service failed: %v", err)
 	}
-	glog.V(2).Infoln("Updated service...")
+	return service
 }
 
 // ServiceGet used to get service by service name
