@@ -205,12 +205,11 @@ function showPodConfigModal(btn) {
     contentType:"application/json",
     dataType:"json",
     success: function(result){
-      console.log(result)
       $("#update").modal("show")
       $("#updateTextArea").val(result["result"])
     },
     error: function(result){
-      $("#danger-result").text("删除容器失败")
+      $("#danger-result").text("获取pod信息失败")
       $("#modal-danger").modal()
     }
   });
@@ -218,7 +217,6 @@ function showPodConfigModal(btn) {
 
 function updatePod(btn) {
   content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
-  console.log(content)
   $.ajax({
     type: "PUT",
     url: "/pods",
@@ -226,10 +224,20 @@ function updatePod(btn) {
     data: JSON.stringify({body: content}),//参数列表
     dataType:"json",
     success: function(result){
-      console.log(result)
+      $("#update").modal("hide")
+      $("#success-result").text("更新Pod成功")
+      $("#modal-success").modal()
     },
     error: function(result){
-      console.log(result)
+      $("#update").modal("hide")
+      $("#danger-result").text("更新Pod失败")
+      $("#modal-danger").modal()
     }
   });
+  $("#modal-success").on('hidden.bs.modal', function () {
+    location.replace("/pods/" + namespace + "/" + name)
+  })
+  $("#modal-danger").on('hidden.bs.modal', function () {
+    location.reload();
+  })
 }

@@ -84,9 +84,7 @@ func podsUpdateHandler(c *gin.Context) {
 	pod := obj.(*v1.Pod)
 
 	pod = cmd.PodUpdate(pod.Namespace, pod)
-	glog.V(3).Infof("%+v", pod)
 
-	// TODO 改为查看pod详情页面
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
