@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/docker/docker/api/types"
+	"github.com/golang/glog"
 	"golang.org/x/net/context"
 )
 
@@ -50,4 +51,12 @@ func ImagesList() ([]ImagesListOutput, error) {
 		})
 	}
 	return imagesListOutput, nil
+}
+
+// ImageGet return image
+func ImageGet(mid string) (types.ImageInspect, []byte, error) {
+	response, body, err := DockerClient.ImageInspectWithRaw(context.Background(), mid)
+	glog.V(3).Infoln(response)
+	glog.V(3).Infoln(string(body))
+	return response, body, err
 }

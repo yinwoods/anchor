@@ -32,9 +32,10 @@
                                     <thead class="thead bg-ee">
                                         <tr>
                                             <th style="width: 8%" scope="col">序号</th>
-                                            <th style="width: 35%" scope="col">镜像名</th>
-                                            <th style="width: 20%" scope="col">标签</th>
-                                            <th style="width: 20%" scope="col">大小</th>
+                                            <th style="width: 35%" scope="col">镜像ID</th>
+                                            <th style="width: 20%" scope="col">镜像名</th>
+                                            <th style="width: 10%" scope="col">标签</th>
+                                            <th style="width: 10%" scope="col">大小</th>
                                             <th scope="col">创建时间</th>
                                         </tr>
                                     </thead>
@@ -42,6 +43,7 @@
                                         {{ range $index, $image := . }}
                                         <tr>
                                             <td>{{ $index | inc }}</td>
+                                            <td><a href="/images/{{ .ID }}">{{ .ID }}</td>
                                             <td>{{ $image.Name }}</td>
                                             <td>{{ $image.Tag }}</td>
                                             <td>{{ $image.Size }} MB</td>

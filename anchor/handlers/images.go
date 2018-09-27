@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
@@ -26,4 +27,26 @@ func imagesListHandler(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "images.tmpl", images)
+}
+
+func imageInfoHandler(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		return
+	}
+
+	mid := c.Param("mid")
+	image, imageJSON, err := cmd.ImageGet(mid)
+	if err != nil {
+		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var data []interface{}
+	data = append(data, image)
+	data = append(data, string(imageJSON))
+	c.HTML(http.StatusOK, "image_info.tmpl", data)
 }

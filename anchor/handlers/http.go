@@ -52,6 +52,8 @@ func ServerRun() {
 	r.GET("/containers/:cid", containerInfoHandler)
 
 	r.GET("/images", imagesListHandler)
+	r.GET("/images/:mid", imageInfoHandler)
+
 	r.GET("/networks", networksListHandler)
 	r.GET("/refrigerations", refrigerationsListHandler)
 	r.GET("/powersupplies", powersuppliesListHandler)
