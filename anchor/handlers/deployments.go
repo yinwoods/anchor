@@ -52,7 +52,6 @@ func deploymentDeleteHandler(c *gin.Context) {
 }
 
 func deploymentCreateHandler(c *gin.Context) {
-	// TODO 创建成功信息返回
 	err := parseSessionCookie(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -61,10 +60,16 @@ func deploymentCreateHandler(c *gin.Context) {
 		return
 	}
 
-	body := c.PostForm("body")
+	type Input struct {
+		Body string `json:"body"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
 	decode := scheme.Codecs.UniversalDeserializer().Decode
-	obj, _, err := decode([]byte(body), nil, nil)
+	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
+		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -74,6 +79,7 @@ func deploymentCreateHandler(c *gin.Context) {
 	deployment := obj.(*appsv1.Deployment)
 	_, err = cmd.DeploymentCreate(deployment.Namespace, deployment)
 	if err != nil {
+		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

@@ -72,9 +72,14 @@ func serviceCreateHandler(c *gin.Context) {
 		})
 		return
 	}
-	body := c.PostForm("body")
+	type Input struct {
+		Body string `json:"body"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
 	decode := scheme.Codecs.UniversalDeserializer().Decode
-	obj, _, err := decode([]byte(body), nil, nil)
+	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

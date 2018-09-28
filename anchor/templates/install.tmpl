@@ -1,32 +1,32 @@
 {{ template "header" }}
 <div class="page">
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">
-            <div>
-                <h5 id="title">
-                    安装
-                </h5>
-            </div>
-            <div>
-                <h6>
-                    <small>欢迎使用Liman，请设置你的root密码</small>
-                </h6>
-            </div>
-        </a>
-    </nav>
-    <div class="container-fluid">
-        <div class="container text-center col-sm-3">
-            <div class="login-body pt-5 mt-5">
-                <form class="form-signin" action="/install" method="POST">
-                    <img class="mb-0" src="/public/img/liman.png" alt="" width="200" height="200">
-                    <label for="inputUser" class="sr-only">用户名</label>
-                    <input type="user" id="inputUser" name="inputUser" class="form-control" placeholder="root" disabled>
-                    <label for="inputPassword" class="sr-only">密码</label>
-                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
-                    <button class="btn btn-block btn-dark" type="submit">安装</button>
-                </form>
-            </div>
-        </div>
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">
+      <div>
+        <h5 id="title">
+          安装
+        </h5>
+      </div>
+      <div>
+        <h6>
+          <small>欢迎使用Liman，请设置你的root密码</small>
+        </h6>
+      </div>
+    </a>
+  </nav>
+  <div class="container-fluid">
+    <div class="container text-center col-sm-3">
+      <div class="login-body pt-5 mt-5">
+        <form class="form-signin" action="/install" method="POST">
+          <img class="mb-0" src="/public/img/liman.png" alt="" width="200" height="200">
+          <label for="inputUser" class="sr-only">用户名</label>
+          <input type="user" id="inputUser" name="inputUser" class="form-control" placeholder="root" disabled>
+          <label for="inputPassword" class="sr-only">密码</label>
+          <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+          <button class="btn btn-block btn-dark" type="submit">安装</button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 {{ template "footer" }}

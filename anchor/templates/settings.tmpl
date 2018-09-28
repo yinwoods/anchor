@@ -1,98 +1,98 @@
 {{ template "header" }}
 <div class="page">
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">
-            <div>
-                <h5 id="title">
-                    设置
-                </h5>
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">
+      <div>
+        <h5 id="title">
+          设置
+        </h5>
+      </div>
+      <div>
+        <h6>
+          <i class="fas fa-cog"></i>
+          <small>/ 设置</small>
+        </h6>
+      </div>
+    </a>
+  </nav>
+  <div class="container-fluid">
+    <div class="container">
+      <!-- PASSWORD -->
+      <div class="row">
+        <div class="col-sm-12" style="padding: 0;">
+          <div class="card fcard">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="table">
+                  <thead class="thead bg-ee">
+                    <tr>
+                      <th scope="col">修改密码</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th class="bg-white">
+                        <form class="form-signin" action="/settings" method="POST">
+                          <div class="form-group">
+                            <label for="cpass">当前密码</label>
+                            <input type="password" class="form-control" id="cpass" name="cpass" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="npass">新密码</label>
+                            <input type="password" class="form-control" id="npass" name="npass" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="cnpass">确认新密码</label>
+                            <input type="password" class="form-control" id="cnpass" name="cnpass" required>
+                          </div>
+                          <button type="submit" class="btn btn-block btn-dark">修改密码</button>
+                        </form>
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div>
-                <h6>
-                    <i class="fas fa-cog"></i>
-                    <small>/ 设置</small>
-                </h6>
-            </div>
-        </a>
-    </nav>
-    <div class="container-fluid">
-        <div class="container">
-            <!-- PASSWORD -->
-            <div class="row">
-                <div class="col-sm-12" style="padding: 0;">
-                    <div class="card fcard">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover" id="table">
-                                    <thead class="thead bg-ee">
-                                        <tr>
-                                            <th scope="col">修改密码</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th class="bg-white">
-                                                <form class="form-signin" action="/settings" method="POST">
-                                                    <div class="form-group">
-                                                        <label for="cpass">当前密码</label>
-                                                        <input type="password" class="form-control" id="cpass" name="cpass" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="npass">新密码</label>
-                                                        <input type="password" class="form-control" id="npass" name="npass" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="cnpass">确认新密码</label>
-                                                        <input type="password" class="form-control" id="cnpass" name="cnpass" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-block btn-dark">修改密码</button>
-                                                </form>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <!-- INFO -->
-            <div class="row">
-                <div class="col-sm-12" style="padding: 0;">
-                    <div class="card fcard">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover" id="table">
-                                    <thead class="thead bg-ee">
-                                        <tr>
-                                            <th scope="col" colspan="2">信息</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="bg-white">
-                                            <th>API Key</th>
-                                            <th>
-                                                <input id="key" value="{{ index . 1 }}" readonly/>
-                                                <span class="center">
-                                                    <a class="btn btn-block btn-dark" onclick="Copy()">
-                                                        <i class="far fa-copy"></i> 复制</a>
-                                                    </i>
-                                                </span>
-                                            </th>
-                                        </tr>
-                                        <tr class="bg-white">
-                                            <th>版本</th>
-                                            <th>{{ index . 0 }}</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
+      <br>
+      <!-- INFO -->
+      <div class="row">
+        <div class="col-sm-12" style="padding: 0;">
+          <div class="card fcard">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="table">
+                  <thead class="thead bg-ee">
+                    <tr>
+                      <th scope="col" colspan="2">信息</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="bg-white">
+                      <th>API Key</th>
+                      <th>
+                        <input id="key" value="{{ index . 1 }}" readonly/>
+                        <span class="center">
+                          <a class="btn btn-block btn-dark" onclick="Copy()">
+                            <i class="far fa-copy"></i> 复制</a>
+                          </i>
+                        </span>
+                      </th>
+                    </tr>
+                    <tr class="bg-white">
+                      <th>版本</th>
+                      <th>{{ index . 0 }}</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 {{ template "footer" }}

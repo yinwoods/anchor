@@ -1,55 +1,55 @@
 {{ template "header" }}
 <div class="page">
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">
-            <div>
-                <h5 id="title">
-                    网络
-                </h5>
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">
+      <div>
+        <h5 id="title">
+          网络
+        </h5>
+      </div>
+      <div>
+        <h6>
+          <i class="zmdi zmdi-network"></i>
+          <small>/ 网络</small>
+        </h6>
+      </div>
+    </a>
+  </nav>
+  <div class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12" style="padding: 0;">
+          <div class="card fcard">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="table">
+                  <thead class="thead bg-ee">
+                    <tr>
+                      <th scope="col">序号</th>
+                      <th scope="col">网络名</th>
+                      <th scope="col">驱动</th>
+                      <th scope="col">范围</th>
+                      <th scope="col">创建时间</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{ range $index, $network := . }}
+                      <tr>
+                        <td>{{ $index | inc }}</td>
+                        <td>{{ $network.Name }}</td>
+                        <td>{{ $network.Driver }}</td>
+                        <td>{{ $network.Scope }}</td>
+                        <td>{{ $network.CreatedTime }}</td>
+                      </tr>
+                    {{ end }}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div>
-                <h6>
-                    <i class="zmdi zmdi-network"></i>
-                    <small>/ 网络</small>
-                </h6>
-            </div>
-        </a>
-    </nav>
-    <div class="container-fluid">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12" style="padding: 0;">
-                    <div class="card fcard">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover" id="table">
-                                    <thead class="thead bg-ee">
-                                        <tr>
-                                            <th scope="col">序号</th>
-                                            <th scope="col">网络名</th>
-                                            <th scope="col">驱动</th>
-                                            <th scope="col">范围</th>
-                                            <th scope="col">创建时间</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{ range $index, $network := . }}
-                                        <tr>
-                                            <td>{{ $index | inc }}</td>
-                                            <td>{{ $network.Name }}</td>
-                                            <td>{{ $network.Driver }}</td>
-                                            <td>{{ $network.Scope }}</td>
-                                            <td>{{ $network.CreatedTime }}</td>
-                                        </tr>
-                                        {{ end }}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 {{ template "footer" }}

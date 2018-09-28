@@ -1,114 +1,114 @@
 {{ define "header" }}
-<!doctype html>
-<html lang="en">
+  <!doctype html>
+  <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/public/css/all.css">
-    <link rel="stylesheet" href="/public/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" href="/public/css/font-awesome.css">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/public/css/all.css">
+      <link rel="stylesheet" href="/public/css/material-design-iconic-font.min.css">
+      <link rel="stylesheet" href="/public/css/font-awesome.css">
 
-    <link rel="stylesheet" href="/public/css/style.css">
-    <script src="/public/scripts/script.js"></script>
-    <script src="/public/scripts/jquery-3.3.1.min.js"></script>
+      <link rel="stylesheet" href="/public/css/style.css">
+      <script src="/public/scripts/script.js"></script>
+      <script src="/public/scripts/jquery-3.3.1.min.js"></script>
 
-    <meta name="description" content="Liman - Web application for monitoring docker. Monitor docker inside the docker.">
-    <meta name="keywords" content="docker, container, self-hosted, liman">
+      <meta name="description" content="Liman - Web application for monitoring docker. Monitor docker inside the docker.">
+      <meta name="keywords" content="docker, container, self-hosted, liman">
 
 
-    <link rel="shortcut icon" type="image/png" href="/public/img/liman.png" />
-    <link rel="apple-touch-icon" href="/public/img/apple-touch-icon.png" />
-    <link rel="apple-touch-icon" sizes="57x57" href="/public/img/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="/public/img/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="76x76" href="/public/img/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="/public/img/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon" sizes="120x120" href="/public/img/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon" sizes="144x144" href="/public/img/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/public/img/apple-touch-icon-152x152.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/img/apple-touch-icon-180x180.png" />
+      <link rel="shortcut icon" type="image/png" href="/public/img/liman.png" />
+      <link rel="apple-touch-icon" href="/public/img/apple-touch-icon.png" />
+      <link rel="apple-touch-icon" sizes="57x57" href="/public/img/apple-touch-icon-57x57.png" />
+      <link rel="apple-touch-icon" sizes="72x72" href="/public/img/apple-touch-icon-72x72.png" />
+      <link rel="apple-touch-icon" sizes="76x76" href="/public/img/apple-touch-icon-76x76.png" />
+      <link rel="apple-touch-icon" sizes="114x114" href="/public/img/apple-touch-icon-114x114.png" />
+      <link rel="apple-touch-icon" sizes="120x120" href="/public/img/apple-touch-icon-120x120.png" />
+      <link rel="apple-touch-icon" sizes="144x144" href="/public/img/apple-touch-icon-144x144.png" />
+      <link rel="apple-touch-icon" sizes="152x152" href="/public/img/apple-touch-icon-152x152.png" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/public/img/apple-touch-icon-180x180.png" />
 
-    <title>Liman</title>
-</head>
+      <title>Liman</title>
+    </head>
 
-<body>
-    <div class="wrapper">
+    <body>
+      <div class="wrapper">
         <div class="sidebar">
-            <div class="content">
-                <ul>
-                    <li>
-                        <a href="/">
-                            <img src="/public/img/liman-mini.png" alt="liman">
-                        </a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="/">
-                            <i class="zmdi zmdi-home" style="font-size: 120%"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/containers">
-                            <i class="fas fa-cube"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/images">
-                            <i class="zmdi zmdi-cloud-outline-alt"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/pods">
-                            <i class="fas fa-cubes"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/powersupplies">
-                            <i class="zmdi zmdi-power-input"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/services">
-                            <i class="zmdi zmdi-ungroup"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/deployments">
-                            <i class="zmdi zmdi-group"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/networks">
-                            <i class="zmdi zmdi-wifi-alt"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/refrigerations">
-                            <i class="zmdi zmdi-swap"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/nodes">
-                            <i class="zmdi zmdi-devices"></i>
-                        </a>
-                    </li>
-                </ul>
-                <br>
-                <ul>
-                    <li>
-                        <a href="/settings">
-                            <i class="fas fa-cog"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/logout">
-                            <i class="fas fa-power-off"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+          <div class="content">
+            <ul>
+              <li>
+                <a href="/">
+                  <img src="/public/img/liman-mini.png" alt="liman">
+                </a>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <a href="/">
+                  <i class="zmdi zmdi-home" style="font-size: 120%"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/containers">
+                  <i class="fas fa-cube"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/images">
+                  <i class="zmdi zmdi-cloud-outline-alt"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/pods">
+                  <i class="fas fa-cubes"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/powersupplies">
+                  <i class="zmdi zmdi-power-input"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/services">
+                  <i class="zmdi zmdi-ungroup"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/deployments">
+                  <i class="zmdi zmdi-group"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/networks">
+                  <i class="zmdi zmdi-wifi-alt"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/refrigerations">
+                  <i class="zmdi zmdi-swap"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/nodes">
+                  <i class="zmdi zmdi-devices"></i>
+                </a>
+              </li>
+            </ul>
+            <br>
+            <ul>
+              <li>
+                <a href="/settings">
+                  <i class="fas fa-cog"></i>
+                </a>
+              </li>
+              <li>
+                <a href="/logout">
+                  <i class="fas fa-power-off"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {{ end }}
+      {{ end }}

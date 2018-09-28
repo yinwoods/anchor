@@ -1,60 +1,60 @@
 {{ template "header" }}
 <div class="page">
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">
-            <div>
-                <h5 id="title">
-                    节点
-                </h5>
-            </div>
-            <div>
-                <h6>
-                    <i class="fas fa-server"></i>
-                    <small>/ 节点</small>
-                </h6>
-            </div>
-        </a>
-        <div class="nav-right">
-            <div class="inner-addon right-addon">
-                <i class="fas fa-search"></i>
-                <input type="text" class="form-control" placeholder="搜索" id="search" onkeyup="Search()" />
-            </div>
-        </div>
-    </nav>
-    <div class="container-fluid">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12" style="padding: 0;">
-                    <div class="card fcard">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover" id="table">
-                                    <thead class="thead">
-                                        <tr>
-                                            <th style="width: 8%">序号</th>
-                                            <th scope="col">节点名</th>
-                                            <th scope="col">IP地址</th>
-                                            <th scope="col">创建时间</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{ range $index, $node := . }}
-                                        <tr>
-                                            <td>{{ $index | inc }}</td>
-                                            <td><a href="/nodes/{{ $node.Name }}">{{ $node.Name }}</a></td>
-                                            <td>{{ $addresses := (index $node.Addresses 0) }}{{ $addresses.Address }}</td>
-                                            <td>{{ $node.CreationTimestamp }}</td>
-                                        </tr>
-                                        {{ end }}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">
+      <div>
+        <h5 id="title">
+          节点
+        </h5>
+      </div>
+      <div>
+        <h6>
+          <i class="fas fa-server"></i>
+          <small>/ 节点</small>
+        </h6>
+      </div>
+    </a>
+    <div class="nav-right">
+      <div class="inner-addon right-addon">
+        <i class="fas fa-search"></i>
+        <input type="text" class="form-control" placeholder="搜索" id="search" onkeyup="Search()" />
+      </div>
     </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12" style="padding: 0;">
+          <div class="card fcard">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="table">
+                  <thead class="thead">
+                    <tr>
+                      <th style="width: 8%">序号</th>
+                      <th scope="col">节点名</th>
+                      <th scope="col">IP地址</th>
+                      <th scope="col">创建时间</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{ range $index, $node := . }}
+                      <tr>
+                        <td>{{ $index | inc }}</td>
+                        <td><a href="/nodes/{{ $node.Name }}">{{ $node.Name }}</a></td>
+                        <td>{{ $addresses := (index $node.Addresses 0) }}{{ $addresses.Address }}</td>
+                        <td>{{ $node.CreationTimestamp }}</td>
+                      </tr>
+                    {{ end }}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {{ template "footer" }}
 

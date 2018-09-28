@@ -87,22 +87,74 @@ function syntaxHighlight(json) {
   });
 }
 
-function deletePod(btn) {
+function create(btn, type) {
+  body = btn.parentNode.previousElementSibling.childNodes[1].children[1].value;
+  resourceName = "unknown"
+  switch (type) {
+    case "pods":
+      resourceName = "容器组";
+      break;
+    case "services":
+      resourceName = "服务";
+      break;
+    case "deployments":
+      resourceName = "部署"
+      break
+  }
+  $.ajax({
+    type: "POST",
+    url: "/" + type,
+    contentType: "application/json",
+    data: JSON.stringify({"body": body}),
+    success: function(result) {
+      $("#create").modal("hide")
+      $("#success-result").text("成功创建" + resourceName);
+      $("#modal-success").modal();
+    },
+    error: function(result) {
+      $("#create").modal("hide")
+      $("#danger-result").text("创建" + resourceName + "失败");
+      $("#modal-danger").modal();
+    }
+  });
+  $("#modal-success").on('hidden.bs.modal', function () {
+    location.reload();
+  })
+  $("#modal-danger").on('hidden.bs.modal', function () {
+    location.reload();
+  })
+}
+
+function remove(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
   name = row[1].innerText
   namespace = row[2].innerText
+  resourceName = "unknown"
+
+  switch (type) {
+    case "pods":
+      resourceName = "容器组"
+      break;
+    case "services":
+      resourceName = "服务"
+      break;
+    case "deployments":
+      resourceName = "部署"
+      break;
+  }
+
   $.ajax({
     type: "DELETE",
-    url: "/pods",
+    url: "/" + type,
     contentType:"application/json",
     data: JSON.stringify({namespace: namespace, name: name}),//参数列表
     dataType:"json",
     success: function(result){
-      $("#success-result").text("成功删除Pod")
+      $("#success-result").text("成功删除" + resourceName)
       $("#modal-success").modal()
     },
     error: function(result){
-      $("#danger-result").text("删除Pod失败")
+      $("#danger-result").text("删除" + resourceName + "失败")
       $("#modal-danger").modal()
     }
   });
@@ -114,41 +166,67 @@ function deletePod(btn) {
   })
 }
 
-function updatePod(btn) {
+function update(btn, type) {
   content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
+  resourceName = "unknown"
+
+  switch (type) {
+    case "pods":
+      resourceName = "容器组"
+      break
+    case "services":
+      resourceName = "服务"
+      break
+    case "deployments":
+      resourceName = "部署"
+      break
+  }
   $.ajax({
     type: "PUT",
-    url: "/pods",
+    url: "/" + type,
     contentType:"application/json",
     data: JSON.stringify({body: content}),//参数列表
     dataType:"json",
     success: function(result){
       $("#update").modal("hide")
-      $("#success-result").text("更新Pod成功")
+      $("#success-result").text("更新" + resourceName + "成功")
       $("#modal-success").modal()
     },
     error: function(result){
       $("#update").modal("hide")
-      $("#danger-result").text("更新Pod失败")
+      $("#danger-result").text("更新" + resourceName + "失败")
       $("#modal-danger").modal()
     }
   });
   $("#modal-success").on('hidden.bs.modal', function () {
-    location.replace("/pods/" + namespace + "/" + name)
+    location.replace("/" + type + "/" + namespace + "/" + name)
   })
   $("#modal-danger").on('hidden.bs.modal', function () {
     location.reload();
   })
 }
 
-function showPodConfigModal(btn) {
+function showConfigModal(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
-  btn.parents
   namespace = row[2].innerText
   name = row[1].innerText
+  resourceName = "unknown"
+
+  switch (type) {
+    case "pods":
+      resourceName = "容器组"
+      break
+    case "services":
+      resourceName = "服务"
+      break
+    case "deployments":
+      resourceName = "部署"
+      break
+  }
+
   $.ajax({
     type: "GET",
-    url: "/api/pods/" + namespace + "/" + name,
+    url: "/api/" + type + "/" + namespace + "/" + name,
     contentType:"application/json",
     dataType:"json",
     success: function(result){
@@ -156,7 +234,7 @@ function showPodConfigModal(btn) {
       $("#updateTextArea").val(result["result"])
     },
     error: function(result){
-      $("#danger-result").text("获取pod信息失败")
+      $("#danger-result").text("获取" + resourceName + "信息失败")
       $("#modal-danger").modal()
     }
   });
@@ -186,155 +264,4 @@ function deleteContainer(btn) {
   $("#modal-danger").on('hidden.bs.modal', function () {
     location.reload();
   })
-}
-
-function deleteService(btn) {
-  row = btn.parentNode.parentElement.parentElement.children
-  name = row[1].innerText
-  namespace = row[2].innerText
-  console.log(namespace)
-  $.ajax({
-    type: "DELETE",
-    url: "/services",
-    contentType:"application/json",
-    data: JSON.stringify({namespace: namespace, name: name}),//参数列表
-    dataType:"json",
-    success: function(result){
-      $("#success-result").text("成功删除服务")
-      $("#modal-success").modal()
-    },
-    error: function(result){
-      $("#danger-result").text("删除服务失败")
-      $("#modal-danger").modal()
-    }
-  });
-  $("#modal-success").on('hidden.bs.modal', function () {
-    location.reload();
-  })
-  $("#modal-danger").on('hidden.bs.modal', function () {
-    location.reload();
-  })
-}
-
-function updateService(btn) {
-  content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
-  $.ajax({
-    type: "PUT",
-    url: "/services",
-    contentType:"application/json",
-    data: JSON.stringify({body: content}),//参数列表
-    dataType:"json",
-    success: function(result){
-      $("#update").modal("hide")
-      $("#success-result").text("更新服务成功")
-      $("#modal-success").modal()
-    },
-    error: function(result){
-      $("#update").modal("hide")
-      $("#danger-result").text("更新服务失败")
-      $("#modal-danger").modal()
-    }
-  });
-  $("#modal-success").on('hidden.bs.modal', function () {
-    location.replace("/services/" + namespace + "/" + name)
-  })
-  $("#modal-danger").on('hidden.bs.modal', function () {
-    location.reload();
-  })
-}
-
-function showServiceConfigModal(btn) {
-  row = btn.parentNode.parentElement.parentElement.children
-  btn.parents
-  namespace = row[2].innerText
-  name = row[1].innerText
-  $.ajax({
-    type: "GET",
-    url: "/api/services/" + namespace + "/" + name,
-    contentType:"application/json",
-    dataType:"json",
-    success: function(result){
-      $("#update").modal("show")
-      $("#updateTextArea").val(result["result"])
-    },
-    error: function(result){
-      $("#danger-result").text("获取服务信息失败")
-      $("#modal-danger").modal()
-    }
-  });
-}
-
-function deleteDeployment(btn) {
-  row = btn.parentNode.parentElement.parentElement.children
-  name = row[1].innerText
-  namespace = row[2].innerText
-  $.ajax({
-    type: "DELETE",
-    url: "/deployments",
-    contentType:"application/json",
-    data: JSON.stringify({namespace: namespace, name: name}),//参数列表
-    dataType:"json",
-    success: function(result){
-      $("#success-result").text("成功删除部署")
-      $("#modal-success").modal()
-    },
-    error: function(result){
-      $("#danger-result").text("删除部署失败")
-      $("#modal-danger").modal()
-    }
-  });
-  $("#modal-success").on('hidden.bs.modal', function () {
-    location.reload();
-  })
-  $("#modal-danger").on('hidden.bs.modal', function () {
-    location.reload();
-  })
-}
-
-function updateDeployment(btn) {
-  content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
-  $.ajax({
-    type: "PUT",
-    url: "/deployments",
-    contentType:"application/json",
-    data: JSON.stringify({body: content}),//参数列表
-    dataType:"json",
-    success: function(result){
-      $("#update").modal("hide")
-      $("#success-result").text("更新部署成功")
-      $("#modal-success").modal()
-    },
-    error: function(result){
-      $("#update").modal("hide")
-      $("#danger-result").text("更新部署失败")
-      $("#modal-danger").modal()
-    }
-  });
-  $("#modal-success").on('hidden.bs.modal', function () {
-    location.replace("/deployments/" + namespace + "/" + name)
-  })
-  $("#modal-danger").on('hidden.bs.modal', function () {
-    location.reload();
-  })
-}
-
-function showDeploymentConfigModal(btn) {
-  row = btn.parentNode.parentElement.parentElement.children
-  btn.parents
-  namespace = row[2].innerText
-  name = row[1].innerText
-  $.ajax({
-    type: "GET",
-    url: "/api/deployments/" + namespace + "/" + name,
-    contentType:"application/json",
-    dataType:"json",
-    success: function(result){
-      $("#update").modal("show")
-      $("#updateTextArea").val(result["result"])
-    },
-    error: function(result){
-      $("#danger-result").text("获取部署信息失败")
-      $("#modal-danger").modal()
-    }
-  });
 }

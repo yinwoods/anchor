@@ -17,7 +17,7 @@ func podsListHandler(c *gin.Context) {
 		return
 	}
 
-	namespace := c.Request.URL.Query().Get("namespace")
+	namespace := c.Param("namespace")
 	cmd.K8SClient.SetNamespace(namespace)
 	pods, err := cmd.PodsList(namespace)
 	if err != nil {
@@ -97,10 +97,17 @@ func podCreateHandler(c *gin.Context) {
 		})
 		return
 	}
-	body := c.PostForm("body")
+
+	type Input struct {
+		Body string `json:"body"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
 	decode := scheme.Codecs.UniversalDeserializer().Decode
-	obj, _, err := decode([]byte(body), nil, nil)
+	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
+		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -110,6 +117,7 @@ func podCreateHandler(c *gin.Context) {
 	pod := obj.(*v1.Pod)
 	_, err = cmd.PodCreate(pod.Namespace, pod)
 	if err != nil {
+		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

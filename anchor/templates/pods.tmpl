@@ -35,21 +35,19 @@
                             <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <form action="/pods" method="POST">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="myModalLabel">创建新pod</h4>
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel">创建新pod</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">输入pod配置</label>
+                                                <textarea class="form-control" name="body" rows="8"></textarea>
                                             </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="exampleFormControlTextarea1">输入pod配置</label>
-                                                    <textarea class="form-control" name="body" rows="8"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                                                <button type="submit" class="btn btn-primary">确认提交</button>
-                                            </div>
-                                        </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                            <button type="submit" onclick="create(this, 'pods')" class="btn btn-primary">确认提交</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +66,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                                            <button type="submit" onclick="updatePod(this)" class="btn btn-primary">确认提交</button>
+                                            <button type="submit" onclick="update(this, 'pods')" class="btn btn-primary">确认提交</button>
                                         </div>
                                     </div>
                                 </div>
@@ -129,8 +127,8 @@
                                                 <td>{{ $pod.Phase }}</td>
                                                 <td>
                                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                                        <button type="button" onclick="showPodConfigModal(this)" class="btn btn-secondary">修改</button>
-                                                        <button type="button" onclick="deletePod(this)" class="btn btn-warning">删除</button>
+                                                        <button type="button" onclick="showConfigModal(this, 'pods')" class="btn btn-secondary">修改</button>
+                                                        <button type="button" onclick="remove(this, 'pods')" class="btn btn-warning">删除</button>
                                                     </div>
                                                 </td>
                                             </tr>
