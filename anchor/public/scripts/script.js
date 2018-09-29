@@ -87,10 +87,15 @@ function syntaxHighlight(json) {
   });
 }
 
-function create(btn, type) {
-  body = btn.parentNode.previousElementSibling.childNodes[1].children[1].value;
+function getResourceNameByType(type) {
   resourceName = "unknown"
   switch (type) {
+    case "containers":
+      resourceName = "容器"
+      break
+    case "images":
+      resourceName = "镜像"
+      break
     case "pods":
       resourceName = "容器组";
       break;
@@ -101,6 +106,12 @@ function create(btn, type) {
       resourceName = "部署"
       break
   }
+  return resourceName
+}
+
+function create(btn, type) {
+  body = btn.parentNode.previousElementSibling.childNodes[1].children[1].value;
+  resourceName = getResourceNameByType(type)
   $.ajax({
     type: "POST",
     url: "/" + type,
@@ -129,19 +140,7 @@ function remove(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
   name = row[1].innerText
   namespace = row[2].innerText
-  resourceName = "unknown"
-
-  switch (type) {
-    case "pods":
-      resourceName = "容器组"
-      break;
-    case "services":
-      resourceName = "服务"
-      break;
-    case "deployments":
-      resourceName = "部署"
-      break;
-  }
+  resourceName = getResourceNameByType(type)
 
   $.ajax({
     type: "DELETE",
@@ -168,19 +167,8 @@ function remove(btn, type) {
 
 function update(btn, type) {
   content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
-  resourceName = "unknown"
+  resourceName = getResourceNameByType(type)
 
-  switch (type) {
-    case "pods":
-      resourceName = "容器组"
-      break
-    case "services":
-      resourceName = "服务"
-      break
-    case "deployments":
-      resourceName = "部署"
-      break
-  }
   $.ajax({
     type: "PUT",
     url: "/" + type,
@@ -210,19 +198,7 @@ function showConfigModal(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
   namespace = row[2].innerText
   name = row[1].innerText
-  resourceName = "unknown"
-
-  switch (type) {
-    case "pods":
-      resourceName = "容器组"
-      break
-    case "services":
-      resourceName = "服务"
-      break
-    case "deployments":
-      resourceName = "部署"
-      break
-  }
+  resourceName = getResourceNameByType(type)
 
   $.ajax({
     type: "GET",
@@ -255,6 +231,56 @@ function deleteContainer(btn) {
     },
     error: function(result){
       $("#danger-result").text("删除容器失败")
+      $("#modal-danger").modal()
+    }
+  });
+  $("#modal-success").on('hidden.bs.modal', function () {
+    location.reload();
+  })
+  $("#modal-danger").on('hidden.bs.modal', function () {
+    location.reload();
+  })
+}
+
+function showImageConfigModal(btn, type) {
+  row = btn.parentNode.parentElement.parentElement.children
+  mid = row[1].innerText
+  resourceName = getResourceNameByType(type)
+
+  $.ajax({
+    type: "GET",
+    url: "/api/" + type + "/" + mid,
+    contentType:"application/json",
+    dataType:"json",
+    success: function(result){
+      $("#update").modal("show")
+      $("#updateTextArea").val(result["result"])
+    },
+    error: function(result){
+      $("#danger-result").text("获取" + resourceName + "信息失败")
+      $("#modal-danger").modal()
+    }
+  });
+}
+
+function removeImage(btn, type) {
+  row = btn.parentNode.parentElement.parentElement.children
+  mid = row[1].innerText
+  resourceName = getResourceNameByType(type)
+  console.log(JSON.stringify({mid: mid}));
+
+  $.ajax({
+    type: "DELETE",
+    url: "/" + type,
+    contentType:"application/json",
+    data: JSON.stringify({"mid": mid}),//参数列表
+    dataType:"json",
+    success: function(result){
+      $("#success-result").text("成功删除" + resourceName)
+      $("#modal-success").modal()
+    },
+    error: function(result){
+      $("#danger-result").text("删除" + resourceName + "失败")
       $("#modal-danger").modal()
     }
   });

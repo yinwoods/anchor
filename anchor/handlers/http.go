@@ -53,6 +53,7 @@ func ServerRun() {
 	r.GET("/containers/:cid", containerInfoHandler)
 
 	r.GET("/images", imagesListHandler)
+	r.DELETE("/images", imageDeleteHandler)
 	r.GET("/images/:mid", imageInfoHandler)
 
 	r.GET("/networks", networksListHandler)
@@ -87,6 +88,7 @@ func ServerRun() {
 	r.GET("/logout", logoutHandler)
 	r.GET("/install", installHandler)
 
+	r.GET("/api/images/:mid/", apiImageInfo)
 	r.GET("/api/pods/:namespace/:name", apiPodInfo)
 	r.GET("/api/services/:namespace/:name", apiServiceInfo)
 	r.GET("/api/deployments/:namespace/:name", apiDeploymentInfo)

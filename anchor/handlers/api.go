@@ -126,6 +126,33 @@ func apiPowerSupplies(c *gin.Context) {
 	})
 }
 
+func apiImageInfo(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	mid := c.Param("mid")
+
+	_, imageJSON, err := cmd.ImageGet(mid)
+	if err != nil {
+		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var out bytes.Buffer
+	json.Indent(&out, []byte(imageJSON), "", "  ")
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": out.String(),
+	})
+}
+
 func apiPodInfo(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
