@@ -110,8 +110,8 @@
                       <th style="width: 8%" scope="col">序号</th>
                       <th style="width: 25%" scope="col">镜像ID</th>
                       <th style="width: 15%" scope="col">镜像名</th>
-                      <th style="width: 8%" scope="col">标签</th>
-                      <th style="width: 10%" scope="col">大小</th>
+                      <th style="width: 10%" scope="col">标签</th>
+                      <th style="width: 15%" scope="col">大小</th>
                       <th scope="col">创建时间</th>
                       <th scope="col">操作</th>
                     </tr>
@@ -127,7 +127,6 @@
                         <td>{{ $image.CreatedTime }}</td>
                         <td>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" onclick="showImageConfigModal(this, 'images')" class="btn btn-secondary">修改</button>
                             <button type="button" onclick="removeImage(this, 'images')" class="btn btn-warning">删除</button>
                           </div>
                         </td>

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"strconv"
 	"strings"
 	"time"
@@ -50,6 +51,11 @@ func ImagesList() ([]ImagesListOutput, error) {
 		})
 	}
 	return imagesListOutput, nil
+}
+
+// ImageCreate pull an image
+func ImageCreate(name string) (io.ReadCloser, error) {
+	return DockerClient.ImagePull(context.Background(), name, types.ImagePullOptions{})
 }
 
 // ImageGet return image

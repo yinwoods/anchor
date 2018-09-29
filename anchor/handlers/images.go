@@ -29,6 +29,29 @@ func imagesListHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "images.tmpl", images)
 }
 
+func imageCreateHandler(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		return
+	}
+
+	type Input struct {
+		Body string `json:"body"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
+	_, err = cmd.ImageCreate(input.Body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+	})
+}
+
 func imageDeleteHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {

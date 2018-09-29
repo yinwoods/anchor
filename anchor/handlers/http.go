@@ -53,6 +53,7 @@ func ServerRun() {
 	r.GET("/containers/:cid", containerInfoHandler)
 
 	r.GET("/images", imagesListHandler)
+	r.POST("/images", imageCreateHandler)
 	r.DELETE("/images", imageDeleteHandler)
 	r.GET("/images/:mid", imageInfoHandler)
 

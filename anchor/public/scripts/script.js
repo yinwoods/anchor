@@ -146,7 +146,7 @@ function remove(btn, type) {
     type: "DELETE",
     url: "/" + type,
     contentType:"application/json",
-    data: JSON.stringify({namespace: namespace, name: name}),//参数列表
+    data: JSON.stringify({"namespace": namespace, "name": name}),//参数列表
     dataType:"json",
     success: function(result){
       $("#success-result").text("成功删除" + resourceName)
@@ -173,7 +173,7 @@ function update(btn, type) {
     type: "PUT",
     url: "/" + type,
     contentType:"application/json",
-    data: JSON.stringify({body: content}),//参数列表
+    data: JSON.stringify({"body": content}),//参数列表
     dataType:"json",
     success: function(result){
       $("#update").modal("hide")
@@ -223,7 +223,7 @@ function deleteContainer(btn) {
     type: "DELETE",
     url: "/containers",
     contentType:"application/json",
-    data: JSON.stringify({cid: cid}),//参数列表
+    data: JSON.stringify({"cid": cid}),//参数列表
     dataType:"json",
     success: function(result){
       $("#success-result").text("成功删除容器")
@@ -267,7 +267,6 @@ function removeImage(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
   mid = row[1].innerText
   resourceName = getResourceNameByType(type)
-  console.log(JSON.stringify({mid: mid}));
 
   $.ajax({
     type: "DELETE",
