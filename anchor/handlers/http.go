@@ -50,6 +50,7 @@ func ServerRun() {
 	r.GET("/containers", containersListHandler)
 	r.POST("/containers", containerCreateHandler)
 	r.DELETE("/containers", containerDeleteHandler)
+	r.PUT("/containers", containerUpdateHandler)
 	r.GET("/containers/:cid", containerInfoHandler)
 
 	r.GET("/images", imagesListHandler)
@@ -89,6 +90,7 @@ func ServerRun() {
 	r.GET("/logout", logoutHandler)
 	r.GET("/install", installHandler)
 
+	r.GET("/api/containers/:cid/", apiContainerUpdateConfigInfo)
 	r.GET("/api/images/:mid/", apiImageInfo)
 	r.GET("/api/pods/:namespace/:name", apiPodInfo)
 	r.GET("/api/services/:namespace/:name", apiServiceInfo)

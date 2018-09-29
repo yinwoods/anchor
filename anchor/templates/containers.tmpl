@@ -29,10 +29,10 @@
             <div class="card-body">
 
               <div align="right">
-                <button type="button" class="badge badge-dark" data-toggle="modal" data-target="#createService">创建新容器</button>
+                <button type="button" class="badge badge-dark" data-toggle="modal" data-target="#create">创建新容器</button>
               </div>
 
-              <div class="modal fade" id="createService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <form action="/containers" method="POST">
@@ -58,6 +58,27 @@
                         <button type="submit" class="btn btn-primary">确认提交</button>
                       </div>
                     </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">更新容器</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label>更新容器配置</label>
+                        <label style="display: none"></label>
+                        <textarea class="form-control" id="updateTextArea" name="body" rows="12"></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                      <button type="submit" onclick="updateContainer(this, 'containers')" class="btn btn-primary">确认提交</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -103,7 +124,7 @@
                         </td>
                         <td>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" id="change" class="btn btn-secondary">修改</button>
+                            <button type="button" onclick="showContainerConfigModal(this, 'containers')" class="btn btn-secondary">修改</button>
                             <button type="button" onclick="deleteContainer(this)" class="btn btn-warning">删除</button>
                           </div>
                         </td>

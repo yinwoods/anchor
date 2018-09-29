@@ -82,10 +82,10 @@ func podUpdateHandler(c *gin.Context) {
 	}
 	pod := obj.(*v1.Pod)
 
-	pod = cmd.PodUpdate(pod.Namespace, pod)
+	cmd.PodUpdate(pod.Namespace, pod)
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": "ok",
+		"status": "success",
 	})
 }
 

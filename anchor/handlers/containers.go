@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/docker/docker/api/types/container"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
@@ -84,6 +85,34 @@ func containerCreateHandler(c *gin.Context) {
 		return
 	}
 	c.Redirect(http.StatusFound, "/containers")
+}
+
+func containerUpdateHandler(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		return
+	}
+
+	type Input struct {
+		Cid  string `json:"cid"`
+		Body string `json:"body"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
+	var updateConfig container.UpdateConfig
+	json.Unmarshal([]byte(input.Body), &updateConfig)
+
+	_, err = cmd.ContainerUpdate(input.Cid, updateConfig)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": "fail",
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+	})
 }
 
 func containerDeleteHandler(c *gin.Context) {

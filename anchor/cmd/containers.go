@@ -57,6 +57,11 @@ func ContainerCreate(config ContainerCreateConfig) (container.ContainerCreateCre
 	return DockerClient.ContainerCreate(context.Background(), &config.ContainerConfig, &config.HostConfig, &config.NetworkingConfig, "")
 }
 
+// ContainerUpdate updates an container
+func ContainerUpdate(cid string, config container.UpdateConfig) (container.ContainerUpdateOKBody, error) {
+	return DockerClient.ContainerUpdate(context.Background(), cid, config)
+}
+
 // ContainerDelete delete a container
 func ContainerDelete(cid string) error {
 	return DockerClient.ContainerRemove(context.Background(), cid, types.ContainerRemoveOptions{})

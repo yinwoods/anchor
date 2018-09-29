@@ -166,6 +166,7 @@ function remove(btn, type) {
 }
 
 function update(btn, type) {
+  row = btn
   content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
   resourceName = getResourceNameByType(type)
 
@@ -214,6 +215,60 @@ function showConfigModal(btn, type) {
       $("#modal-danger").modal()
     }
   });
+}
+
+function showContainerConfigModal(btn, type) {
+  row = btn.parentNode.parentElement.parentElement.children
+  cid = row[1].innerText
+  resourceName = getResourceNameByType(type)
+
+  $.ajax({
+    type: "GET",
+    url: "/api/" + type + "/" + cid,
+    contentType:"application/json",
+    dataType:"json",
+    success: function(result){
+      label = document.getElementById("updateTextArea").previousElementSibling
+      label.innerText += result["cid"]
+      $("#update").modal("show")
+      $("#updateTextArea").val(result["result"])
+    },
+    error: function(result){
+      $("#danger-result").text("获取" + resourceName + "信息失败")
+      $("#modal-danger").modal()
+    }
+  });
+}
+
+function updateContainer(btn, type) {
+  content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
+  resourceName = getResourceNameByType(type)
+  label = document.getElementById("updateTextArea").previousElementSibling
+  cid = label.innerText
+
+  $.ajax({
+    type: "PUT",
+    url: "/" + type,
+    contentType:"application/json",
+    data: JSON.stringify({"cid": cid, "body": content}),//参数列表
+    dataType:"json",
+    success: function(result){
+      $("#update").modal("hide")
+      $("#success-result").text("更新" + resourceName + "成功")
+      $("#modal-success").modal()
+    },
+    error: function(result){
+      $("#update").modal("hide")
+      $("#danger-result").text("更新" + resourceName + "失败")
+      $("#modal-danger").modal()
+    }
+  });
+  $("#modal-success").on('hidden.bs.modal', function () {
+    location.replace("/" + type + "/" + cid)
+  })
+  $("#modal-danger").on('hidden.bs.modal', function () {
+    location.reload();
+  })
 }
 
 function deleteContainer(btn) {
