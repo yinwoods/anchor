@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"math/rand"
-	"time"
 )
 
 // RefrigerationsListOutput 制冷设备
@@ -55,15 +54,10 @@ func RefrigerationsList() ([]RefrigerationsListOutput, error) {
 }
 
 func randomRefgerations() []RefrigerationsListOutput {
-	ref := []RefrigerationsListOutput{}
-	for i := 0; i < randRange(3, 5); i++ {
-		ref = append(ref, randomRefgeration(i))
-	}
 	return ref
 }
 
 func randomRefgeration(ID int) RefrigerationsListOutput {
-	rand.Seed(time.Now().UnixNano())
 	return RefrigerationsListOutput{
 		ID:                ID,
 		PowerRating:       randRange(1, 9),

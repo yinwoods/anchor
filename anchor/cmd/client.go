@@ -4,7 +4,6 @@ import (
 	"flag"
 	"math/rand"
 	"path/filepath"
-	"time"
 
 	docker "github.com/docker/docker/client"
 	"github.com/golang/glog"
@@ -21,14 +20,24 @@ var DockerClient *docker.Client
 // K8SClient wraps kubernetes client
 var K8SClient KubernetesClient
 
+var ups []PowerSuppliesListOutput
+var ref []RefrigerationsListOutput
+
 func init() {
 	var err error
 	DockerClient, err = docker.NewEnvClient()
 	if err != nil {
 		panic(err)
 	}
-	rand.Seed(time.Now().UnixNano())
 	K8SClient = GetK8SClient()
+
+	for i := 0; i < randRange(3, 5); i++ {
+		ups = append(ups, randomPowerSupplyList(i))
+	}
+	for i := 0; i < randRange(3, 5); i++ {
+		ref = append(ref, randomRefgeration(i))
+	}
+
 }
 
 func randRange(min, max int) int {

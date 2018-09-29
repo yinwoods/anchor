@@ -4,7 +4,7 @@
     <a class="navbar-brand">
       <div>
         <h5 id="title">
-          Pods
+          容器组
         </h5>
       </div>
       <div>
@@ -29,18 +29,18 @@
             <div class="card-body">
 
               <div align="right">
-                <button type="button" class="badge badge-dark" data-toggle="modal" data-target="#create">创建新pod</button>
+                  <button type="button" class="badge badge-dark" data-toggle="modal" data-target="#create"><i class="fa fa-plus"></i> 创建新容器组</button>
               </div>
 
               <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h4 class="modal-title" id="myModalLabel">创建新pod</h4>
+                      <h4 class="modal-title" id="myModalLabel">创建新容器组</h4>
                     </div>
                     <div class="modal-body">
                       <div class="form-group">
-                        <label for="exampleFormControlTextarea1">输入pod配置</label>
+                        <label for="exampleFormControlTextarea1">输入容器组配置</label>
                         <textarea class="form-control" name="body" rows="8"></textarea>
                       </div>
                     </div>
@@ -56,11 +56,11 @@
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h4 class="modal-title">更新pod</h4>
+                      <h4 class="modal-title">更新容器组</h4>
                     </div>
                     <div class="modal-body">
                       <div class="form-group">
-                        <label>更新pod配置</label>
+                        <label>更新容器组配置</label>
                         <textarea class="form-control" id="updateTextArea" name="body" rows="12"></textarea>
                       </div>
                     </div>
@@ -108,7 +108,7 @@
                   <thead class="thead">
                     <tr>
                       <th style="width: 8%">序号</th>
-                      <th style="width: 25%" scope="col">Pod 名</th>
+                      <th style="width: 25%" scope="col">容器组名</th>
                       <th style="width: 15%" scope="col">命名空间</th>
                       <th style="width: 12%" scope="col">主机IP</th>
                       <th style="width: 15%" scope="col">创建时间</th>

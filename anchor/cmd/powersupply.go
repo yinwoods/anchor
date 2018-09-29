@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"math/rand"
-	"time"
 )
 
 // PowerSuppliesListOutput 代表供电设备
@@ -22,19 +21,10 @@ type PowerSuppliesListOutput struct {
 
 // PowerSuppliesList list power supplies
 func PowerSuppliesList() ([]PowerSuppliesListOutput, error) {
-	return randomPowerSuppliesList(), nil
-}
-
-func randomPowerSuppliesList() []PowerSuppliesListOutput {
-	ups := []PowerSuppliesListOutput{}
-	for i := 0; i < randRange(3, 5); i++ {
-		ups = append(ups, randomPowerSupplyList(i))
-	}
-	return ups
+	return ups, nil
 }
 
 func randomPowerSupplyList(ID int) PowerSuppliesListOutput {
-	rand.Seed(time.Now().UnixNano())
 	return PowerSuppliesListOutput{
 		ID:                ID,
 		PowerRating:       randRange(1, 9),
