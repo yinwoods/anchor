@@ -17,181 +17,102 @@
   </nav>
   <div class="container-fluid">
     <div class="container">
+
       <!-- Info Cards -->
       <div class="row">
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/containers">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="fas fa-cube db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 4 }}</h5>
-                      <p class="mb-0">容器</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/containers">
+            <div class="card-counter primary">
+              <i class="fas fa-server"></i>
+              <span class="count-numbers">{{ index . 4 }}</span>
+              <span class="count-name">容器</span>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/images">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="zmdi zmdi-cloud-outline db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 5 }}</h5>
-                      <p class="mb-0">镜像</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/images">
+            <div class="card-counter success">
+              <i class="zmdi zmdi-cloud-outline"></i>
+              <span class="count-numbers">{{ index . 5 }}</span>
+              <span class="count-name">镜像</span>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/pods">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="fas fa-cubes db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 9 }}</h5>
-                      <p class="mb-0">容器组</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/pods">
+            <div class="card-counter warning">
+              <i class="fas fa-cubes db-icon"></i>
+              <div class="m-l-10 float-right">
+                <span class="count-numbers">{{ index . 9 }}</span>
+                <span class="count-name">容器组</span>
+              </div>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="powersupplies">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="zmdi zmdi-power-input db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 7 }}</h5>
-                      <p class="mb-0">供电设备</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="powersupplies">
+            <div class="card-counter danger">
+              <i class="zmdi zmdi-power-input db-icon"></i>
+              <span class="count-numbers">{{ index . 7 }}</span>
+              <span class="count-name">供电设备</span>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/services">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="zmdi zmdi-ungroup db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 11 }}</h5>
-                      <p class="mb-0">服务</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/services">
+            <div class="card-counter primary-dark">
+              <i class="zmdi zmdi-ungroup db-icon"></i>
+              <span class="count-numbers">{{ index . 11 }}</span>
+              <span class="count-name">服务</span>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/deployments">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="zmdi zmdi-group db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 12 }}</h5>
-                      <p class="mb-0">部署</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/deployments">
+            <div class="card-counter success-dark">
+              <i class="zmdi zmdi-group db-icon"></i>
+              <span class="count-numbers">{{ index . 12 }}</span>
+              <span class="count-name">部署</span>
             </div>
-          </div>
+          </a>
         </div>
-        <hr>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/networks">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="zmdi zmdi-wifi-alt db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 6 }}</h5>
-                      <p class="mb-0">网络</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/networks">
+            <div class="card-counter warning-dark">
+              <i class="zmdi zmdi-wifi-alt db-icon"></i>
+              <span class="count-numbers">{{ index . 6 }}</span>
+              <span class="count-name">网络</span>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/refrigerations">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="zmdi zmdi-swap db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 8 }}</h5>
-                      <p class="mb-0">制冷设备</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/refrigerations">
+            <div class="card-counter danger-dark">
+              <i class="zmdi zmdi-swap db-icon"></i>
+              <span class="count-numbers">{{ index . 8 }}</span>
+              <span class="count-name">制冷设备</span>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-3">
-          <div class="card db">
-            <div class="card-body">
-              <a href="/nodes">
-                <div class="d-flex row">
-                  <div class="col-3 align-self-center">
-                    <i class="zmdi zmdi-devices db-icon"></i>
-                  </div>
-                  <div class="col-8 ml-auto align-self-center text-center">
-                    <div class="m-l-10 float-right">
-                      <h5 class="mt-0 round-inner">{{ index . 10 }}</h5>
-                      <p class="mb-0">节点</p>
-                    </div>
-                  </div>
-                </div>
-              </a>
+
+        <div class="col-md-3">
+          <a href="/nodes">
+            <div class="card-counter info">
+              <i class="zmdi zmdi-devices db-icon"></i>
+              <span class="count-numbers">{{ index . 10 }}</span>
+              <span class="count-name">节点</span>
             </div>
-          </div>
+          </a>
         </div>
-        <hr>
+
       </div>
     </div>
   </div>
