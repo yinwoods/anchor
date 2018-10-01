@@ -30,6 +30,56 @@ func networksListHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "networks.tmpl", networks)
 }
 
+func networkCreateHandler(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		return
+	}
+
+	type Input struct {
+		Body string `json:"body"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
+	var network struct {
+		Name   string `json:"name"`
+		Driver string `json:"driver"`
+	}
+	json.Unmarshal([]byte(input.Body), &network)
+
+	_, err = cmd.NetworkCreate(network.Name, network.Driver)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+	})
+}
+
+func networkDeletehandler(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		return
+	}
+
+	var input struct {
+		ID string `json:"id"`
+	}
+	c.BindJSON(&input)
+	err = cmd.NetworkDelete(input.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status": "fail",
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+	})
+}
+
 func networkInfoHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {

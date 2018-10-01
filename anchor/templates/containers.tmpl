@@ -116,14 +116,11 @@
                         <td>{{ $index | inc }}</td>
                         <td><a href="/containers/{{ .ID }}">{{ .Name }}</a></td>
                         <td>{{ .CreatedTime }}</td>
-                        <td>{{ if eq .State "running" }}
-                          <span class="fas fa-check text-success center" aria-hidden="true"></span>{{ else }}
-                          <span class="fas fa-times text-danger center" aria-hidden="true"></span>{{ end }}
-                        </td>
+                        <td>{{ .State }}</td>
                         <td>
                           <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" onclick="showContainerConfigModal(this, 'containers')" class="btn btn-secondary">修改</button>
-                            <button type="button" onclick="deleteContainer(this)" class="btn btn-warning">删除</button>
+                            <button type="button" onclick="removeByID(this, 'containers')" class="btn btn-warning">删除</button>
                           </div>
                         </td>
                       </tr>

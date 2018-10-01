@@ -59,6 +59,8 @@ func ServerRun() {
 	r.GET("/images/:mid", imageInfoHandler)
 
 	r.GET("/networks", networksListHandler)
+	r.POST("/networks", networkCreateHandler)
+	r.DELETE("/networks", networkDeletehandler)
 	r.GET("/networks/:nid", networkInfoHandler)
 
 	r.GET("/refrigerations", refrigerationsListHandler)

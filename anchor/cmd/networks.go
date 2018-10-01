@@ -42,6 +42,16 @@ func NetworksList() ([]NetworksListOutput, error) {
 	return networksListOutput, nil
 }
 
+// NetworkCreate creates a network
+func NetworkCreate(name, driver string) (types.NetworkCreateResponse, error) {
+	return DockerClient.NetworkCreate(context.Background(), name, types.NetworkCreate{Driver: driver})
+}
+
+// NetworkDelete delete a network
+func NetworkDelete(id string) error {
+	return DockerClient.NetworkRemove(context.Background(), id)
+}
+
 // NetworkGet return a network
 func NetworkGet(nid string) (types.NetworkResource, error) {
 	return DockerClient.NetworkInspect(context.Background(), nid, types.NetworkInspectOptions{})

@@ -116,12 +116,16 @@ func containerUpdateHandler(c *gin.Context) {
 }
 
 func containerDeleteHandler(c *gin.Context) {
-	type Input struct {
-		Cid string `json:"cid"`
+	err := parseSessionCookie(c)
+	if err != nil {
+		return
 	}
-	var input Input
+
+	var input struct {
+		ID string `json:"id"`
+	}
 	c.BindJSON(&input)
-	err := cmd.ContainerDelete(input.Cid)
+	err = cmd.ContainerDelete(input.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "fail",

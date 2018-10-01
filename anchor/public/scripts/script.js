@@ -96,6 +96,9 @@ function getResourceNameByType(type) {
     case "images":
       resourceName = "镜像"
       break
+    case "networks":
+      resourceName = "网络"
+      break
     case "pods":
       resourceName = "容器组";
       break;
@@ -271,21 +274,22 @@ function updateContainer(btn, type) {
   })
 }
 
-function deleteContainer(btn) {
+function removeByID(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
-  cid = row[1].innerText
+  resourceName = getResourceNameByType(type)
+  id = row[1].innerText
   $.ajax({
     type: "DELETE",
-    url: "/containers",
+    url: "/" + type,
     contentType:"application/json",
-    data: JSON.stringify({"cid": cid}),//参数列表
+    data: JSON.stringify({"id": id}),//参数列表
     dataType:"json",
     success: function(result){
-      $("#success-result").text("成功删除容器")
+      $("#success-result").text("成功删除" + resourceName)
       $("#modal-success").modal()
     },
     error: function(result){
-      $("#danger-result").text("删除容器失败")
+      $("#danger-result").text("删除" + resourceName + "失败")
       $("#modal-danger").modal()
     }
   });
@@ -316,32 +320,4 @@ function showImageConfigModal(btn, type) {
       $("#modal-danger").modal()
     }
   });
-}
-
-function removeImage(btn, type) {
-  row = btn.parentNode.parentElement.parentElement.children
-  mid = row[1].innerText
-  resourceName = getResourceNameByType(type)
-
-  $.ajax({
-    type: "DELETE",
-    url: "/" + type,
-    contentType:"application/json",
-    data: JSON.stringify({"mid": mid}),//参数列表
-    dataType:"json",
-    success: function(result){
-      $("#success-result").text("成功删除" + resourceName)
-      $("#modal-success").modal()
-    },
-    error: function(result){
-      $("#danger-result").text("删除" + resourceName + "失败")
-      $("#modal-danger").modal()
-    }
-  });
-  $("#modal-success").on('hidden.bs.modal', function () {
-    location.reload();
-  })
-  $("#modal-danger").on('hidden.bs.modal', function () {
-    location.reload();
-  })
 }

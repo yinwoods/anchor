@@ -58,15 +58,12 @@ func imageDeleteHandler(c *gin.Context) {
 		return
 	}
 
-	type Input struct {
-		ImageID string `json:"mid"`
+	var input struct {
+		ID string `json:"id"`
 	}
-	var input Input
 	c.BindJSON(&input)
 
-	glog.V(3).Infoln("imageID: ", input.ImageID)
-
-	_, err = cmd.ImageDelete(input.ImageID)
+	_, err = cmd.ImageDelete(input.ID)
 	if err != nil {
 		glog.Error(c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
