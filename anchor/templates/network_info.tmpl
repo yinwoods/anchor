@@ -1,0 +1,45 @@
+{{ template "header" }}
+<div class="page">
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">
+      <div>
+        <h5 id="title">
+          网络详情页
+        </h5>
+      </div>
+      <div>
+        <h6>
+          <i class="fas fa-server"></i>
+          <small>/ networks/ {{ (index . 0).ID }}</small>
+        </h6>
+      </div>
+    </a>
+    <div class="nav-right">
+      <div class="inner-addon right-addon">
+        <i class="fas fa-search"></i>
+        <input type="text" class="form-control" placeholder="搜索" id="search" onkeyup="Search()" />
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12" style="padding: 0;">
+          <div class="card fcard">
+            <div class="card-body">
+              <center>网络详细内容</center>
+              <pre id="json">{{ index . 1 }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+body = JSON.parse(document.getElementById("json").innerHTML)
+document.getElementById("json").innerHTML = syntaxHighlight(JSON.stringify(body, undefined, 2));
+</script>
+{{ template "footer" }}
+
+

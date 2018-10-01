@@ -104,19 +104,17 @@
                   <thead class="thead">
                     <tr>
                       <th style="width: 8%" scope="col">序号</th>
-                      <th style="width: 25%" scope="col">容器ID</th>
-                      <th style="width: 30%" scope="col">容器名</th>
-                      <th style="width: 15%" scope="col">创建时间</th>
-                      <th scope="col">状态</th>
-                      <th style="width: 15%" scope="col">操作</th>
+                      <th style="width: 40%" scope="col">容器名</th>
+                      <th style="width: 18%" scope="col">创建时间</th>
+                      <th>状态</th>
+                      <th>操作</th>
                     </tr>
                   </thead>
                   <tbody>
                     {{ range $index, $container := . }}
                       <tr>
                         <td>{{ $index | inc }}</td>
-                        <td><a href="/containers/{{ .ID }}">{{ .ID }}</td>
-                        <td>{{ .Name }}</td>
+                        <td><a href="/containers/{{ .ID }}">{{ .Name }}</a></td>
                         <td>{{ .CreatedTime }}</td>
                         <td>{{ if eq .State "running" }}
                           <span class="fas fa-check text-success center" aria-hidden="true"></span>{{ else }}

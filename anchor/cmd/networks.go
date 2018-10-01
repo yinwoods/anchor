@@ -13,6 +13,7 @@ import (
 
 // NetworksListOutput used to interact with template
 type NetworksListOutput struct {
+	ID          string `json:"Id"`
 	Name        string `json:"Name"`
 	Driver      string `json:"Driver"`
 	Scope       string `json:"Scope"`
@@ -30,6 +31,7 @@ func NetworksList() ([]NetworksListOutput, error) {
 	networksListOutput := []NetworksListOutput{}
 	for _, network := range networks {
 		networksListOutput = append(networksListOutput, NetworksListOutput{
+			ID:          network.ID,
 			Name:        network.Name,
 			Driver:      network.Driver,
 			Scope:       network.Scope,
@@ -38,4 +40,9 @@ func NetworksList() ([]NetworksListOutput, error) {
 	}
 
 	return networksListOutput, nil
+}
+
+// NetworkGet return a network
+func NetworkGet(nid string) (types.NetworkResource, error) {
+	return DockerClient.NetworkInspect(context.Background(), nid, types.NetworkInspectOptions{})
 }

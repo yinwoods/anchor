@@ -5,6 +5,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,4 +28,32 @@ func networksListHandler(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "networks.tmpl", networks)
+}
+
+func networkInfoHandler(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		return
+	}
+
+	nid := c.Param("nid")
+	network, err := cmd.NetworkGet(nid)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	networkJSON, err := json.Marshal(&network)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var data []interface{}
+	data = append(data, network)
+	data = append(data, string(networkJSON))
+	c.HTML(http.StatusOK, "network_info.tmpl", data)
 }
