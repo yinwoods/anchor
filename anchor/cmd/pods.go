@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/golang/glog"
 	"k8s.io/api/core/v1"
@@ -21,6 +22,22 @@ type PodsListOutput struct {
 	HostIP    string `json:"HostIP"`
 	StartTime string `json:"StartTime"`
 	Phase     string `json:"Phase"`
+}
+
+type grandChildren struct {
+	Name string `json:"name"`
+	Size int    `json:"size"`
+}
+
+type children struct {
+	Name     string          `json:"name"`
+	Children []grandChildren `json:"children"`
+}
+
+// PodsContainersJSON used to store pods and containers
+type PodsContainersJSON struct {
+	Name     string     `json:"name"`
+	Children []children `json:"children"`
 }
 
 // PodCreate used to create pod
@@ -98,4 +115,45 @@ func PodDelete(namespace, name string) error {
 	return client.Delete(name, &metav1.DeleteOptions{
 		PropagationPolicy: &deletePolicy,
 	})
+}
+
+// PodContainersList list pods and containers
+func PodContainersList(namespace string) (PodsContainersJSON, error) {
+	if namespace == "" {
+		namespace = v1.NamespaceAll
+	}
+	client := GetPodClient(namespace)
+	pods, err := client.List(metav1.ListOptions{})
+	if err != nil {
+		return PodsContainersJSON{}, fmt.Errorf("List pods failed : %v", err)
+	}
+
+	result := PodsContainersJSON{
+		Name:     "容器组",
+		Children: []children{},
+	}
+
+	podsChildren := []children{}
+
+	for _, pod := range pods.Items {
+		containers := []grandChildren{}
+		for _, status := range pod.Status.ContainerStatuses {
+			containerID := strings.Split(status.ContainerID, "//")[1]
+			container, err := ContainerGet(containerID)
+			if err != nil {
+				glog.Error("container id not found ", status.ContainerID)
+				continue
+			}
+			containers = append(containers, grandChildren{
+				Name: container.Name,
+				Size: 100,
+			})
+		}
+		podsChildren = append(podsChildren, children{
+			Name:     pod.Name,
+			Children: containers,
+		})
+	}
+	result.Children = podsChildren
+	return result, nil
 }

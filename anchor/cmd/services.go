@@ -10,8 +10,9 @@ import (
 
 // ServicesListOutput used to interact with template
 type ServicesListOutput struct {
-	Name      string `json:"Name"`
-	Namespace string `json:"Namespace"`
+	Name      string            `json:"Name"`
+	Namespace string            `json:"Namespace"`
+	Labels    map[string]string `json:"Labels"`
 }
 
 // ServiceCreate used to create service

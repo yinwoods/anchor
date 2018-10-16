@@ -1,180 +1,180 @@
 html, body {
-	height: 100%;
+    height: 100%;
 }
 
 body {
-	background-color: #F0F4F3;
-	font-family: 'Muli', sans-serif;
+    background-color: #F0F4F3;
+    font-family: 'Muli', sans-serif;
 }
 
 .navbar-brand {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 span.center {
-	text-align: center;
-	display: block;
+    text-align: center;
+    display: block;
 }
 
 #inputUser {
-	margin-bottom: -1px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 #inputPassword {
-	margin-bottom: 10px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 button.right {
-	text-align: right;
+    text-align: right;
 }
 
 a.btn {
-	float: right;
+    float: right;
 }
 
 #key {
-	width: 80%;
-	border: 0;
-	margin-top: 5px;
+    width: 80%;
+    border: 0;
+    margin-top: 5px;
 }
 
 .wrapper {
-	align-items: stretch;
-	display: flex;
-	width: 100%;
+    align-items: stretch;
+    display: flex;
+    width: 100%;
 }
 
 .sidebar {
-	background-color:#22252b;
-	min-width: 42px;
-	max-width: 42px;
-	overflow: hidden; 
-	margin-bottom: -5000px;
-	padding-bottom: 5000px; 
-	position:fixed;
-	color: #afafaf;
+    background-color:#22252b;
+    min-width: 42px;
+    max-width: 42px;
+    overflow: hidden; 
+    margin-bottom: -5000px;
+    padding-bottom: 5000px; 
+    position:fixed;
+    color: #afafaf;
 }
 
 .content, ul {
-	text-align: center;
-	list-style-type:none; 
-	margin: 0;
-	padding: 0;
-	margin-top: 10px;
+    text-align: center;
+    list-style-type:none; 
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
 }
 
 ul,li {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .content a,
 .content a:hover,
 .content a:visited {
-	text-decoration: none;
-	color: #afafaf;
+    text-decoration: none;
+    color: #afafaf;
 }
 
 .page {
-	margin-left: 42px;
-	width: 100%;
+    margin-left: 42px;
+    width: 100%;
 }
 
 nav, .navbar {
-	width: 100%;
+    width: 100%;
 }
 
 .inner-addon { 
-	position: relative; 
+    position: relative; 
 }
 
 .inner-addon .fa-search {
-	position: absolute;
-	padding: 10px;
-	pointer-events: none;
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
 }
 
 .right-addon .fa-search { right: 0px;}
 .right-addon input { padding-right: 30px; }
 
 .nav-right {
-	display: flex;
+    display: flex;
 }
 
 .container {
-	margin-top: 30px;
+    margin-top: 30px;
 }
 
 .db {
-	margin: 0 -5px 0 -5px;
+    margin: 0 -5px 0 -5px;
 }
 
 .db-icon {
-	font-size: 350%;
-	color: #22252b;
+    font-size: 350%;
+    color: #22252b;
 }
 
 .m-l-10 {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 .fcard {
-	margin: 0 10px 0 10px;
+    margin: 0 10px 0 10px;
 }
 
 table {
-	table-layout: fixed;
-	word-wrap: break-word;
+    table-layout: fixed;
+    word-wrap: break-word;
 }
 
 .table-hover > thead > tr > th {
-	border-top: none !important;
-	border-bottom: 1px solid #22252b;
-	color: #22252b;
-	font-size: 15px;
+    border-top: none !important;
+    border-bottom: 1px solid #22252b;
+    color: #22252b;
+    font-size: 15px;
 }
 
 .table-hover > tbody > tr > td {
-	font-size: 15px;
+    font-size: 15px;
 }
 
 .dropdown-menu { 
-	right: 0px; 
-	left: auto; 
+    right: 0px; 
+    left: auto; 
 }
 
 a.bg-light:focus, a.bg-light:hover, button.bg-light:focus, button.bg-light:hover {
-	background-color: #f8f9fa !important;
+    background-color: #f8f9fa !important;
 }
 
 .btn.focus, .btn:focus {
-	box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .c-btn {
-	background-color: white;
-	border: none;
+    background-color: white;
+    border: none;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-	border-style: solid;
-	border-width: 0px 0px 0.5px 0px;
-	border-color: #22252b;
-	text-decoration: none;
+    border-style: solid;
+    border-width: 0px 0px 0.5px 0px;
+    border-color: #22252b;
+    text-decoration: none;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active:hover {
-	border-style: solid;
-	border-width: 0px 0px 0.5px 0px;
-	border-color: #22252b;
-	text-decoration: none;
+    border-style: solid;
+    border-width: 0px 0px 0.5px 0px;
+    border-color: #22252b;
+    text-decoration: none;
 }
 
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
-	border-color: transparent;
+    border-color: transparent;
 }
 
 pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
@@ -185,150 +185,189 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
 .key { color: red; }
 
 .modal-confirm {		
-	color: #434e65;
-	width: 525px;
+    color: #434e65;
+    width: 525px;
 }
 .modal-confirm .modal-content {
-	padding: 20px;
-	font-size: 16px;
-	border-radius: 5px;
-	border: none;
+    padding: 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
 }
 .modal-confirm .modal-header {
-	background: #47c9a2;
-	border-bottom: none;   
-	position: relative;
-	text-align: center;
-	margin: -20px -20px 0;
-	border-radius: 5px 5px 0 0;
-	padding: 35px;
+    background: #47c9a2;
+    border-bottom: none;   
+    position: relative;
+    text-align: center;
+    margin: -20px -20px 0;
+    border-radius: 5px 5px 0 0;
+    padding: 35px;
 }
 .modal-confirm h4 {
-	text-align: center;
-	font-size: 36px;
-	margin: 10px 0;
+    text-align: center;
+    font-size: 36px;
+    margin: 10px 0;
 }
 .modal-confirm .form-control, .modal-confirm .btn {
-	min-height: 40px;
-	border-radius: 3px; 
+    min-height: 40px;
+    border-radius: 3px; 
 }
 .modal-confirm .close {
-	position: absolute;
-	top: 15px;
-	right: 15px;
-	color: #fff;
-	text-shadow: none;
-	opacity: 0.5;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #fff;
+    text-shadow: none;
+    opacity: 0.5;
 }
 .modal-confirm .close:hover {
-	opacity: 0.8;
+    opacity: 0.8;
 }
 .modal-confirm.modal-dialog {
-	margin-top: 80px;
+    margin-top: 80px;
 }
 .modal-confirm .btn {
-	color: #fff;
-	border-radius: 4px;
-	background: #eeb711;
-	text-decoration: none;
-	transition: all 0.4s;
-	line-height: normal;
-	border-radius: 30px;
-	margin-top: 10px;
-	padding: 6px 20px;
-	border: none;
+    color: #fff;
+    border-radius: 4px;
+    background: #eeb711;
+    text-decoration: none;
+    transition: all 0.4s;
+    line-height: normal;
+    border-radius: 30px;
+    margin-top: 10px;
+    padding: 6px 20px;
+    border: none;
 }
 .modal-confirm .btn:hover, .modal-confirm .btn:focus {
-	background: #eda645;
-	outline: none;
+    background: #eda645;
+    outline: none;
 }
 .modal-confirm .btn span {
-	margin: 1px 3px 0;
-	float: left;
+    margin: 1px 3px 0;
+    float: left;
 }
 .modal-confirm .btn i {
-	margin-left: 1px;
-	font-size: 20px;
-	float: right;
+    margin-left: 1px;
+    font-size: 20px;
+    float: right;
 }
 .trigger-btn {
-	display: inline-block;
-	margin: 100px auto;
+    display: inline-block;
+    margin: 100px auto;
 }
 
 
 .card-counter{
-	box-shadow: 2px 2px 10px #DADADA;
-	margin: 5px;
-	padding: 20px 10px;
-	background-color: #fff;
-	height: 100px;
-	border-radius: 5px;
-	transition: .3s linear all;
-	color: #FFF;
+    box-shadow: 2px 2px 10px #DADADA;
+    margin: 5px;
+    padding: 20px 10px;
+    background-color: #fff;
+    height: 100px;
+    border-radius: 5px;
+    transition: .3s linear all;
+    color: #FFF;
 }
 
 .card-counter:hover{
-	box-shadow: 4px 4px 20px #DADADA;
-	transition: .3s linear all;
+    box-shadow: 4px 4px 20px #DADADA;
+    transition: .3s linear all;
 }
 
 .card-counter.primary{
-	background-color: #007bff;
+    background-color: #007bff;
 }
 
 .card-counter.success{
-	background-color: #66bb6a;
+    background-color: #66bb6a;
 }  
 
 .card-counter.warning{
-	background-color: #ffc107;
+    background-color: #ffc107;
 }  
 
 .card-counter.danger{
-	background-color: #ef5350;
+    background-color: #ef5350;
 }  
 
 .card-counter.primary-dark{
-  background-color: #1e88e5;
+    background-color: #1e88e5;
 }
 
 .card-counter.success-dark{
-  background-color: #007E33;
+    background-color: #007E33;
 }
 
 .card-counter.warning-dark{
-	background-color: #FF8800;
+    background-color: #FF8800;
 }  
 
 .card-counter.danger-dark{
-  background-color: #CC0000;
+    background-color: #CC0000;
 }
 
 .card-counter.info{
-  background-color: #1976d2;
+    background-color: #1976d2;
 }
 
 .card-counter i{
-	font-size: 5em;
-	opacity: 0.2;
+    font-size: 5em;
+    opacity: 0.2;
 }
 
 .card-counter .count-numbers{
-	position: absolute;
-	right: 35px;
-	top: 20px;
-	font-size: 32px;
-	display: block;
+    position: absolute;
+    right: 35px;
+    top: 20px;
+    font-size: 32px;
+    display: block;
 }
 
 .card-counter .count-name{
-	position: absolute;
-	right: 35px;
-	top: 65px;
-	font-style: italic;
-	text-transform: capitalize;
-	opacity: 0.5;
-	display: block;
-	font-size: 18px;
+    position: absolute;
+    right: 35px;
+    top: 65px;
+    font-style: italic;
+    text-transform: capitalize;
+    opacity: 0.5;
+    display: block;
+    font-size: 18px;
+}
+
+.node {
+    cursor: pointer;
+}
+
+.overlay{
+    background-color:#EEE;
+}
+
+.node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.node text {
+    font-size:10px; 
+    font-family:sans-serif;
+}
+
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+
+.templink {
+    fill: none;
+    stroke: red;
+    stroke-width: 3px;
+}
+
+.ghostCircle.show{
+    display:block;
+}
+
+.ghostCircle, .activeDrag .ghostCircle{
+    display: none;
 }

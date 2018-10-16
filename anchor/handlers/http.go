@@ -94,6 +94,9 @@ func ServerRun() {
 	r.GET("/logout", logoutHandler)
 	r.GET("/install", installHandler)
 
+	r.GET("/graph", graphHandler)
+
+	r.GET("/api/graph", apiGraphInfo)
 	r.GET("/api/containers/:cid/", apiContainerUpdateConfigInfo)
 	r.GET("/api/images/:mid/", apiImageInfo)
 	r.GET("/api/pods/:namespace/:name", apiPodInfo)

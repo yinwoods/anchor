@@ -7,14 +7,14 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/util/retry"
 )
 
 // DeploymentsListOutput used to interact with template
 type DeploymentsListOutput struct {
-	Name              string `json:"Name"`
-	Namespace         string `json:"Namespace"`
-	CreationTimestamp string `json:"CreationTimestamp"`
+	Name              string            `json:"Name"`
+	Labels            map[string]string `json:"Labels"`
+	Namespace         string            `json:"Namespace"`
+	CreationTimestamp string            `json:"CreationTimestamp"`
 }
 
 // GetDeployment used to get deployment by deployment name
@@ -37,32 +37,6 @@ func DeploymentCreate(namespace string, deployment *appsv1.Deployment) (*appsv1.
 	return result, nil
 }
 
-// UpdateDeployment used to update deployment
-func UpdateDeployment(namespace, name string) {
-	if namespace == "" {
-		namespace = v1.NamespaceAll
-	}
-	client := GetDeploymentClient(namespace)
-	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		// Retrieve the latest version of Deployment before attempting update
-		// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
-		result, getErr := client.Get(name, metav1.GetOptions{})
-		if getErr != nil {
-			glog.Errorf("Failed to get latest version of Deployment: %v", getErr)
-			return getErr
-		}
-
-		result.Spec.Replicas = int32Ptr(1)                           // reduce replica count
-		result.Spec.Template.Spec.Containers[0].Image = "nginx:1.13" // change nginx version
-		_, updateErr := client.Update(result)
-		return updateErr
-	})
-	if retryErr != nil {
-		glog.Errorf("Update deployment failed: %v", retryErr)
-	}
-	glog.V(2).Infoln("Updated deployment...")
-}
-
 // DeploymentsList used to list deployment
 func DeploymentsList(namespace string) ([]DeploymentsListOutput, error) {
 	if namespace == "" {
@@ -77,6 +51,7 @@ func DeploymentsList(namespace string) ([]DeploymentsListOutput, error) {
 	for _, deployment := range deployments.Items {
 		deploymentsListOutput = append(deploymentsListOutput, DeploymentsListOutput{
 			Name:              deployment.Name,
+			Labels:            deployment.Labels,
 			Namespace:         deployment.Namespace,
 			CreationTimestamp: deployment.CreationTimestamp.Format("2006-01-02 15:04"),
 		})

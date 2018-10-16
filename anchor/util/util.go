@@ -6,6 +6,7 @@ package util
 
 import (
 	"bufio"
+	"encoding/json"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -13,6 +14,7 @@ import (
 	"time"
 
 	"github.com/golang/glog"
+	"github.com/yinwoods/anchor/anchor/cmd"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -96,4 +98,22 @@ func ReadPassword() string {
 func CheckPass(p, h string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(h), []byte(p))
 	return err == nil
+}
+
+// GenerateGraph generate graph data and write into file
+func GenerateGraph() (cmd.PodsContainersJSON, error) {
+	result, err := cmd.PodContainersList("")
+	if err != nil {
+		return cmd.PodsContainersJSON{}, err
+	}
+
+	b, err := json.Marshal(result)
+	if err != nil {
+		return cmd.PodsContainersJSON{}, err
+	}
+
+	// pod -> container
+	path, _ := os.Getwd()
+	ioutil.WriteFile(path+"/public/data/flare.json", b, 0644)
+	return result, nil
 }

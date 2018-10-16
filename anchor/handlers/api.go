@@ -17,7 +17,7 @@ var (
 	apiKey = util.GeneratePassword(32)
 )
 
-func apiContainer(c *gin.Context) {
+func apiGraphInfo(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -26,61 +26,12 @@ func apiContainer(c *gin.Context) {
 		return
 	}
 
-	containers, err := cmd.ContainersList()
+	result, err := util.GenerateGraph()
 	if err != nil {
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
-		return
+		c.JSON(http.StatusInternalServerError, err)
 	}
+	c.JSON(http.StatusOK, result)
 
-	c.Header("Content-Type", "application/json")
-	c.JSON(http.StatusOK, gin.H{
-		"ok":     "true",
-		"result": containers,
-	})
-}
-
-func apiRefgerations(c *gin.Context) {
-	err := parseSessionCookie(c)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-	refrigerations, err := cmd.RefrigerationsList()
-	if err != nil {
-
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
-		return
-	}
-
-	c.Header("Content-Type", "application/json")
-	c.JSON(http.StatusOK, gin.H{
-		"ok":     "true",
-		"result": refrigerations,
-	})
-}
-
-func apiPowerSupplies(c *gin.Context) {
-	err := parseSessionCookie(c)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-	powerSupplies, err := cmd.PowerSuppliesList()
-	if err != nil {
-
-		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path, err)
-		return
-	}
-
-	c.Header("Content-Type", "application/json")
-	c.JSON(http.StatusOK, gin.H{
-		"ok":     "true",
-		"result": powerSupplies,
-	})
 }
 
 func apiContainerUpdateConfigInfo(c *gin.Context) {
