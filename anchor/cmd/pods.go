@@ -141,7 +141,7 @@ func PodContainersList(namespace string) (PodsContainersJSON, error) {
 			containerID := strings.Split(status.ContainerID, "//")[1]
 			container, err := ContainerGet(containerID)
 			if err != nil {
-				glog.Error("container id not found ", status.ContainerID)
+				glog.Error("container id not found ", containerID)
 				continue
 			}
 			containers = append(containers, grandChildren{
