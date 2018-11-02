@@ -50,14 +50,10 @@ type Battery struct {
 
 // RefrigerationsList list refrigerations
 func RefrigerationsList() ([]RefrigerationsListOutput, error) {
-	return randomRefgerations(), nil
+	return ref, nil
 }
 
-func randomRefgerations() []RefrigerationsListOutput {
-	return ref
-}
-
-func randomRefgeration(ID int) RefrigerationsListOutput {
+func randomRefgerationList(ID int) RefrigerationsListOutput {
 	return RefrigerationsListOutput{
 		ID:                ID,
 		PowerRating:       randRange(1, 9),

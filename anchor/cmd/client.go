@@ -35,7 +35,7 @@ func init() {
 		ups = append(ups, randomPowerSupplyList(i))
 	}
 	for i := 0; i < randRange(3, 5); i++ {
-		ref = append(ref, randomRefgeration(i))
+		ref = append(ref, randomRefgerationList(i))
 	}
 
 }
