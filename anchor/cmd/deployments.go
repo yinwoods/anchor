@@ -30,7 +30,7 @@ func DeploymentCreate(namespace string, deployment *appsv1.Deployment) (*appsv1.
 	client := GetDeploymentClient(namespace)
 	result, err := client.Create(deployment)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Err=%s", err)
 		return nil, err
 	}
 	glog.V(2).Infof("Created deployment %q.\n", result.GetObjectMeta().GetName())

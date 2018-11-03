@@ -49,7 +49,7 @@ func PodCreate(namespace string, pod *v1.Pod) (*v1.Pod, error) {
 	glog.V(2).Infoln("Creating pod...")
 	result, err := client.Create(pod)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Err=%s", err)
 		return nil, err
 	}
 	glog.V(2).Infof("Created pod %q.\n", result.GetObjectMeta().GetName())
@@ -111,7 +111,6 @@ func PodDelete(namespace, name string) error {
 	}
 	client := GetPodClient(namespace)
 	deletePolicy := metav1.DeletePropagationForeground
-	glog.V(3).Infoln(namespace, name)
 	return client.Delete(name, &metav1.DeleteOptions{
 		PropagationPolicy: &deletePolicy,
 	})

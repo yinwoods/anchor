@@ -52,13 +52,13 @@ func indexHandler(c *gin.Context) {
 
 	err := parseSessionCookie(c)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		return
 	}
 
 	infos, err := cmd.DashboardList()
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		return
 	}
 

@@ -67,12 +67,12 @@ func GetK8SClient() KubernetesClient {
 
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Err=%s", err)
 		panic(err)
 	}
 	K8SClient.Clientset, err = kubernetes.NewForConfig(config)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Err=%s", err)
 		panic(err)
 	}
 	return K8SClient

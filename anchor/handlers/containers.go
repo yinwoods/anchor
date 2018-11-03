@@ -17,7 +17,7 @@ func containersListHandler(c *gin.Context) {
 	}
 	containers, err := cmd.ContainersList()
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -36,7 +36,7 @@ func containerInfoHandler(c *gin.Context) {
 	cid := c.Param("cid")
 	container, err := cmd.ContainerGet(cid)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -44,7 +44,7 @@ func containerInfoHandler(c *gin.Context) {
 	}
 	containerJSON, err := json.Marshal(&container)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -78,7 +78,7 @@ func containerCreateHandler(c *gin.Context) {
 
 	_, err = cmd.ContainerCreate(config)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

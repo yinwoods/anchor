@@ -65,7 +65,7 @@ func imageDeleteHandler(c *gin.Context) {
 
 	_, err = cmd.ImageDelete(input.ID)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -85,7 +85,7 @@ func imageInfoHandler(c *gin.Context) {
 	mid := c.Param("mid")
 	image, imageJSON, err := cmd.ImageGet(mid)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

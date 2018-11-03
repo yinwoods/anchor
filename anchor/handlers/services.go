@@ -135,7 +135,7 @@ func serviceUpdateHandler(c *gin.Context) {
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

@@ -10,6 +10,7 @@ import (
 func refrigerationsListHandler(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		return
 	}
 	refrigerations, err := cmd.RefrigerationsList()

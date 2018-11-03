@@ -46,7 +46,7 @@ func apiContainerUpdateConfigInfo(c *gin.Context) {
 
 	containerJSON, err := cmd.ContainerGet(cid)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -62,7 +62,7 @@ func apiContainerUpdateConfigInfo(c *gin.Context) {
 	var out bytes.Buffer
 	json.Indent(&out, []byte(configJSON), "", "  ")
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -87,7 +87,7 @@ func apiImageInfo(c *gin.Context) {
 
 	_, imageJSON, err := cmd.ImageGet(mid)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err)
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})

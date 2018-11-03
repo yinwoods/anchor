@@ -23,7 +23,7 @@ func ServiceCreate(namespace string, service *v1.Service) (*v1.Service, error) {
 	client := GetServiceClient(namespace)
 	result, err := client.Create(service)
 	if err != nil {
-		glog.Error(err)
+		glog.Errorf("Err=%s", err)
 		return nil, err
 	}
 	glog.V(2).Infof("Created service %q.\n", result.Name)

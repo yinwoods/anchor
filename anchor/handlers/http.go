@@ -22,7 +22,7 @@ const (
 func httpGet(url string) ([]byte, error) {
 	resp, err := http.Get(url)
 	if err != nil {
-		glog.Errorf("get url: %s error: %s", url, err.Error())
+		glog.Errorf("URL=%s; Err=%s", url, err)
 		return []byte{}, err
 	}
 

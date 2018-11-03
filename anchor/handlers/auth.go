@@ -6,6 +6,7 @@ package handlers
 
 import (
 	"fmt"
+	"time"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,8 +22,7 @@ var (
 func parseSessionCookie(c *gin.Context) error {
 	if userPassword == "" {
 		c.Redirect(http.StatusFound, "/install")
-		glog.V(2).Infoln("Installation started.")
-		return fmt.Errorf("100")
+		return fmt.Errorf("System not Installed")
 	}
 
 	cookie, err := c.Request.Cookie("session")
@@ -34,13 +34,16 @@ func parseSessionCookie(c *gin.Context) error {
 		}
 		http.SetCookie(c.Writer, cookie)
 		c.Redirect(http.StatusFound, "/login")
-		return fmt.Errorf("101")
+		return fmt.Errorf("No Cookie")
 	}
 
 	if cookie.Value != cookieValue {
 		c.Redirect(http.StatusFound, "/login")
-		return fmt.Errorf("102")
+		return fmt.Errorf("Invalidated Cookie Value")
 	}
+
+	glog.V(3).Infoln("Id:", cookie.Value[:8])
+	glog.V(3).Infoln("TimeStamp:", time.Now())
 
 	return nil
 }

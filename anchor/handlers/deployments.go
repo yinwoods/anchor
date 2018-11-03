@@ -69,7 +69,7 @@ func deploymentCreateHandler(c *gin.Context) {
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -79,7 +79,7 @@ func deploymentCreateHandler(c *gin.Context) {
 	deployment := obj.(*appsv1.Deployment)
 	_, err = cmd.DeploymentCreate(deployment.Namespace, deployment)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -138,7 +138,7 @@ func deploymentUpdateHandler(c *gin.Context) {
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 	obj, _, err := decode([]byte(input.Body), nil, nil)
 	if err != nil {
-		glog.Error(c.Request.URL.Path, c.Request.Method, err.Error())
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
