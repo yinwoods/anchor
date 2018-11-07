@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/golang/glog"
 	"github.com/gin-gonic/gin"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
