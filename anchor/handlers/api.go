@@ -18,11 +18,54 @@ var (
 	apiKey = util.GeneratePassword(32)
 )
 
+type sysInfo struct {
+	APIVersion string `json:"apiVersion"`
+	Items      []struct {
+		Status struct {
+			Addresses []struct {
+				Address string `json:"address"`
+				Type    string `json:"type"`
+			} `json:"addresses"`
+			Allocatable struct {
+				CPU     string `json:"cpu"`
+				Storage string `json:"ephemeral-storage"`
+				Memory  string `json:"memory"`
+				Pods    string `json:"pods"`
+			} `json:"allocatable"`
+			Capacity struct {
+				CPU     string `json:"cpu"`
+				Storage string `json:"ephemeral-storage"`
+				Memory  string `json:"memory"`
+				Pods    string `json:"pods"`
+			} `json:"capacity"`
+			NodeInfo struct {
+				Architecture            string `json:"architecture"`
+				ContainerRuntimeVersion string `json:"containerRuntimeVersion"`
+				KernelVersion           string `json:"kernelVersion"`
+				OperatingSystem         string `json:"operatingSystem"`
+				OsImage                 string `json:"osImage"`
+			} `json:"nodeInfo"`
+		} `json:"status"`
+	} `json:"items"`
+	Kind string `json:"kind"`
+}
+
 func apiTokensHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"currentTime":     time.Now(),
 		"availableTokens": rateLimiter.Available(),
 	})
+}
+
+func apiSysInfoHandler(c *gin.Context) {
+	resp, err := httpGet(apiNodesURL)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	var info sysInfo
+	json.Unmarshal(resp, &info)
+	c.JSON(http.StatusOK, info)
 }
 
 func apiGraphInfo(c *gin.Context) {

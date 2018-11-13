@@ -18,6 +18,7 @@ import (
 const (
 	apiURLPrefix = "http://localhost:8001/api/v1/namespaces/"
 	apiV1Prefix  = "http://localhost:8001/apis/apps/v1/namespaces/"
+	apiNodesURL  = "http://localhost:8080/api/v1/nodes"
 )
 
 var rateLimiter = ratelimit.NewBucketWithRate(1, 10)
@@ -95,7 +96,6 @@ func ServerRun() {
 	r.DELETE("/refs", refDeleteHandler)
 	r.PUT("/refs", refUpdateHandler)
 	r.GET("/refs/:id", refInfoHandler)
-
 	r.GET("/pods", podsListHandler)
 	r.POST("/pods", podCreateHandler)
 	r.DELETE("/pods", podDeleteHandler)
@@ -127,6 +127,7 @@ func ServerRun() {
 	r.GET("/graph", graphHandler)
 
 	r.GET("/api/tokens", apiTokensHandler)
+	r.GET("/api/sysinfo", apiSysInfoHandler)
 	r.GET("/api/graph", apiGraphInfo)
 	r.GET("/api/containers/:id/", apiContainerInfo)
 	r.GET("/api/images/:id/", apiImageInfo)
