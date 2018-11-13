@@ -12,12 +12,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/yinwoods/ratelimit"
 )
 
 const (
 	apiURLPrefix = "http://localhost:8001/api/v1/namespaces/"
 	apiV1Prefix  = "http://localhost:8001/apis/apps/v1/namespaces/"
 )
+
+var rateLimiter = ratelimit.NewBucketWithRate(1, 10)
 
 func httpGet(url string) ([]byte, error) {
 	resp, err := http.Get(url)
@@ -34,12 +37,28 @@ func inc(x int) int {
 	return x + 1
 }
 
+func RateLimit() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		glog.V(3).Infoln("try to visit ", c.Request.URL)
+		duration := rateLimiter.Take(5)
+		if duration > 0 {
+			glog.V(3).Infof("wait %f seconds...\n", duration.Seconds())
+		}
+		rateLimiter.Wait(5)
+		glog.V(3).Infoln("available tokens: ", rateLimiter.Available())
+		c.Next()
+	}
+}
+
 // ServerRun starts server
 func ServerRun() {
-	r := gin.Default()
+	r := gin.New()
 	r.SetFuncMap(template.FuncMap{
 		"inc": inc,
 	})
+	// recovery middleware recovers from any panics and writes a 500 if there was one.
+	r.Use(gin.Recovery())
+	r.Use(RateLimit())
 
 	r.LoadHTMLGlob("templates/*")
 	r.StaticFS("/public", http.Dir("public"))
@@ -96,6 +115,7 @@ func ServerRun() {
 
 	r.GET("/graph", graphHandler)
 
+	r.GET("/api/tokens", apiTokensHandler)
 	r.GET("/api/graph", apiGraphInfo)
 	r.GET("/api/containers/:cid/", apiContainerUpdateConfigInfo)
 	r.GET("/api/images/:mid/", apiImageInfo)

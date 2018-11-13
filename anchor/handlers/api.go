@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,13 @@ import (
 var (
 	apiKey = util.GeneratePassword(32)
 )
+
+func apiTokensHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"currentTime":     time.Now(),
+		"availableTokens": rateLimiter.Available(),
+	})
+}
 
 func apiGraphInfo(c *gin.Context) {
 	err := parseSessionCookie(c)
