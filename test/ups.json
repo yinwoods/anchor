@@ -1,0 +1,29 @@
+{
+  "PowerRating": 8,
+  "PowerSupplyMethod": 6,
+  "RunningState": 4,
+  "SystemGrant": 11201,
+  "SystemType": "UPS5000",
+  "WorkMode": 1,
+  "In": {
+    "PowerFactor": 40,
+    "Frequency": 56
+  },
+  "Out": {
+    "Voltage": 3300,
+    "Current": 694,
+    "Crequerycy": 11
+  },
+  "Battery": {
+    "State": "PowerNormal",
+    "Voltage": 5089,
+    "Current": 4728,
+    "Temperature": 54,
+    "BackupTime": 73611,
+    "CapacityLeft": 45
+  },
+  "Environment": {
+    "Temperature": 17,
+    "Humidty": 106
+  }
+}

@@ -37,6 +37,7 @@ func inc(x int) int {
 	return x + 1
 }
 
+// RateLimit limit user request rate
 func RateLimit() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		glog.V(3).Infoln("try to visit ", c.Request.URL)
@@ -58,7 +59,8 @@ func ServerRun() {
 	})
 	// recovery middleware recovers from any panics and writes a 500 if there was one.
 	r.Use(gin.Recovery())
-	r.Use(RateLimit())
+	// TODO
+	// r.Use(RateLimit())
 
 	r.LoadHTMLGlob("templates/*")
 	r.StaticFS("/public", http.Dir("public"))
@@ -70,22 +72,29 @@ func ServerRun() {
 	r.POST("/containers", containerCreateHandler)
 	r.DELETE("/containers", containerDeleteHandler)
 	r.PUT("/containers", containerUpdateHandler)
-	r.GET("/containers/:cid", containerInfoHandler)
+	r.GET("/containers/:id", containerInfoHandler)
 
 	r.GET("/images", imagesListHandler)
 	r.POST("/images", imageCreateHandler)
 	r.DELETE("/images", imageDeleteHandler)
-	r.GET("/images/:mid", imageInfoHandler)
+	r.GET("/images/:id", imageInfoHandler)
 
 	r.GET("/networks", networksListHandler)
 	r.POST("/networks", networkCreateHandler)
 	r.DELETE("/networks", networkDeletehandler)
 	r.GET("/networks/:nid", networkInfoHandler)
 
-	r.GET("/refrigerations", refrigerationsListHandler)
+	r.GET("/ups", upsListHandler)
+	r.POST("/ups", upsCreateHandler)
+	r.DELETE("/ups", upsDeleteHandler)
+	r.PUT("/ups", upsUpdateHandler)
+	r.GET("/ups/:id", upsInfoHandler)
 
-	r.GET("/powersupplies", powersuppliesListHandler)
-	r.POST()
+	r.GET("/refs", refsListHandler)
+	r.POST("/refs", refCreateHandler)
+	r.DELETE("/refs", refDeleteHandler)
+	r.PUT("/refs", refUpdateHandler)
+	r.GET("/refs/:id", refInfoHandler)
 
 	r.GET("/pods", podsListHandler)
 	r.POST("/pods", podCreateHandler)
@@ -119,8 +128,10 @@ func ServerRun() {
 
 	r.GET("/api/tokens", apiTokensHandler)
 	r.GET("/api/graph", apiGraphInfo)
-	r.GET("/api/containers/:cid/", apiContainerUpdateConfigInfo)
-	r.GET("/api/images/:mid/", apiImageInfo)
+	r.GET("/api/containers/:id/", apiContainerInfo)
+	r.GET("/api/images/:id/", apiImageInfo)
+	r.GET("/api/ups/:id", apiUPSInfo)
+	r.GET("/api/refs/:id", apiREFInfo)
 	r.GET("/api/pods/:namespace/:name", apiPodInfo)
 	r.GET("/api/services/:namespace/:name", apiServiceInfo)
 	r.GET("/api/deployments/:namespace/:name", apiDeploymentInfo)

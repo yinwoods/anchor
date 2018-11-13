@@ -48,8 +48,8 @@ func ContainersList() ([]ContainersListOutput, error) {
 }
 
 // ContainerGet returns docker inspect information
-func ContainerGet(cid string) (types.ContainerJSON, error) {
-	return DockerClient.ContainerInspect(context.Background(), cid)
+func ContainerGet(id string) (types.ContainerJSON, error) {
+	return DockerClient.ContainerInspect(context.Background(), id)
 }
 
 // ContainerCreate create a container
@@ -58,11 +58,11 @@ func ContainerCreate(config ContainerCreateConfig) (container.ContainerCreateCre
 }
 
 // ContainerUpdate updates an container
-func ContainerUpdate(cid string, config container.UpdateConfig) (container.ContainerUpdateOKBody, error) {
-	return DockerClient.ContainerUpdate(context.Background(), cid, config)
+func ContainerUpdate(id string, config container.UpdateConfig) (container.ContainerUpdateOKBody, error) {
+	return DockerClient.ContainerUpdate(context.Background(), id, config)
 }
 
 // ContainerDelete delete a container
-func ContainerDelete(cid string) error {
-	return DockerClient.ContainerRemove(context.Background(), cid, types.ContainerRemoveOptions{})
+func ContainerDelete(id string) error {
+	return DockerClient.ContainerRemove(context.Background(), id, types.ContainerRemoveOptions{})
 }

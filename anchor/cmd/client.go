@@ -5,6 +5,8 @@ import (
 	"math/rand"
 	"path/filepath"
 
+	"github.com/google/uuid"
+
 	docker "github.com/docker/docker/client"
 	"github.com/golang/glog"
 	"github.com/kubernetes/client-go/util/homedir"
@@ -20,8 +22,8 @@ var DockerClient *docker.Client
 // K8SClient wraps kubernetes client
 var K8SClient KubernetesClient
 
-var ups []PowerSuppliesListOutput
-var ref []RefrigerationsListOutput
+var ups []UPSListOutput
+var refs []REFsListOutput
 
 func init() {
 	var err error
@@ -32,10 +34,10 @@ func init() {
 	K8SClient = GetK8SClient()
 
 	for i := 0; i < randRange(3, 5); i++ {
-		ups = append(ups, randomPowerSupplyList(i))
+		ups = append(ups, randomUPSList(uuid.New().String()))
 	}
 	for i := 0; i < randRange(3, 5); i++ {
-		ref = append(ref, randomRefgerationList(i))
+		refs = append(refs, randomREFsList(uuid.New().String()))
 	}
 
 }

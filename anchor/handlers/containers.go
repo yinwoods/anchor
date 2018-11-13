@@ -33,8 +33,8 @@ func containerInfoHandler(c *gin.Context) {
 		return
 	}
 
-	cid := c.Param("cid")
-	container, err := cmd.ContainerGet(cid)
+	id := c.Param("id")
+	container, err := cmd.ContainerGet(id)
 	if err != nil {
 		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -94,7 +94,7 @@ func containerUpdateHandler(c *gin.Context) {
 	}
 
 	type Input struct {
-		Cid  string `json:"cid"`
+		ID   string `json:"id"`
 		Body string `json:"body"`
 	}
 	var input Input
@@ -103,7 +103,7 @@ func containerUpdateHandler(c *gin.Context) {
 	var updateConfig container.UpdateConfig
 	json.Unmarshal([]byte(input.Body), &updateConfig)
 
-	_, err = cmd.ContainerUpdate(input.Cid, updateConfig)
+	_, err = cmd.ContainerUpdate(input.ID, updateConfig)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "fail",

@@ -59,11 +59,11 @@ func ImageCreate(name string) (io.ReadCloser, error) {
 }
 
 // ImageGet return image
-func ImageGet(mid string) (types.ImageInspect, []byte, error) {
-	return DockerClient.ImageInspectWithRaw(context.Background(), mid)
+func ImageGet(id string) (types.ImageInspect, []byte, error) {
+	return DockerClient.ImageInspectWithRaw(context.Background(), id)
 }
 
 // ImageDelete delete an image
-func ImageDelete(mid string) ([]types.ImageDeleteResponseItem, error) {
-	return DockerClient.ImageRemove(context.Background(), mid, types.ImageRemoveOptions{})
+func ImageDelete(id string) ([]types.ImageDeleteResponseItem, error) {
+	return DockerClient.ImageRemove(context.Background(), id, types.ImageRemoveOptions{})
 }

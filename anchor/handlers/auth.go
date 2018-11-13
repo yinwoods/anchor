@@ -6,7 +6,6 @@ package handlers
 
 import (
 	"fmt"
-	"time"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,8 +41,10 @@ func parseSessionCookie(c *gin.Context) error {
 		return fmt.Errorf("Invalidated Cookie Value")
 	}
 
+	/* TODO
 	glog.V(3).Infoln("Id:", cookie.Value[:8])
 	glog.V(3).Infoln("TimeStamp:", time.Now())
+	*/
 
 	return nil
 }

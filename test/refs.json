@@ -1,0 +1,29 @@
+{
+  "PowerRating": 2,
+  "PowerSupplyMethod": 2,
+  "RunningState": 2,
+  "SystemGrant": 76976,
+  "SystemType": "REF6600",
+  "WorkMode": 3,
+  "In": {
+    "PowerFactor": -9,
+    "Frequency": 2
+  },
+  "Out": {
+    "Voltage": 8878,
+    "Current": 9336,
+    "Crequerycy": 46
+  },
+  "Battery": {
+    "State": "PowerLow",
+    "Voltage": 7940,
+    "Current": 6503,
+    "Temperature": 32,
+    "BackupTime": 39843,
+    "CapacityLeft": 5
+  },
+  "Environment": {
+    "Temperature": 78,
+    "Humidty": 425
+  }
+}

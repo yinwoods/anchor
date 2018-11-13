@@ -41,13 +41,13 @@ func DashboardList() ([]interface{}, error) {
 	dashboard = append(dashboard, strconv.Itoa(len(images)))
 	dashboard = append(dashboard, strconv.Itoa(len(networks)))
 
-	refrigerations, err := RefrigerationsList()
+	refs, err := REFsList()
 	if err != nil {
-		return nil, fmt.Errorf("List refrigerations error")
+		return nil, fmt.Errorf("List refs error")
 	}
-	dashboard = append(dashboard, len(refrigerations))
+	dashboard = append(dashboard, len(refs))
 
-	powerSupplies, err := PowerSuppliesList()
+	powerSupplies, err := UPSList()
 	if err != nil {
 		return nil, fmt.Errorf("List powerSupplies error")
 	}

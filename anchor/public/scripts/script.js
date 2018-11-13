@@ -107,8 +107,12 @@ function getResourceNameByType(type) {
       break;
     case "deployments":
       resourceName = "部署"
-    case "powersupplies":
+      break
+    case "ups":
       resourceName = "供电设备"
+      break
+    case "refs":
+      resourceName = "制冷设备"
       break
   }
   return resourceName
@@ -171,7 +175,6 @@ function remove(btn, type) {
 }
 
 function update(btn, type) {
-  row = btn
   content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
   resourceName = getResourceNameByType(type)
 
@@ -222,19 +225,19 @@ function showConfigModal(btn, type) {
   });
 }
 
-function showContainerConfigModal(btn, type) {
+function showConfigModalByID(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
-  cid = row[1].innerText
+  id = row[1].innerText
   resourceName = getResourceNameByType(type)
 
   $.ajax({
     type: "GET",
-    url: "/api/" + type + "/" + cid,
+    url: "/api/" + type + "/" + id,
     contentType:"application/json",
     dataType:"json",
     success: function(result){
       label = document.getElementById("updateTextArea").previousElementSibling
-      label.innerText += result["cid"]
+      label.innerText += result["id"]
       $("#update").modal("show")
       $("#updateTextArea").val(result["result"])
     },
@@ -245,17 +248,17 @@ function showContainerConfigModal(btn, type) {
   });
 }
 
-function updateContainer(btn, type) {
+function updateByID(btn, type) {
   content = btn.parentElement.parentElement.children[1].firstElementChild.lastElementChild.value
   resourceName = getResourceNameByType(type)
   label = document.getElementById("updateTextArea").previousElementSibling
-  cid = label.innerText
+  id = label.innerText
 
   $.ajax({
     type: "PUT",
     url: "/" + type,
     contentType:"application/json",
-    data: JSON.stringify({"cid": cid, "body": content}),//参数列表
+    data: JSON.stringify({"id": id, "body": content}),//参数列表
     dataType:"json",
     success: function(result){
       $("#update").modal("hide")
@@ -269,7 +272,7 @@ function updateContainer(btn, type) {
     }
   });
   $("#modal-success").on('hidden.bs.modal', function () {
-    location.replace("/" + type + "/" + cid)
+    location.replace("/" + type + "/" + id)
   })
   $("#modal-danger").on('hidden.bs.modal', function () {
     location.reload();

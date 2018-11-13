@@ -82,8 +82,8 @@ func imageInfoHandler(c *gin.Context) {
 		return
 	}
 
-	mid := c.Param("mid")
-	image, imageJSON, err := cmd.ImageGet(mid)
+	id := c.Param("id")
+	image, imageJSON, err := cmd.ImageGet(id)
 	if err != nil {
 		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{

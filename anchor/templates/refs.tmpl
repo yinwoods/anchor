@@ -1,0 +1,153 @@
+{{ template "header" }}
+<div class="page">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">
+            <div>
+                <h5 id="title">
+                    制冷设备
+                </h5>
+            </div>
+            <div>
+                <h6>
+                    <i class="zmdi zmdi-toys"></i>
+                    <small>/ 制冷设备</small>
+                </h6>
+            </div>
+        </a>
+        <div class="nav-right">
+            <div class="inner-addon right-addon">
+                <i class="fas fa-search"></i>
+                <input type="text" class="form-control" placeholder="搜索" id="search" onkeyup="Search()" />
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12" style="padding: 0;">
+                    <div class="card fcard">
+                        <div class="card-body">
+
+                            <div align="right">
+                                <button type="button" class="badge badge-dark" data-toggle="modal" data-target="#create"><i class="fa fa-plus"></i> 引入制冷设备</button>
+                            </div>
+                            <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myModalLabel">引入制冷设备</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">输入制冷设备参数</label>
+                                                <textarea class="form-control" name="refs" rows="8"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                            <button type="submit" onclick="create(this, 'refs')" class="btn btn-primary">确认提交</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">更新制冷设备参数</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>更新制冷设备参数</label>
+                                                <label style="display: none"></label>
+                                                <textarea class="form-control" id="updateTextArea" name="body" rows="12"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                            <button type="submit" onclick="updateByID(this, 'refs')" class="btn btn-primary">确认提交</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal HTML -->
+                            <div id="modal-success" class="modal fade">
+                                <div class="modal-dialog modal-confirm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <h4>成功!</h4> 
+                                            <p id="success-result"></p>
+                                            <button class="btn btn-success" data-dismiss="modal"><span>确定</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="modal-danger" class="modal fade">
+                                <div class="modal-dialog modal-confirm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <h4>失败!</h4> 
+                                            <p id="danger-result"></p>
+                                            <button class="btn btn-danger" data-dismiss="modal"><span>确定</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="table">
+                                    <thead class="thead">
+                                        <tr>
+                                            <th style="width: 5%" scope="col">序号</th>
+                                            <th scope="col">标识符</th>
+                                            <th style="width: 10%" scope="col">系统型号</th>
+                                            <th style="width: 8%" scope="col">供电方式</th>
+                                            <th style="width: 8%" scope="col">运行功率</th>
+                                            <th style="width: 8%" scope="col">机型容量</th>
+                                            <th style="width: 8%" scope="col">输入频率</th>
+                                            <th style="width: 8%" scope="col">输出电压</th>
+                                            <th style="width: 8%" scope="col">输出电流</th>
+                                            <th style="width: 8%" scope="col">输出频率</th>
+                                            <th scope="col">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ range $index, $item := . }}
+                                            <tr>
+                                                <td>{{ $index | inc }}</td>
+                                                <td><a href="/refs/{{ $item.ID }}">{{ $item.ID }}</a></td>
+                                                <td>{{ $item.SystemType }}</td>
+                                                <td>{{ $item.PowerSupplyMethod }}</td>
+                                                <td>{{ $item.RunningState }}</td>
+                                                <td>{{ $item.SystemGrant }}</td>
+                                                <td>{{ $item.In.Frequency }}</td>
+                                                <td>{{ $item.Out.Voltage }}</td>
+                                                <td>{{ $item.Out.Current }}</td>
+                                                <td>{{ $item.Out.Crequerycy }}</td>
+                                                <td>
+                                                    <div class="btn-group" id="buttons" role="group" aria-label="Basic example">
+                                                        <button type="button" onclick="showConfigModalByID(this, 'refs')" class="btn btn-secondary">修改</button>
+                                                        <button type="button" onclick="removeByID(this, 'refs')" class="btn btn-warning">删除</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {{ end }}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ template "footer" }}
