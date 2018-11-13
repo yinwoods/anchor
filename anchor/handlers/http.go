@@ -64,7 +64,9 @@ func ServerRun() {
 	r.GET("/networks/:nid", networkInfoHandler)
 
 	r.GET("/refrigerations", refrigerationsListHandler)
+
 	r.GET("/powersupplies", powersuppliesListHandler)
+	r.POST()
 
 	r.GET("/pods", podsListHandler)
 	r.POST("/pods", podCreateHandler)

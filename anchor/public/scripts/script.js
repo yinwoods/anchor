@@ -107,6 +107,8 @@ function getResourceNameByType(type) {
       break;
     case "deployments":
       resourceName = "部署"
+    case "powersupplies":
+      resourceName = "供电设备"
       break
   }
   return resourceName
