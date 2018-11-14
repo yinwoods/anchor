@@ -65,8 +65,12 @@ type sysInfo struct {
 	Kind string `json:"kind"`
 }
 
-func isDotOrZero(ch rune) bool {
-	return ch == '0' || ch == '.'
+func isZero(ch rune) bool {
+	return ch == '0'
+}
+
+func isDot(ch rune) bool {
+	return ch == '.'
 }
 
 func apiTokensHandler(c *gin.Context) {
@@ -110,31 +114,15 @@ func apiSysInfoHandler(c *gin.Context) {
 	}
 
 	// only trim when it contains dot
-	if strings.Contains(info.Total.Allocatable.CPU, ".") {
-		info.Total.Allocatable.CPU = strings.TrimRightFunc(info.Total.Allocatable.CPU, isDotOrZero)
-	}
-	if strings.Contains(info.Total.Allocatable.Memory, ".") {
-		info.Total.Allocatable.Memory = strings.TrimRightFunc(info.Total.Allocatable.Memory, isDotOrZero) + "Ki"
-	}
-	if strings.Contains(info.Total.Allocatable.Storage, ".") {
-		info.Total.Allocatable.Storage = strings.TrimRightFunc(info.Total.Allocatable.Storage, isDotOrZero) + "Ki"
-	}
-	if strings.Contains(info.Total.Allocatable.Pods, ".") {
-		info.Total.Allocatable.Pods = strings.TrimRightFunc(info.Total.Allocatable.Pods, isDotOrZero)
-	}
+	info.Total.Allocatable.CPU = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Allocatable.CPU, isZero), isDot)
+	info.Total.Allocatable.Memory = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Allocatable.Memory, isZero), isDot) + "Ki"
+	info.Total.Allocatable.Storage = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Allocatable.Storage, isZero), isDot) + "Ki"
+	info.Total.Allocatable.Pods = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Allocatable.Pods, isZero), isDot)
 
-	if strings.Contains(info.Total.Capacity.CPU, ".") {
-		info.Total.Capacity.CPU = strings.TrimRightFunc(info.Total.Capacity.CPU, isDotOrZero)
-	}
-	if strings.Contains(info.Total.Capacity.Memory, ".") {
-		info.Total.Capacity.Memory = strings.TrimRightFunc(info.Total.Capacity.Memory, isDotOrZero) + "Ki"
-	}
-	if strings.Contains(info.Total.Capacity.Storage, ".") {
-		info.Total.Capacity.Storage = strings.TrimRightFunc(info.Total.Capacity.Storage, isDotOrZero) + "Ki"
-	}
-	if strings.Contains(info.Total.Capacity.Pods, ".") {
-		info.Total.Capacity.Pods = strings.TrimRightFunc(info.Total.Capacity.Pods, isDotOrZero)
-	}
+	info.Total.Capacity.CPU = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Capacity.CPU, isZero), isDot)
+	info.Total.Capacity.Memory = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Capacity.Memory, isZero), isDot) + "Ki"
+	info.Total.Capacity.Storage = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Capacity.Storage, isZero), isDot) + "Ki"
+	info.Total.Capacity.Pods = strings.TrimRightFunc(strings.TrimRightFunc(info.Total.Capacity.Pods, isZero), isDot)
 
 	c.JSON(http.StatusOK, info)
 }
