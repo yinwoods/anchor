@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/docker/docker/api/types/container"
@@ -64,6 +65,10 @@ type sysInfo struct {
 	Kind string `json:"kind"`
 }
 
+func isDotOrZero(ch rune) bool {
+	return ch == '0' || ch == '.'
+}
+
 func apiTokensHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"currentTime":     time.Now(),
@@ -85,7 +90,34 @@ func apiSysInfoHandler(c *gin.Context) {
 		return
 	}
 
-	info.T
+	for index, item := range info.Items {
+
+		allocatable := &item.Status.Allocatable
+		capacity := &item.Status.Capacity
+
+		info.Total.Allocatable.CPU, _ = util.StringAdd(info.Total.Allocatable.CPU, allocatable.CPU)
+		info.Total.Allocatable.Pods, _ = util.StringAdd(info.Total.Allocatable.Pods, allocatable.Pods)
+
+		info.Total.Allocatable.Memory, _ = util.StringAdd(info.Total.Allocatable.Memory, allocatable.Memory[:len(allocatable.Memory)-2])
+		info.Total.Allocatable.Storage, _ = util.StringAdd(info.Total.Allocatable.Storage, allocatable.Storage[:len(allocatable.Storage)-2])
+
+		info.Total.Capacity.CPU, _ = util.StringAdd(info.Total.Capacity.CPU, capacity.CPU)
+		info.Total.Capacity.Pods, _ = util.StringAdd(info.Total.Capacity.Pods, capacity.Pods)
+		info.Total.Capacity.Memory, _ = util.StringAdd(info.Total.Capacity.Memory, capacity.Memory[:len(capacity.Memory)-2])
+		info.Total.Capacity.Storage, _ = util.StringAdd(info.Total.Capacity.Storage, capacity.Storage[:len(capacity.Storage)-2])
+
+		info.Items[index].Status.Allocatable.Storage += "Ki"
+	}
+
+	info.Total.Allocatable.CPU = strings.TrimRightFunc(info.Total.Allocatable.CPU, isDotOrZero)
+	info.Total.Allocatable.Memory = strings.TrimRightFunc(info.Total.Allocatable.Memory, isDotOrZero) + "Ki"
+	info.Total.Allocatable.Storage = strings.TrimRightFunc(info.Total.Allocatable.Storage, isDotOrZero) + "Ki"
+	info.Total.Allocatable.Pods = strings.TrimRightFunc(info.Total.Allocatable.Pods, isDotOrZero)
+
+	info.Total.Capacity.CPU = strings.TrimRightFunc(info.Total.Capacity.CPU, isDotOrZero)
+	info.Total.Capacity.Memory = strings.TrimRightFunc(info.Total.Capacity.Memory, isDotOrZero) + "Ki"
+	info.Total.Capacity.Storage = strings.TrimRightFunc(info.Total.Capacity.Storage, isDotOrZero) + "Ki"
+	info.Total.Capacity.Pods = strings.TrimRightFunc(info.Total.Capacity.Pods, isDotOrZero)
 
 	c.JSON(http.StatusOK, info)
 }

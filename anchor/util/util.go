@@ -7,10 +7,12 @@ package util
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"os"
 	"os/exec"
+	"strconv"
 	"time"
 
 	"github.com/golang/glog"
@@ -116,4 +118,31 @@ func GenerateGraph() (cmd.PodsContainersJSON, error) {
 	path, _ := os.Getwd()
 	ioutil.WriteFile(path+"/public/data/flare.json", b, 0644)
 	return result, nil
+}
+
+// StringAdd add two number string and return string
+func StringAdd(num1, num2 string) (string, error) {
+
+	var err error
+	var num1f, num2f float64
+
+	if num1 == "" {
+		num1f = 0
+	} else {
+
+		num1f, err = strconv.ParseFloat(num1, 32)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	if num2 == "" {
+		num2f = 0
+	} else {
+		num2f, err = strconv.ParseFloat(num2, 32)
+		if err != nil {
+			return "", err
+		}
+	}
+	return fmt.Sprintf("%f", num1f+num2f), nil
 }
