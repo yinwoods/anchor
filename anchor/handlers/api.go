@@ -109,15 +109,32 @@ func apiSysInfoHandler(c *gin.Context) {
 		info.Items[index].Status.Allocatable.Storage += "Ki"
 	}
 
-	info.Total.Allocatable.CPU = strings.TrimRightFunc(info.Total.Allocatable.CPU, isDotOrZero)
-	info.Total.Allocatable.Memory = strings.TrimRightFunc(info.Total.Allocatable.Memory, isDotOrZero) + "Ki"
-	info.Total.Allocatable.Storage = strings.TrimRightFunc(info.Total.Allocatable.Storage, isDotOrZero) + "Ki"
-	info.Total.Allocatable.Pods = strings.TrimRightFunc(info.Total.Allocatable.Pods, isDotOrZero)
+	// only trim when it contains dot
+	if strings.Contains(info.Total.Allocatable.CPU, ".") {
+		info.Total.Allocatable.CPU = strings.TrimRightFunc(info.Total.Allocatable.CPU, isDotOrZero)
+	}
+	if strings.Contains(info.Total.Allocatable.Memory, ".") {
+		info.Total.Allocatable.Memory = strings.TrimRightFunc(info.Total.Allocatable.Memory, isDotOrZero) + "Ki"
+	}
+	if strings.Contains(info.Total.Allocatable.Storage, ".") {
+		info.Total.Allocatable.Storage = strings.TrimRightFunc(info.Total.Allocatable.Storage, isDotOrZero) + "Ki"
+	}
+	if strings.Contains(info.Total.Allocatable.Pods, ".") {
+		info.Total.Allocatable.Pods = strings.TrimRightFunc(info.Total.Allocatable.Pods, isDotOrZero)
+	}
 
-	info.Total.Capacity.CPU = strings.TrimRightFunc(info.Total.Capacity.CPU, isDotOrZero)
-	info.Total.Capacity.Memory = strings.TrimRightFunc(info.Total.Capacity.Memory, isDotOrZero) + "Ki"
-	info.Total.Capacity.Storage = strings.TrimRightFunc(info.Total.Capacity.Storage, isDotOrZero) + "Ki"
-	info.Total.Capacity.Pods = strings.TrimRightFunc(info.Total.Capacity.Pods, isDotOrZero)
+	if strings.Contains(info.Total.Capacity.CPU, ".") {
+		info.Total.Capacity.CPU = strings.TrimRightFunc(info.Total.Capacity.CPU, isDotOrZero)
+	}
+	if strings.Contains(info.Total.Capacity.Memory, ".") {
+		info.Total.Capacity.Memory = strings.TrimRightFunc(info.Total.Capacity.Memory, isDotOrZero) + "Ki"
+	}
+	if strings.Contains(info.Total.Capacity.Storage, ".") {
+		info.Total.Capacity.Storage = strings.TrimRightFunc(info.Total.Capacity.Storage, isDotOrZero) + "Ki"
+	}
+	if strings.Contains(info.Total.Capacity.Pods, ".") {
+		info.Total.Capacity.Pods = strings.TrimRightFunc(info.Total.Capacity.Pods, isDotOrZero)
+	}
 
 	c.JSON(http.StatusOK, info)
 }
