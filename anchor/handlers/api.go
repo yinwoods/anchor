@@ -20,7 +20,21 @@ var (
 
 type sysInfo struct {
 	APIVersion string `json:"apiVersion"`
-	Items      []struct {
+	Total      struct {
+		Allocatable struct {
+			CPU     string `json:"cpu"`
+			Storage string `json:"ephemeral-storage"`
+			Memory  string `json:"memory"`
+			Pods    string `json:"pods"`
+		} `json:"allocatable"`
+		Capacity struct {
+			CPU     string `json:"cpu"`
+			Storage string `json:"ephemeral-storage"`
+			Memory  string `json:"memory"`
+			Pods    string `json:"pods"`
+		} `json:"capacity"`
+	} `json:"total"`
+	Items []struct {
 		Status struct {
 			Addresses []struct {
 				Address string `json:"address"`
@@ -61,10 +75,18 @@ func apiSysInfoHandler(c *gin.Context) {
 	resp, err := httpGet(apiNodesURL)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	var info sysInfo
-	json.Unmarshal(resp, &info)
+	err = json.Unmarshal(resp, &info)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	info.T
+
 	c.JSON(http.StatusOK, info)
 }
 
