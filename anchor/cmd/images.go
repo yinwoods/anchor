@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"strconv"
@@ -8,7 +9,12 @@ import (
 	"time"
 
 	"github.com/docker/docker/api/types"
+	"github.com/yinwoods/anchor/anchor/util"
 	"golang.org/x/net/context"
+)
+
+const (
+	dockerImageURL = "http://localhost:8089/api/image"
 )
 
 // ImagesListOutput used to interact with template
@@ -22,10 +28,10 @@ type ImagesListOutput struct {
 
 // ImagesList return images
 func ImagesList() ([]ImagesListOutput, error) {
-	images, err := DockerClient.ImageList(context.Background(), types.ImageListOptions{})
-	if err != nil {
-		return nil, fmt.Errorf("")
-	}
+
+	resp, _ := util.HTTPGet(dockerImageURL)
+	var images []types.ImageSummary
+	json.Unmarshal(resp, &images)
 	imagesListOutput := []ImagesListOutput{}
 	for _, image := range images {
 		var name, tag string
@@ -59,11 +65,15 @@ func ImageCreate(name string) (io.ReadCloser, error) {
 }
 
 // ImageGet return image
-func ImageGet(id string) (types.ImageInspect, []byte, error) {
-	return DockerClient.ImageInspectWithRaw(context.Background(), id)
+func ImageGet(id string) (types.ImageInspect, error) {
+	resp, _ := util.HTTPGet(fmt.Sprintf("%s/%s/json", dockerImageURL, id))
+	var image types.ImageInspect
+	json.Unmarshal(resp, &image)
+	return image, nil
 }
 
 // ImageDelete delete an image
-func ImageDelete(id string) ([]types.ImageDeleteResponseItem, error) {
-	return DockerClient.ImageRemove(context.Background(), id, types.ImageRemoveOptions{})
+func ImageDelete(id string) error {
+	_, err := util.HTTPDelete(fmt.Sprintf("%s/%s", dockerImageURL, id))
+	return err
 }

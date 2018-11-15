@@ -229,8 +229,6 @@ function showConfigModalByID(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
   link = row[1].firstElementChild.href.split("/")
   id = link[link.length - 1]
-  console.log(id)
-  console.log("/api/"+type+"/"+id)
   resourceName = getResourceNameByType(type)
 
   $.ajax({
@@ -284,8 +282,9 @@ function updateByID(btn, type) {
 
 function removeByID(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
+  link = row[1].firstElementChild.href.split("/")
+  id = link[link.length - 1]
   resourceName = getResourceNameByType(type)
-  id = row[1].innerText
   $.ajax({
     type: "DELETE",
     url: "/" + type,

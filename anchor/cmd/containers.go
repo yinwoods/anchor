@@ -67,11 +67,13 @@ func ContainerCreate(config ContainerCreateConfig) (container.ContainerCreateCre
 }
 
 // ContainerUpdate updates an container
-func ContainerUpdate(id string, config container.UpdateConfig) (container.ContainerUpdateOKBody, error) {
-	return DockerClient.ContainerUpdate(context.Background(), id, config)
+func ContainerUpdate(id, config string) error {
+	_, err := util.HTTPPost(fmt.Sprintf("%s/%s", dockerContainerURL, id), config)
+	return err
 }
 
 // ContainerDelete delete a container
 func ContainerDelete(id string) error {
-	return DockerClient.ContainerRemove(context.Background(), id, types.ContainerRemoveOptions{})
+	_, err := util.HTTPDelete(fmt.Sprintf("%s/%s", dockerContainerURL, id))
+	return err
 }

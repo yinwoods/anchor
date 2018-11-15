@@ -195,7 +195,17 @@ func apiImageInfo(c *gin.Context) {
 	}
 	id := c.Param("id")
 
-	_, imageJSON, err := cmd.ImageGet(id)
+	imageJSON, err := cmd.ImageGet(id)
+	if err != nil {
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	config := imageJSON.Config
+	configJSON, err := json.Marshal(config)
 	if err != nil {
 		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -205,7 +215,7 @@ func apiImageInfo(c *gin.Context) {
 	}
 
 	var out bytes.Buffer
-	json.Indent(&out, []byte(imageJSON), "", "  ")
+	json.Indent(&out, []byte(configJSON), "", "  ")
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": out.String(),

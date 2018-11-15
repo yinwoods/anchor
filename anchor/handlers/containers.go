@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/docker/docker/api/types/container"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
@@ -100,10 +99,7 @@ func containerUpdateHandler(c *gin.Context) {
 	var input Input
 	c.BindJSON(&input)
 
-	var updateConfig container.UpdateConfig
-	json.Unmarshal([]byte(input.Body), &updateConfig)
-
-	_, err = cmd.ContainerUpdate(input.ID, updateConfig)
+	err = cmd.ContainerUpdate(input.ID, input.Body)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "fail",

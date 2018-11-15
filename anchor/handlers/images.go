@@ -5,6 +5,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -63,7 +64,7 @@ func imageDeleteHandler(c *gin.Context) {
 	}
 	c.BindJSON(&input)
 
-	_, err = cmd.ImageDelete(input.ID)
+	err = cmd.ImageDelete(input.ID)
 	if err != nil {
 		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -83,7 +84,16 @@ func imageInfoHandler(c *gin.Context) {
 	}
 
 	id := c.Param("id")
-	image, imageJSON, err := cmd.ImageGet(id)
+	image, err := cmd.ImageGet(id)
+	if err != nil {
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	imageJSON, err := json.Marshal(&image)
 	if err != nil {
 		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{

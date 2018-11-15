@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/golang/glog"
@@ -29,6 +30,35 @@ func HTTPGet(url string) ([]byte, error) {
 
 	defer resp.Body.Close()
 	return ioutil.ReadAll(resp.Body)
+}
+
+// HTTPPost executes post http method and return response
+func HTTPPost(url, data string) ([]byte, error) {
+	payload := strings.NewReader(data)
+
+	req, _ := http.NewRequest("POST", url, payload)
+
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		glog.Errorf("URL=%s, Err=%s", url, err)
+	}
+
+	defer res.Body.Close()
+	return ioutil.ReadAll(res.Body)
+}
+
+// HTTPDelete executes delete http method and return response
+func HTTPDelete(url string) ([]byte, error) {
+	req, _ := http.NewRequest("DELETE", url, nil)
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		glog.Errorf("URL=%s, Err=%s", url, err)
+	}
+
+	defer res.Body.Close()
+	return ioutil.ReadAll(res.Body)
 }
 
 //GeneratePassword for apiKey and cookieValue
