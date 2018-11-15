@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"github.com/yinwoods/anchor/anchor/util"
+	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
 func graphHandler(c *gin.Context) {
@@ -14,7 +14,7 @@ func graphHandler(c *gin.Context) {
 		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		return
 	}
-	_, err = util.GenerateGraph()
+	_, err = cmd.GenerateGraph()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 	}

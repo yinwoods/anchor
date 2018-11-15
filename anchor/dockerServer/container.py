@@ -1,26 +1,29 @@
 import random
-import json
 import requests
 from flask import Blueprint, jsonify, request
-from config import config
+from config import servers
 
 
 container_bp = Blueprint('container', __name__)
 
 
-servers = config["test"]["servers"].split(",")
+def all_containers():
+    server_containers_map = dict()
+    for server in servers:
+        resp = requests.get(f"{server}/containers/json?all=1")
+        server_containers_map[server] = resp.json()
+    return server_containers_map
 
 
 def search(cid):
-    for server in servers:
-        resp = requests.get(f"{server}/containers/json?all=1")
-        containers = resp.json()
+    server_containers_map = all_containers()
+    for server, containers in server_containers_map.items():
         for container in containers:
             container.pop("Labels")
             container.pop("Mounts")
             if container["Id"] == cid or container["Id"].startswith(cid):
                 return container, server
-    return f"Error, {cid} Not Found", servers[random.randint(len(servers))]
+    return f"Error, {cid} Not Found", random.choice(servers)
 
 
 @container_bp.route('/<cid>', methods=["GET"])
@@ -31,14 +34,25 @@ def get(cid):
     return jsonify(container)
 
 
-@container_bp.route("/", methods=["POST"])
-def post():
-    data = request.get_json()
-    resp = requests.post(f"{servers[random.randint(len(servers))]}/containers/create", json=data)
-    return jsonify(resp.json())
+@container_bp.route("/", methods=["GET"])
+def list():
+    result = []
+    containers = all_containers()
+    for value in containers.values():
+        result += value
+    return jsonify(result)
 
 
-@container_bp.route("/<cid>", methods=["PUT"])
+# TODO
+# no need
+# @container_bp.route("/", methods=["POST"])
+# def post():
+#     data = request.get_json()
+#     resp = requests.post(f"{random.choice(servers)}/containers/create", json=data)
+#     return jsonify(resp.json())
+
+
+@container_bp.route("/<cid>", methods=["POST"])
 def update(cid):
     data = request.get_json()
     container, server = search(cid)

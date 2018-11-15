@@ -81,7 +81,7 @@ func apiTokensHandler(c *gin.Context) {
 }
 
 func apiSysInfoHandler(c *gin.Context) {
-	resp, err := httpGet(apiNodesURL)
+	resp, err := util.HTTPGet(apiNodesURL)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
@@ -136,7 +136,7 @@ func apiGraphInfo(c *gin.Context) {
 		return
 	}
 
-	result, err := util.GenerateGraph()
+	result, err := cmd.GenerateGraph()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 	}
@@ -251,7 +251,7 @@ func apiPodInfo(c *gin.Context) {
 	name := c.Param("name")
 
 	url := apiURLPrefix + fmt.Sprintf("%s/pods/%s", namespace, name)
-	podJSON, err := httpGet(url)
+	podJSON, err := util.HTTPGet(url)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -280,7 +280,7 @@ func apiServiceInfo(c *gin.Context) {
 	name := c.Param("name")
 
 	url := apiURLPrefix + fmt.Sprintf("%s/services/%s", namespace, name)
-	podJSON, err := httpGet(url)
+	podJSON, err := util.HTTPGet(url)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -309,7 +309,7 @@ func apiDeploymentInfo(c *gin.Context) {
 	name := c.Param("name")
 
 	url := apiV1Prefix + fmt.Sprintf("%s/deployments/%s", namespace, name)
-	podJSON, err := httpGet(url)
+	podJSON, err := util.HTTPGet(url)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

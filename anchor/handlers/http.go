@@ -5,7 +5,6 @@
 package handlers
 
 import (
-	"io/ioutil"
 	"net/http"
 
 	"html/template"
@@ -22,17 +21,6 @@ const (
 )
 
 var rateLimiter = ratelimit.NewBucketWithRate(1, 10)
-
-func httpGet(url string) ([]byte, error) {
-	resp, err := http.Get(url)
-	if err != nil {
-		glog.Errorf("URL=%s; Err=%s", url, err)
-		return []byte{}, err
-	}
-
-	defer resp.Body.Close()
-	return ioutil.ReadAll(resp.Body)
-}
 
 func inc(x int) int {
 	return x + 1

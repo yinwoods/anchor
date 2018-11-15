@@ -6,19 +6,30 @@ package util
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
+	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/yinwoods/anchor/anchor/cmd"
 	"golang.org/x/crypto/bcrypt"
 )
+
+// HTTPGet executes get http method and return response
+func HTTPGet(url string) ([]byte, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		glog.Errorf("URL=%s; Err=%s", url, err)
+		return []byte{}, err
+	}
+
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
+}
 
 //GeneratePassword for apiKey and cookieValue
 func GeneratePassword(l int) string {
@@ -100,24 +111,6 @@ func ReadPassword() string {
 func CheckPass(p, h string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(h), []byte(p))
 	return err == nil
-}
-
-// GenerateGraph generate graph data and write into file
-func GenerateGraph() (cmd.PodsContainersJSON, error) {
-	result, err := cmd.PodContainersList("")
-	if err != nil {
-		return cmd.PodsContainersJSON{}, err
-	}
-
-	b, err := json.Marshal(result)
-	if err != nil {
-		return cmd.PodsContainersJSON{}, err
-	}
-
-	// pod -> container
-	path, _ := os.Getwd()
-	ioutil.WriteFile(path+"/public/data/flare.json", b, 0644)
-	return result, nil
 }
 
 // StringAdd add two number string and return string

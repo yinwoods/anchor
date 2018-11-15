@@ -5,12 +5,13 @@
 package cmd
 
 import (
-	"fmt"
+	"encoding/json"
 	"time"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/network"
+	"github.com/yinwoods/anchor/anchor/util"
 	"golang.org/x/net/context"
 )
 
@@ -31,10 +32,10 @@ type ContainersListOutput struct {
 
 // ContainersList used to list containers
 func ContainersList() ([]ContainersListOutput, error) {
-	containers, err := DockerClient.ContainerList(context.Background(), types.ContainerListOptions{All: true})
-	if err != nil {
-		return nil, fmt.Errorf("Docker daemon is not running")
-	}
+
+	resp, _ := util.HTTPGet("http://localhost:8089/api/container")
+	var containers []types.Container
+	json.Unmarshal(resp, &containers)
 	containersListOutput := []ContainersListOutput{}
 	for _, container := range containers {
 		containersListOutput = append(containersListOutput, ContainersListOutput{
