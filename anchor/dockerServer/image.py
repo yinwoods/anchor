@@ -7,10 +7,17 @@ from config import servers
 image_bp = Blueprint('image', __name__)
 
 
-def search(mid):
+def all_images():
+    server_images_map = dict()
     for server in servers:
-        resp = requests.get(f"{server}/images/json")
-        images = resp.json()
+        resp = requests.get(f"{server}/images/json?all=1")
+        server_images_map[server] = resp.json()
+    return server_images_map
+
+
+def search(mid):
+    server_images_map = all_images()
+    for server, images in server_images_map.items():
         for image in images:
             if len(image["Id"]) <= 7:
                 continue
@@ -27,6 +34,21 @@ def get(mid):
         return jsonify({"message": f"{mid} not found"})
     return jsonify(image)
 
+
+@image_bp.route("/", methods=["GET"])
+def list():
+    result = []
+    images = all_images()
+    for value in images.values():
+        result += value
+    return jsonify(result)
+
+
+@image_bp.route("/<cid>/json", methods=["GET"])
+def inspect(cid):
+    image, server = search(cid)
+    resp = requests.get(f"{server}/images/{cid}/json")
+    return jsonify(resp.json())
 
 # TODO
 # no need

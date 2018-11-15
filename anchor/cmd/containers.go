@@ -6,6 +6,7 @@ package cmd
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/docker/docker/api/types"
@@ -13,6 +14,10 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/yinwoods/anchor/anchor/util"
 	"golang.org/x/net/context"
+)
+
+const (
+	dockerContainerURL = "http://localhost:8089/api/container"
 )
 
 // ContainerCreateConfig wraps container config 、host config and networking config
@@ -33,7 +38,7 @@ type ContainersListOutput struct {
 // ContainersList used to list containers
 func ContainersList() ([]ContainersListOutput, error) {
 
-	resp, _ := util.HTTPGet("http://localhost:8089/api/container")
+	resp, _ := util.HTTPGet(dockerContainerURL)
 	var containers []types.Container
 	json.Unmarshal(resp, &containers)
 	containersListOutput := []ContainersListOutput{}
@@ -50,7 +55,10 @@ func ContainersList() ([]ContainersListOutput, error) {
 
 // ContainerGet returns docker inspect information
 func ContainerGet(id string) (types.ContainerJSON, error) {
-	return DockerClient.ContainerInspect(context.Background(), id)
+	resp, _ := util.HTTPGet(fmt.Sprintf("%s/%s/json", dockerContainerURL, id))
+	var container types.ContainerJSON
+	json.Unmarshal(resp, &container)
+	return container, nil
 }
 
 // ContainerCreate create a container

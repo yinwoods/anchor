@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request
 from config import servers
 
 
-container_bp = Blueprint('container', __name__)
+container_bp = Blueprint("container", __name__)
 
 
 def all_containers():
@@ -26,7 +26,7 @@ def search(cid):
     return f"Error, {cid} Not Found", random.choice(servers)
 
 
-@container_bp.route('/<cid>', methods=["GET"])
+@container_bp.route("/<cid>", methods=["GET"])
 def get(cid):
     container, server = search(cid)
     if not isinstance(container, dict):
@@ -42,6 +42,12 @@ def list():
         result += value
     return jsonify(result)
 
+
+@container_bp.route("/<cid>/json", methods=["GET"])
+def inspect(cid):
+    container, server = search(cid)
+    resp = requests.get(f"{server}/containers/{cid}/json")
+    return jsonify(resp.json())
 
 # TODO
 # no need
