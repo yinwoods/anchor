@@ -3,3 +3,5 @@ debug
 data/
 anchor/tmp/
 anchor/anchor
+anchor/dockerServer/__pycache__*
+anchor/dockerServer/.mypy*
