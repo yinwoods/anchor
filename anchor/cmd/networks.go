@@ -53,6 +53,6 @@ func NetworkDelete(id string) error {
 }
 
 // NetworkGet return a network
-func NetworkGet(nid string) (types.NetworkResource, error) {
-	return DockerClient.NetworkInspect(context.Background(), nid, types.NetworkInspectOptions{})
+func NetworkGet(nid string) (types.NetworkResource, []byte, error) {
+	return DockerClient.NetworkInspectWithRaw(context.Background(), nid, types.NetworkInspectOptions{})
 }

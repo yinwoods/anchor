@@ -131,6 +131,7 @@ func ServerRun() {
 	r.GET("/api/graph", apiGraphInfo)
 	r.GET("/api/containers/:id/", apiContainerInfo)
 	r.GET("/api/images/:id/", apiImageInfo)
+	r.GET("/api/networks/:id/", apiNetworkInfo)
 	r.GET("/api/ups/:id", apiUPSInfo)
 	r.GET("/api/refs/:id", apiREFInfo)
 	r.GET("/api/pods/:namespace/:name", apiPodInfo)

@@ -87,7 +87,7 @@ func networkInfoHandler(c *gin.Context) {
 	}
 
 	nid := c.Param("nid")
-	network, err := cmd.NetworkGet(nid)
+	network, _, err := cmd.NetworkGet(nid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

@@ -14,6 +14,12 @@
         </h6>
       </div>
     </a>
+    <div class="nav-right">
+      <div class="inner-addon right-addon">
+        <i class="fas fa-search"></i>
+        <input type="text" class="form-control" placeholder="搜索" id="search" onkeyup="Search()" />
+      </div>
+    </div>
   </nav>
   <div class="container-fluid">
     <div class="container">
@@ -29,6 +35,7 @@
               <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
+                    <form action="/netwroks" method="POST">
                     <div class="modal-header">
                       <h4 class="modal-title" id="myModalLabel">创建新网络</h4>
                     </div>
@@ -41,6 +48,27 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                       <button type="submit" onclick="create(this, 'networks')" class="btn btn-primary">确认提交</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">更新网络</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label>更新网络配置</label>
+                        <label style="display: none"></label>
+                        <textarea class="form-control" id="updateTextArea" name="body" rows="12"></textarea>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                      <button type="submit" onclick="updateByID(this, 'networks')" class="btn btn-primary">确认提交</button>
                     </div>
                   </div>
                 </div>
@@ -100,7 +128,7 @@
                         <td>{{ $network.CreatedTime }}</td>
                         <td>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" onclick="showConfigModal(this, 'networks')" class="btn btn-secondary">修改</button>
+                            <button type="button" onclick="showConfigModalByID(this, 'networks')" class="btn btn-secondary">修改</button>
                             <button type="button" onclick="removeByID(this, 'networks')" class="btn btn-warning">删除</button>
                           </div>
                         </td>

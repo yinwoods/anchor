@@ -227,7 +227,10 @@ function showConfigModal(btn, type) {
 
 function showConfigModalByID(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
-  id = row[1].innerText
+  link = row[1].firstElementChild.href.split("/")
+  id = link[link.length - 1]
+  console.log(id)
+  console.log("/api/"+type+"/"+id)
   resourceName = getResourceNameByType(type)
 
   $.ajax({

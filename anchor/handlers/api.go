@@ -212,6 +212,33 @@ func apiImageInfo(c *gin.Context) {
 	})
 }
 
+func apiNetworkInfo(c *gin.Context) {
+	err := parseSessionCookie(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	id := c.Param("id")
+
+	_, networkJSON, err := cmd.NetworkGet(id)
+	if err != nil {
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	var out bytes.Buffer
+	json.Indent(&out, []byte(networkJSON), "", "  ")
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": out.String(),
+	})
+}
+
 func apiPodInfo(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
