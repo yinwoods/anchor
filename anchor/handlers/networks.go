@@ -10,6 +10,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
 
@@ -51,7 +52,14 @@ func networkCreateHandler(c *gin.Context) {
 
 	json.Unmarshal([]byte(input.Body), &network)
 
-	cmd.NetworkCreate(network.Name, network.networkCreate)
+	_, err = cmd.NetworkCreate(network.Name, network.networkCreate)
+	if err != nil {
+		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 	c.Redirect(http.StatusFound, "/networks")
 }
 
