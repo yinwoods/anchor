@@ -1,4 +1,4 @@
 {
     "name": "test",
-    "bridge": "host"
+    "driver": "host"
 }

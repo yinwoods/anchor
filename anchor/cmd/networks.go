@@ -43,8 +43,8 @@ func NetworksList() ([]NetworksListOutput, error) {
 }
 
 // NetworkCreate creates a network
-func NetworkCreate(name, driver string) (types.NetworkCreateResponse, error) {
-	return DockerClient.NetworkCreate(context.Background(), name, types.NetworkCreate{Driver: driver})
+func NetworkCreate(name string, networkCreate types.NetworkCreate) (types.NetworkCreateResponse, error) {
+	return DockerClient.NetworkCreate(context.Background(), name, networkCreate)
 }
 
 // NetworkDelete delete a network
