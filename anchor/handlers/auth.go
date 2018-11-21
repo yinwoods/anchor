@@ -5,7 +5,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,6 +18,7 @@ var (
 )
 
 func parseSessionCookie(c *gin.Context) error {
+	/* TODO
 	if userPassword == "" {
 		c.Redirect(http.StatusFound, "/install")
 		return fmt.Errorf("System not Installed")
@@ -40,6 +40,7 @@ func parseSessionCookie(c *gin.Context) error {
 		c.Redirect(http.StatusFound, "/login")
 		return fmt.Errorf("Invalidated Cookie Value")
 	}
+	*/
 
 	/* TODO
 	glog.V(3).Infoln("Id:", cookie.Value[:8])

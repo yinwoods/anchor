@@ -49,20 +49,13 @@ def inspect(cid):
     resp = requests.get(f"{server}/containers/{cid}/json")
     return jsonify(resp.json())
 
-# TODO
-# no need
-# @container_bp.route("/", methods=["POST"])
-# def post():
-#     data = request.get_json()
-#     resp = requests.post(f"{random.choice(servers)}/containers/create", json=data)
-#     return jsonify(resp.json())
-
 
 @container_bp.route("/<cid>", methods=["POST"])
 def update(cid):
     data = request.get_json()
     container, server = search(cid)
     resp = requests.post(f"{server}/containers/{cid}/update", json=data)
+    print(resp.text)
     return jsonify(resp.json())
 
 

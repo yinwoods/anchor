@@ -26,19 +26,14 @@ func DashboardList() ([]interface{}, error) {
 	dashboard = append(dashboard, infos.ServerVersion)
 	dashboard = append(dashboard, infos.NCPU)
 	dashboard = append(dashboard, infos.MemTotal)
-	dashboard = append(dashboard, infos.Containers)
 
-	images, err := ImagesList()
-	if err != nil {
-		return nil, fmt.Errorf("Docker daemon is not running %s", err)
-	}
+	containers, _ := ContainersList()
+	dashboard = append(dashboard, len(containers))
+
+	images, _ := ImagesList()
+	dashboard = append(dashboard, strconv.Itoa(len(images)))
 
 	networks, err := NetworksList()
-	if err != nil {
-		return nil, fmt.Errorf("Docker daemon is not running %s", err)
-	}
-
-	dashboard = append(dashboard, strconv.Itoa(len(images)))
 	dashboard = append(dashboard, strconv.Itoa(len(networks)))
 
 	refs, err := REFsList()
