@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/docker/docker/api/types"
 	"github.com/gin-gonic/gin"
 	"github.com/yinwoods/anchor/anchor/cmd"
 )
@@ -42,21 +43,16 @@ func networkCreateHandler(c *gin.Context) {
 	var input Input
 	c.BindJSON(&input)
 
-	var network struct {
-		Name   string `json:"name"`
-		Driver string `json:"driver"`
+	type Network struct {
+		Name          string `json:"Name"`
+		networkCreate types.NetworkCreate
 	}
+	var network Network
+
 	json.Unmarshal([]byte(input.Body), &network)
 
-	_, err = cmd.NetworkCreate(network.Name, network.Driver)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-	})
+	cmd.NetworkCreate(network.Name, network.networkCreate)
+	c.Redirect(http.StatusFound, "/networks")
 }
 
 func networkDeletehandler(c *gin.Context) {
@@ -74,6 +70,7 @@ func networkDeletehandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "fail",
 		})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
