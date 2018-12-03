@@ -93,6 +93,12 @@ func PodsList(namespace string) ([]PodsListOutput, error) {
 		return nil, fmt.Errorf("List pods failed : %v", err)
 	}
 	for _, pod := range pods.Items {
+
+		// 过滤k8s容器组
+		if strings.Contains(pod.Name, "kube") {
+			continue
+		}
+
 		podsListOutput = append(podsListOutput, PodsListOutput{
 			Name:      pod.Name,
 			Namespace: pod.Namespace,

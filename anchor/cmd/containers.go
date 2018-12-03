@@ -7,6 +7,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/docker/docker/api/types"
@@ -43,9 +44,18 @@ func ContainersList() ([]ContainersListOutput, error) {
 	json.Unmarshal(resp, &containers)
 	containersListOutput := []ContainersListOutput{}
 	for _, container := range containers {
+		// 过滤包含kube字段的容器
+		if strings.Contains(container.Names[0], "kube") {
+			continue
+		}
+		containerName := container.Names[0]
+		// 截取k8s_
+		if strings.HasPrefix(container.Names[0], "/k8s_") {
+			containerName = container.Names[0][5:]
+		}
 		containersListOutput = append(containersListOutput, ContainersListOutput{
 			ID:          container.ID,
-			Name:        container.Names[0],
+			Name:        containerName,
 			CreatedTime: time.Unix(container.Created, 0).Format("2006-01-02 15:04"),
 			State:       container.State,
 		})

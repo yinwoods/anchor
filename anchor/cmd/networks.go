@@ -30,6 +30,7 @@ func NetworksList() ([]NetworksListOutput, error) {
 
 	networksListOutput := []NetworksListOutput{}
 	for _, network := range networks {
+
 		networksListOutput = append(networksListOutput, NetworksListOutput{
 			ID:          network.ID,
 			Name:        network.Name,

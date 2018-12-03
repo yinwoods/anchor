@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/golang/glog"
 	appsv1 "k8s.io/api/apps/v1"
@@ -49,6 +50,12 @@ func DeploymentsList(namespace string) ([]DeploymentsListOutput, error) {
 		return nil, fmt.Errorf("List deployments failed : %v", err)
 	}
 	for _, deployment := range deployments.Items {
+
+		// 过滤k8s部署
+		if strings.Contains(deployment.Name, "kube") {
+			continue
+		}
+
 		deploymentsListOutput = append(deploymentsListOutput, DeploymentsListOutput{
 			Name:              deployment.Name,
 			Labels:            deployment.Labels,
