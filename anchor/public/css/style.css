@@ -309,6 +309,10 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
     background-color: #1976d2;
 }
 
+.card-counter.success-darken2{
+    background-color: #388e3c;
+}
+
 .card-counter i{
     font-size: 5em;
     opacity: 0.2;
