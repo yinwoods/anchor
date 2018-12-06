@@ -1,5 +1,7 @@
 package main
 
+import "github.com/golang/glog"
+
 // MaxPriority means highest score which node can get
 const MaxPriority = 10
 
@@ -30,11 +32,17 @@ func priorities(pod *Pod, nodes []*Node) (*Node, error) {
 
 	// 获取所有节点
 	nodeList, err := getNodes()
-	errFatal(err, "failed to get nodes")
+	if err != nil {
+		glog.Error("failed to get nodes")
+		glog.Fatal(err)
+	}
 
 	// 获取所有pod
 	podList, err := getPods()
-	errFatal(err, "failed to get pods")
+	if err != nil {
+		glog.Error("failed to get pods")
+		glog.Fatal(err)
+	}
 
 	requested := requestedResource(pod)
 	used := usedResource(nodeList, podList)

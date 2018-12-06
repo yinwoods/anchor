@@ -159,11 +159,11 @@ function remove(btn, type) {
     dataType:"json",
     success: function(result){
       $("#success-result").text("成功删除" + resourceName)
-      $("#modal-success").modal()
+      $("#modal-success").modal();
     },
     error: function(result){
-      $("#danger-result").text("删除" + resourceName + "失败")
-      $("#modal-danger").modal()
+      $("#danger-result").text("删除" + resourceName + "失败");
+      $("#modal-danger").modal();
     }
   });
   $("#modal-success").on('hidden.bs.modal', function () {

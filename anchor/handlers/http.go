@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	apiURLPrefix = "http://localhost:8001/api/v1/namespaces/"
-	apiV1Prefix  = "http://localhost:8001/apis/apps/v1/namespaces/"
+	apiURLPrefix = "http://localhost:8080/api/v1/namespaces/"
+	apiV1Prefix  = "http://localhost:8080/apis/apps/v1/namespaces/"
 	apiNodesURL  = "http://localhost:8080/api/v1/nodes"
 )
 

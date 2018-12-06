@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 func parseCPU(resource ResourceList) int64 {
@@ -12,11 +14,18 @@ func parseCPU(resource ResourceList) int64 {
 		if strings.HasSuffix(cpu, "m") {
 			milliCores := strings.TrimSuffix(cpu, "m")
 			cores, err := strconv.ParseInt(milliCores, 10, 64)
-			errFatal(err, "Failed to parse CPU")
+
+			if err != nil {
+				glog.Error("Failed to parse CPU")
+				glog.Fatal(err)
+			}
 			return cores
 		}
 		if c, err := strconv.ParseFloat(cpu, 32); err == nil {
-			errFatal(err, "Failed to parse CPU")
+			if err != nil {
+				glog.Error("Failed to parse CPU")
+				glog.Fatal(err)
+			}
 			return int64(c * 1000)
 		}
 	}
@@ -28,7 +37,11 @@ func parseMemory(resource ResourceList) int64 {
 		if strings.HasSuffix(memory, "Ki") {
 			mem := strings.TrimSuffix(memory, "Ki")
 			m, err := strconv.ParseInt(mem, 10, 64)
-			errFatal(err, "Failed to parse Memory")
+
+			if err != nil {
+				glog.Error("Failed to parse Memory")
+				glog.Fatal(err)
+			}
 			return m
 		}
 	}
@@ -36,7 +49,11 @@ func parseMemory(resource ResourceList) int64 {
 		if strings.HasSuffix(memory, "Mi") {
 			mem := strings.TrimSuffix(memory, "Mi")
 			m, err := strconv.ParseInt(mem, 10, 64)
-			errFatal(err, "Failed to parse Memory")
+
+			if err != nil {
+				glog.Error("Failed to parse Memory")
+				glog.Fatal(err)
+			}
 			return m * 1024
 		}
 	}
@@ -46,7 +63,11 @@ func parseMemory(resource ResourceList) int64 {
 func parsePod(resource ResourceList) int64 {
 	if pods, errs := resource["pods"]; errs {
 		p, err := strconv.ParseInt(pods, 10, 64)
-		errFatal(err, "Failed to parse Pods")
+
+		if err != nil {
+			glog.Error("Failed to parse Pods")
+			glog.Fatal(err)
+		}
 		return p
 	}
 	return 0
@@ -107,11 +128,17 @@ func usedResource(nodeList *NodeList, podList *PodList) map[string]*ResourceUsag
 func predicate(pod *Pod) ([]*Node, error) {
 	// 获取所有节点
 	nodeList, err := getNodes()
-	errFatal(err, "failed to get nodes")
+	if err != nil {
+		glog.Error("failed to get nodes")
+		glog.Fatal(err)
+	}
 
 	// 获取所有pod
 	podList, err := getPods()
-	errFatal(err, "failed to get pods")
+	if err != nil {
+		glog.Error("failed to get pods")
+		glog.Fatal(err)
+	}
 
 	used := usedResource(nodeList, podList)
 

@@ -108,26 +108,13 @@ func getPods() (*PodList, error) {
 	return &podList, nil
 }
 
-func errFatal(err error, msg string) {
-	if err != nil {
-		glog.Error(msg)
-		glog.Fatal(err)
-	}
-}
-
-func errPrintln(err error, msg string) {
-	if err != nil {
-		glog.Error(msg, err)
-	}
-}
-
 func printResourceUsage(ru ResourceUsage, node *Node, msg string) {
 	glog.V(2).Infoln("node - " + node.Metadata.Name + "\t" + msg + ":\t")
-	glog.V(2).Infoln("CPU: [%d] Memory: [%d] Pod: [%d]\n", ru.CPU, ru.Memory, ru.Pod)
+	glog.V(2).Infof("CPU: [%d] Memory: [%d] Pod: [%d]\n", ru.CPU, ru.Memory, ru.Pod)
 }
 
 func printNodeScores(nodeScore map[*Node]float64) {
 	for node, score := range nodeScore {
-		glog.V(2).Infoln("node [%s] got score: [%f]\n", node.Metadata.Name, score)
+		glog.V(2).Infof("node [%s] got score: [%f]\n", node.Metadata.Name, score)
 	}
 }

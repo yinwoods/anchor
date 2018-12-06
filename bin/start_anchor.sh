@@ -1,0 +1,1 @@
+cd anchor && make run

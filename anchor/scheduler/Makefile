@@ -7,9 +7,6 @@ run:
 	go build -o $(BINARY_NAME) -v 
 	./$(BINARY_NAME)
 
-scheduler:
-	go build -o scheduler/$(SCHEDULER_NAME) -v
-
 test:
 	go test -v .
 

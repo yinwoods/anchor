@@ -25,6 +25,8 @@ import (
 
 func main() {
 	flag.Parse()
+	flag.Lookup("logtostderr").Value.Set("true")
+	flag.Lookup("v").Value.Set("5")
 	glog.V(2).Infoln("Starting custom scheduler...")
 
 	doneChan := make(chan struct{})
