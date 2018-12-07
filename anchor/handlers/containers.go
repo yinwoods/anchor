@@ -65,9 +65,17 @@ func containerCreateHandler(c *gin.Context) {
 		return
 	}
 
-	container := c.PostForm("container")
-	host := c.PostForm("host")
-	network := c.PostForm("network")
+	type Input struct {
+		Container string `json:"container"`
+		Host      string `json:"host"`
+		Network   string `json:"network"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
+	container := input.Container
+	host := input.Host
+	network := input.Network
 
 	var config cmd.ContainerCreateConfig
 

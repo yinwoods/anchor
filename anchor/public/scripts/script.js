@@ -280,6 +280,40 @@ function updateByID(btn, type) {
   })
 }
 
+function createContainer(btn) {
+  row = btn.parentNode.previousElementSibling.childNodes
+  container = row[1].children[1].value;
+  host = row[3].children[1].value;
+  network = row[5].children[1].value;
+  resourceName = "容器"
+  $.ajax({
+    type: "POST",
+    url: "/containers",
+    contentType: "application/json",
+    data: JSON.stringify({
+      "container": container,
+      "host": host,
+      "network": network,
+    }),
+    success: function(result) {
+      $("#create").modal("hide")
+      $("#success-result").text("成功创建" + resourceName);
+      $("#modal-success").modal();
+    },
+    error: function(result) {
+      $("#create").modal("hide")
+      $("#danger-result").text("创建" + resourceName + "失败");
+      $("#modal-danger").modal();
+    }
+  });
+  $("#modal-success").on('hidden.bs.modal', function () {
+    location.reload();
+  })
+  $("#modal-danger").on('hidden.bs.modal', function () {
+    location.reload();
+  })
+}
+
 function removeByID(btn, type) {
   row = btn.parentNode.parentElement.parentElement.children
   link = row[1].firstElementChild.href.split("/")
