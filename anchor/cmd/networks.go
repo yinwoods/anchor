@@ -31,6 +31,10 @@ func NetworksList() ([]NetworksListOutput, error) {
 	networksListOutput := []NetworksListOutput{}
 	for _, network := range networks {
 
+		if network.Name == "ingress" {
+			continue
+		}
+
 		networksListOutput = append(networksListOutput, NetworksListOutput{
 			ID:          network.ID,
 			Name:        network.Name,
