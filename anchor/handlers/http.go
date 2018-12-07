@@ -91,7 +91,6 @@ func ServerRun() {
 	r.GET("/pods/:namespace/:name", podInfoHandler)
 
 	r.GET("/nodes", nodesListHandler)
-	r.GET("/nodes/:name", nodeInfoHandler)
 
 	r.GET("/services", servicesListHandler)
 	r.POST("/services", serviceCreateHandler)

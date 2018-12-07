@@ -1,1 +1,1 @@
-cd anchor && make run
+make --directory anchor run

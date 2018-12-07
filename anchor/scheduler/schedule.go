@@ -37,7 +37,9 @@ func reconcileUnscheduledPods(interval int, done chan struct{}, wg *sync.WaitGro
 		select {
 		case <-time.After(time.Duration(interval) * time.Second):
 			err := schedulePods()
-			glog.Error("pods schedule failed", err)
+			if err != nil {
+				glog.Error("pods schedule failed", err)
+			}
 		case <-done:
 			wg.Done()
 			glog.V(2).Infoln("Stopped reconciliation loop.")
@@ -52,12 +54,16 @@ func monitorUnscheduledPods(done chan struct{}, wg *sync.WaitGroup) {
 	for {
 		select {
 		case err := <-errc:
-			glog.Error(err)
+			if err != nil {
+				glog.Error(err)
+			}
 		case pod := <-pods:
 			processorLock.Lock()
 			time.Sleep(2 * time.Second)
 			err := schedulePod(&pod)
-			glog.Error("pod schedule failed", err)
+			if err != nil {
+				glog.Error("pod schedule failed", err)
+			}
 			processorLock.Unlock()
 		case <-done:
 			wg.Done()
@@ -193,7 +199,9 @@ func schedulePods() error {
 	}
 	for _, pod := range pods {
 		err := schedulePod(pod)
-		glog.Error("pod schedule failed", err)
+		if err != nil {
+			glog.Error("pod schedule failed", err)
+		}
 	}
 	return nil
 }

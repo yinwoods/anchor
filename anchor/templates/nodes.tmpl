@@ -34,14 +34,14 @@
                       <th style="width: 8%">序号</th>
                       <th scope="col">节点名</th>
                       <th scope="col">IP地址</th>
-                      <th scope="col">创建时间</th>
+                      <th scope="col">启动时间</th>
                     </tr>
                   </thead>
                   <tbody>
                     {{ range $index, $node := . }}
                       <tr>
                         <td>{{ $index | inc }}</td>
-                        <td><a href="/nodes/{{ $node.Name }}">{{ $node.Name }}</a></td>
+                        <td><a href="http://buaa02:30108/d/fztV5d-mz/jie-dian-jian-kong-xin-xi?orgId=1&var-node={{ $node.Name }}" target="_blank">{{ $node.Name }}</a></td>
                         <td>{{ $addresses := (index $node.Addresses 0) }}{{ $addresses.Address }}</td>
                         <td>{{ $node.CreationTimestamp }}</td>
                       </tr>

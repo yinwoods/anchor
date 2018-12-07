@@ -72,7 +72,10 @@ func ImageCreate(name string) (io.ReadCloser, error) {
 
 // ImageGet return image
 func ImageGet(id string) (types.ImageInspect, error) {
-	resp, _ := util.HTTPGet(fmt.Sprintf("%s/%s/json", dockerImageURL, id))
+	resp, err := util.HTTPGet(fmt.Sprintf("%s/%s/json", dockerImageURL, id))
+	if err != nil {
+		return types.ImageInspect{}, err
+	}
 	var image types.ImageInspect
 	json.Unmarshal(resp, &image)
 	return image, nil

@@ -19,6 +19,7 @@ def search(mid):
     server_images_map = all_images()
     for server, images in server_images_map.items():
         for image in images:
+            print(server, image["Id"])
             if len(image["Id"]) <= 7:
                 continue
             image_id = image["Id"][7:]

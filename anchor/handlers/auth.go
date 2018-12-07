@@ -7,6 +7,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
@@ -14,7 +15,7 @@ import (
 )
 
 var (
-	cookieValue  = util.GeneratePassword(140)
+	cookieValue  = util.CookieMap()
 	userPassword = util.ReadPassword()
 )
 
@@ -36,15 +37,13 @@ func parseSessionCookie(c *gin.Context) error {
 		return fmt.Errorf("No Cookie")
 	}
 
-	if cookie.Value != cookieValue {
+	if cookie.Value != cookieValue[c.Request.UserAgent()] {
 		c.Redirect(http.StatusFound, "/login")
 		return fmt.Errorf("Invalidated Cookie Value")
 	}
 
-	/* TODO
 	glog.V(3).Infoln("Id:", cookie.Value[:8])
 	glog.V(3).Infoln("TimeStamp:", time.Now())
-	*/
 
 	return nil
 }
@@ -67,7 +66,7 @@ func loginHandler(c *gin.Context) {
 		return
 	}
 
-	if cookie == cookieValue {
+	if cookie == cookieValue[c.Request.UserAgent()] {
 		glog.V(2).Infoln(c.Request.Method, c.Request.URL.Path)
 		c.Redirect(http.StatusFound, "/")
 		return

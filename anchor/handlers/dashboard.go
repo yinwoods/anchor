@@ -38,7 +38,7 @@ func loginInitHandler(c *gin.Context) {
 	if inputUser == username && match {
 		cookie := &http.Cookie{
 			Name:    "session",
-			Value:   cookieValue,
+			Value:   cookieValue[c.Request.UserAgent()],
 			Path:    "/",
 			Expires: time.Now().AddDate(2, 0, 0),
 			MaxAge:  0,

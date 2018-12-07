@@ -38,7 +38,7 @@ func main() {
 
 	wg.Add(1)
 	// 轮询尝试再次调度
-	go reconcileUnscheduledPods(30, doneChan, &wg)
+	go reconcileUnscheduledPods(60, doneChan, &wg)
 
 	// 注册信号，当程序终结时传递信号到signalChan，接着做善后工作
 	signalChan := make(chan os.Signal, 1)

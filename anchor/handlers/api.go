@@ -195,7 +195,7 @@ func apiImageInfo(c *gin.Context) {
 	}
 	id := c.Param("id")
 
-	imageJSON, err := cmd.ImageGet(id)
+	imageJSON, err := cmd.ImageGet(id[7:])
 	if err != nil {
 		glog.Errorf("URL=%s; Method=%s; Err=%s", c.Request.URL.Path, c.Request.Method, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
