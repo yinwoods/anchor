@@ -116,6 +116,7 @@ func ServerRun() {
 	r.GET("/api/tokens", apiTokensHandler)
 	r.GET("/api/sysinfo", apiSysInfoHandler)
 	r.GET("/api/graph", apiGraphInfo)
+	r.POST("/api/ipaddress", apiServiceIPAddressInfo)
 	r.GET("/api/containers/:id/", apiContainerInfo)
 	r.GET("/api/images/:id/", apiImageInfo)
 	r.GET("/api/networks/:id/", apiNetworkInfo)

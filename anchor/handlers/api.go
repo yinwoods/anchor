@@ -144,6 +144,26 @@ func apiGraphInfo(c *gin.Context) {
 
 }
 
+func apiServiceIPAddressInfo(c *gin.Context) {
+	namespace := "default"
+	type Input struct {
+		Name string `json:"name"`
+	}
+	var input Input
+	c.BindJSON(&input)
+
+	service, err := cmd.ServiceGet(namespace, input.Name)
+	var message string
+	if err != nil {
+		message = err.Error()
+	} else {
+		message = service.Spec.ClusterIP
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"ipaddress": message,
+	})
+}
+
 func apiContainerInfo(c *gin.Context) {
 	err := parseSessionCookie(c)
 	if err != nil {
