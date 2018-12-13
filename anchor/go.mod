@@ -1,6 +1,7 @@
 module github.com/yinwoods/anchor/anchor
 
 require (
+	github.com/Microsoft/go-winio v0.4.11 // indirect
 	github.com/docker/distribution v2.6.2+incompatible // indirect
 	github.com/docker/docker v1.13.1
 	github.com/docker/go-connections v0.4.0 // indirect
@@ -28,6 +29,7 @@ require (
 	github.com/stamblerre/gocode v0.0.0-20181113192652-2c62dd5df32d // indirect
 	github.com/ugorji/go/codec v0.0.0-20180920200043-2c86ab75771c // indirect
 	github.com/yinwoods/ratelimit v1.0.1
+	gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.2.1 // indirect
