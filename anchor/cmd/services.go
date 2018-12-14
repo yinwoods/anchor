@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/golang/glog"
 	"k8s.io/api/core/v1"
@@ -66,11 +65,6 @@ func ServicesList(namespace string) ([]ServicesListOutput, error) {
 		return nil, fmt.Errorf("List services failed : %v", err)
 	}
 	for _, service := range services.Items {
-
-		// 过滤k8s服务
-		if strings.Contains(service.Name, "kube") {
-			continue
-		}
 
 		servicesListOutput = append(servicesListOutput, ServicesListOutput{
 			Name:      service.Name,

@@ -44,10 +44,6 @@ func ContainersList() ([]ContainersListOutput, error) {
 	json.Unmarshal(resp, &containers)
 	containersListOutput := []ContainersListOutput{}
 	for _, container := range containers {
-		// 过滤包含kube字段的容器
-		if strings.Contains(container.Names[0], "kube") {
-			continue
-		}
 		containerName := container.Names[0]
 		// 截取k8s_
 		if strings.HasPrefix(container.Names[0], "/k8s_") {

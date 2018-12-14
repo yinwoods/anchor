@@ -61,15 +61,6 @@ func HTTPDelete(url string) ([]byte, error) {
 	return ioutil.ReadAll(res.Body)
 }
 
-// CookieMap generate cookies for different web browser
-func CookieMap() map[string]string {
-	cookies := make(map[string]string)
-
-	cookies["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134"] = GeneratePassword(140)
-	cookies["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"] = GeneratePassword(140)
-	return cookies
-}
-
 //GeneratePassword for apiKey and cookieValue
 func GeneratePassword(l int) string {
 	rand.Seed(time.Now().UnixNano())

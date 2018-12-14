@@ -1,1 +1,1 @@
-cd anchor/dockerServer && python3 main.py
+cd dockerServer && python3 main.py

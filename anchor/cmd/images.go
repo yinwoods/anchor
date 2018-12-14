@@ -49,11 +49,6 @@ func ImagesList() ([]ImagesListOutput, error) {
 			tag = ""
 		}
 
-		// 过滤k8s镜像
-		if strings.Contains(name, "k8s") || strings.Contains(name, "gcr") || strings.Contains(name, "kube") {
-			continue
-		}
-
 		imagesListOutput = append(imagesListOutput, ImagesListOutput{
 			ID:          image.ID,
 			Name:        name,

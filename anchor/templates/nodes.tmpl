@@ -41,7 +41,7 @@
                     {{ range $index, $node := . }}
                       <tr>
                         <td>{{ $index | inc }}</td>
-                        <td><a href="http://buaa02:30108/d/fztV5d-mz/jie-dian-jian-kong-xin-xi?orgId=1&var-node={{ $node.Name }}" target="_blank">{{ $node.Name }}</a></td>
+                        <td><a href="http://buaa01:30108/d/IfD5kwEmk/shu-ju-zhong-xin-jie-dian-zhuang-kuang?orgId=1&var-node={{ $node.Name }}" target="_blank">{{ $node.Name }}</a></td>
                         <td>{{ $addresses := (index $node.Addresses 0) }}{{ $addresses.Address }}</td>
                         <td>{{ $node.CreationTimestamp }}</td>
                       </tr>
