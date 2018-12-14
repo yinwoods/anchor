@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: php-apache
+spec:
+    replicas: 3
+    template:
+        metadata:
+            name: php-apache
+            labels:
+                app: php-apache
+        spec:
+            schedulerName: hightower
+            containers:
+            - name: php-apache
+              image: siriuszg/hpa-example:latest
+              ports:
+              - name: http-port
+                containerPort: 80
+              resources:
+                  requests:
+                      cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: php-apache
+spec:
+    type: NodePort
+    ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
+    selector:
+        app: php-apache
+    ports:
+    - port: 80
+      targetPort: http-port
+      protocol: TCP
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+    name: php-apache-autoscaler
+spec:
+    scaleTargetRef:
+        apiVersion: extensions/v1beta1
+        kind: Deployment
+        name: php-apache
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+
